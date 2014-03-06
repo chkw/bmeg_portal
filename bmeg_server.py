@@ -12,8 +12,8 @@ def getTime():
 	now = datetime.datetime.now()
 	return now
 
-def prettyJson(serializedJson):
-	jo = json.loads(serializedJson)
+def prettyJson(object):
+ 	jo = (json.loads(object) if (isinstance(object, basestring)) else object)
 	s = json.dumps(jo, sort_keys=True, indent=4, separators=(',', ': '))
 	return s
 
@@ -21,7 +21,7 @@ def queryBmeg():
 	# http://localhost:8182/graphs/graph/
 	url = "http://localhost:8182/graphs/graph"
 	response = urllib2.urlopen(url).read()
-	sys.stderr.write("response\t"+ prettyJson(response) + "\n")
+	sys.stderr.write("response\t" + prettyJson(response) + "\n")
 	return prettyJson(response)
 
 class MainHandler(tornado.web.RequestHandler):
@@ -32,8 +32,8 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
 		self.write("This is the BmegGremlinQueryHandler.\n")
 		response = queryBmeg()
-		sys.stderr.write(str(getTime()) + "\t" + "" + response +"\n")
-		self.write(str(getTime()) + "\t" + "" + response +"\n")
+		sys.stderr.write(str(getTime()) + "\t" + "" + response + "\n")
+		self.write(str(getTime()) + "\t" + "" + response + "\n")
 
 # map urls to handlers
 application = tornado.web.Application([
