@@ -1,4 +1,12 @@
 #!/usr/bin/python
+"""bmeg_server.py:
+March 2014	chrisw
+
+A tornado server for submitting Gremlin query scripts to Rexster.
+
+Requests should have a query parameter, "script", whose value is a Groovy flavored Gremlin script.
+
+"""
 
 import sys
 import tornado.ioloop
@@ -32,7 +40,7 @@ class MainHandler(tornado.web.RequestHandler):
 		self.write("Hello, world.  This is the MainHandler.")
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg_3(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
+def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
 	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
 	try:
 		response = urllib2.urlopen(url).read()
@@ -42,12 +50,12 @@ def query_bmeg_3(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:81
 		sys.stderr.write("url\t" + url + "\n")
 		return {"success":False}
 
-# test with: http://localhost:9886/query3?script=g.V(%22name%22,%22tcga_attr:FEMALE%22).in().count()
-class BmegGremlinQueryHandler3(tornado.web.RequestHandler):
+# test with: http://localhost:9886/query?script=g.V("name","tcga_attr:FEMALE").in().count()
+class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
 		params = getQueryParams(self.request.uri)
 		if ("script" in params):
-			response = query_bmeg_3(params["script"])
+			response = query_bmeg(params["script"])
 			self.write(response)
 		else:
 			self.write({"success":False})
@@ -56,7 +64,7 @@ class BmegGremlinQueryHandler3(tornado.web.RequestHandler):
 application = tornado.web.Application([
 	(r"/", MainHandler),
 	(r"/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
-	(r"/query3", BmegGremlinQueryHandler3)
+	(r"/query", BmegGremlinQueryHandler)
 ])
 
 # start server
