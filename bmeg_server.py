@@ -7,16 +7,6 @@ import tornado.autoreload
 import datetime
 import urllib2
 import json
-# from bulbs.config import Config, DEBUG
-# from bulbs.rexster import RexsterClient
-import bulbs.config
-import bulbs.rexster
-
-global rexsterURL
-global bmegURL
-
-rexsterURL = "http://localhost:8182"
-bmegURL = rexsterURL + "/graphs/graph"
 
 def getTime():
 	now = datetime.datetime.now()
@@ -41,49 +31,28 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
 		self.write("Hello, world.  This is the MainHandler.")
 
-# use https://github.com/tinkerpop/rexster/wiki/Basic-REST-API to query the graph
-def queryBmeg():
-# 	url = bmegURL + "/vertices?key=type&value=tcga_attr:Patient"
-	url = bmegURL + "/vertices/348464/outE?_label=tcga_attr:gender"
+# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
+def query_bmeg_3(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
+	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
+	sys.stderr.write("url\t" + url + "\n")
 	response = urllib2.urlopen(url).read()
 	sys.stderr.write("response\t" + prettyJson(response) + "\n")
 	return prettyJson(response)
 
-class BmegGremlinQueryHandler(tornado.web.RequestHandler):
+# test with: http://localhost:9886/query3?script=g.V(%22name%22,%22tcga_attr:FEMALE%22).in().count()
+class BmegGremlinQueryHandler3(tornado.web.RequestHandler):
 	def get(self):
+		self.write("This is the BmegGremlinQueryHandler3.<hr>")
 		params = getQueryParams(self.request.uri)
-		sys.stderr.write(str(params) + "\n")
-		self.write("This is the BmegGremlinQueryHandler.<hr>")
-		self.write("uri: %s<hr>" % (self.request.uri))
-		response = queryBmeg()
-		self.write(str(getTime()) + "<hr>")
-		self.write(response + "<hr>")
-
-def queryBmeg_2():
-	config = bulbs.config.Config("http://localhost:8182/graphs/graph")
-	config.set_logger(bulbs.config.DEBUG)
-	client = bulbs.rexster.client.RexsterClient(config)
-# 	script = client.scripts.get(r"g.v(348464)")
-# 	rexster_response = client.gremlin(script, params=None)
-	rexster_response = client.get_vertex(348464)
-	rexster_results = rexster_response.get_results()
-	return rexster_results
-
-class BmegGremlinQueryHandler2(tornado.web.RequestHandler):
-	def get(self):
-		self.write("This is the BmegGremlinQueryHandler2.<hr>")
-		rexster_results = queryBmeg_2()
-		for results in rexster_results:
-			if (isinstance(results, bulbs.rexster.client.RexsterResult)):
-				results_jo = results.get_data()
-				sys.stderr.write("id " + prettyJson(results_jo) + "\n")
+		if ("script" in params):
+			response = query_bmeg_3(params["script"])
+			self.write(response + "<hr>")
 
 # map urls to handlers
 application = tornado.web.Application([
 	(r"/", MainHandler),
 	(r"/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
-	(r"/query", BmegGremlinQueryHandler),
-	(r"/query2", BmegGremlinQueryHandler2)
+	(r"/query3", BmegGremlinQueryHandler3)
 ])
 
 # start server
