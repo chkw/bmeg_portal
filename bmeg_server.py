@@ -74,7 +74,9 @@ class BmegGremlinQueryHandler2(tornado.web.RequestHandler):
 		self.write("This is the BmegGremlinQueryHandler2.<hr>")
 		rexster_results = queryBmeg_2()
 		for results in rexster_results:
-			sys.stderr.write("id " + str(results.get_id()) + "\n")
+			if (isinstance(results, bulbs.rexster.client.RexsterResult)):
+				results_jo = results.get_data()
+				sys.stderr.write("id " + prettyJson(results_jo) + "\n")
 
 # map urls to handlers
 application = tornado.web.Application([
