@@ -12,6 +12,12 @@ import json
 import bulbs.config
 import bulbs.rexster
 
+global rexsterURL
+global bmegURL
+
+rexsterURL = "http://localhost:8182"
+bmegURL = rexsterURL + "/graphs/graph"
+
 def getTime():
 	now = datetime.datetime.now()
 	return now
@@ -21,26 +27,35 @@ def prettyJson(object):
 	s = json.dumps(jo, sort_keys=True, indent=4, separators=(',', ': '))
 	return s
 
+def getQueryParams(uri):
+	params = dict()
+	strings = uri.split("?", 1)
+	if (len(strings) < 2):
+		return params
+	for pairs in strings[1].split("&"):
+		strings = pairs.split("=", 1)
+		params[strings[0]] = strings[1]
+	return params
+
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
 		self.write("Hello, world.  This is the MainHandler.")
 
 # use https://github.com/tinkerpop/rexster/wiki/Basic-REST-API to query the graph
 def queryBmeg():
-	# http://localhost:8182/graphs/graph/
-	baseUrl = "http://localhost:8182"
-# 	query = "/graphs/graph/vertices?key=type&value=tcga_attr:Patient"
-	query = "/graphs/graph/vertices/348464/outE?_label=tcga_attr:gender/in"
-	url = baseUrl + query
+# 	url = bmegURL + "/vertices?key=type&value=tcga_attr:Patient"
+	url = bmegURL + "/vertices/348464/outE?_label=tcga_attr:gender"
 	response = urllib2.urlopen(url).read()
 	sys.stderr.write("response\t" + prettyJson(response) + "\n")
 	return prettyJson(response)
 
 class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
+		params = getQueryParams(self.request.uri)
+		sys.stderr.write(str(params) + "\n")
 		self.write("This is the BmegGremlinQueryHandler.<hr>")
+		self.write("uri: %s<hr>" % (self.request.uri))
 		response = queryBmeg()
-		sys.stderr.write(str(getTime()) + "\t" + "" + response + "\n")
 		self.write(str(getTime()) + "<hr>")
 		self.write(response + "<hr>")
 
