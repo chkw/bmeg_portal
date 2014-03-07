@@ -34,19 +34,23 @@ class MainHandler(tornado.web.RequestHandler):
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
 def query_bmeg_3(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
 	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
-	sys.stderr.write("url\t" + url + "\n")
-	response = urllib2.urlopen(url).read()
-	sys.stderr.write("response\t" + prettyJson(response) + "\n")
-	return prettyJson(response)
+	try:
+		response = urllib2.urlopen(url).read()
+		return response
+	except Exception, err:
+		sys.stderr.write(str(err) + "\n")
+		sys.stderr.write("url\t" + url + "\n")
+		return {"success":False}
 
 # test with: http://localhost:9886/query3?script=g.V(%22name%22,%22tcga_attr:FEMALE%22).in().count()
 class BmegGremlinQueryHandler3(tornado.web.RequestHandler):
 	def get(self):
-		self.write("This is the BmegGremlinQueryHandler3.<hr>")
 		params = getQueryParams(self.request.uri)
 		if ("script" in params):
 			response = query_bmeg_3(params["script"])
-			self.write(response + "<hr>")
+			self.write(response)
+		else:
+			self.write({"success":False})
 
 # map urls to handlers
 application = tornado.web.Application([
