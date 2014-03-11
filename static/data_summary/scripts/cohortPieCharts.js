@@ -427,11 +427,9 @@ function getDatatypeData(url) {
 // TODO onload
 window.onload = function() {
 
-    //test http://localhost:9886/query?script=g.V(%22type%22,%22tcga_attr:Sample%22).groupBy{it.type}{it}[0..3]
-    url = "http://localhost:9886/query?script=g.V(%22type%22,%22tcga_attr:Sample%22).groupBy{it.type}{it}[0..3]";
-    var response = getResponse(url);
-    var parsedResponse = JSON && JSON.parse(response) || $.parseJSON(response);
-    console.log(prettyJson(parsedResponse));
+    var script = "g.V('type','tcga_attr:Sample').groupBy{it.type}{it}[0..3]";
+
+    queryBmeg(script);
 
     // selectionCriteria.addCriteria("studySite", "Mt. Zion");
     // selectionCriteria.addCriteria("biopsySite", "Bone");

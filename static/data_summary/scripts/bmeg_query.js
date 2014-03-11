@@ -16,14 +16,21 @@ function queryBmeg(script, successCallback) {
 
     var query_uri_base = bmeg_service_host + "/query?script=";
 
+    var url = query_uri_base + script;
+    console.log(url);
+
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", query_uri_base + script, true);
+    xhr.open("GET", url, true);
     xhr.onload = function(e) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                successCallback(xhr.responseText);
+                if (successCallback == null) {
+                    logJsonCallback(xhr.responseText);
+                } else {
+                    successCallback(xhr.responseText);
+                }
             } else {
-                console.error(xhr.statusText);
+                console.error("error: " + xhr.statusText);
             }
         }
     };
@@ -31,4 +38,13 @@ function queryBmeg(script, successCallback) {
         console.error(xhr.statusText);
     };
     xhr.send(null);
+}
+
+/**
+ * A callback function to be used as a default.
+ * @param {Object} serializedJsonResponse
+ */
+function logJsonCallback(serializedJsonResponse) {
+    var parsedResponse = JSON && JSON.parse(serializedJsonResponse) || $.parseJSON(serializedJsonResponse);
+    console.log(prettyJson(parsedResponse));
 }
