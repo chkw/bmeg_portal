@@ -7,6 +7,39 @@
 var bmeg_service_host = "http://localhost:9886";
 
 /**
+ * Synchronous bmeg query.
+ */
+function queryBmeg_synch(script) {
+    var query_uri_base = bmeg_service_host + "/query?script=";
+    var url = query_uri_base + script;
+
+    var response = null;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false);
+    xhr.onload = function(e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                response = xhr.responseText;
+            } else {
+                console.error("error: " + xhr.statusText);
+                console.error("url was: " + url);
+            }
+        } else {
+            console.error("not ready: " + xhr.readyState);
+            console.error("url was: " + url);
+        }
+    };
+    xhr.onerror = function(e) {
+        console.error("error: " + xhr.statusText);
+        console.error("url was: " + url);
+    };
+    xhr.send(null);
+
+    return response;
+}
+
+/**
  * Read this: http://blog.getify.com/native-javascript-sync-async/
  * https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
  * @param {Object} script
@@ -62,7 +95,17 @@ function getBmegResultsArray(serializedJsonResponse) {
 }
 
 /**
+ * Synchronously get all patients.
+ */
+function getAllPatients() {
+    var script = "g.V('type','tcga_attr:Patient')";
+    var results = getBmegResultsArray(queryBmeg_synch(script));
+    return results;
+}
+
+/**
  * Get gender counts
+ * @param {Object} callbackFunction
  */
 function queryGenderCounts(callbackFunction) {
     var script = "g.V().outE('tcga_attr:gender').inV().groupCount().cap()";

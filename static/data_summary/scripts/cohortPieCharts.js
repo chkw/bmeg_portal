@@ -435,9 +435,12 @@ window.onload = function() {
     //console.log(prettyJson(resultsArray));
     //});
 
-    queryGenderCounts(function(counts) {
-        console.log(prettyJson(counts));
-    });
+    // queryGenderCounts(function(counts) {
+        // console.log(prettyJson(counts));
+    // });
+
+    var p = getAllPatients();
+    console.log(prettyJson(p.length));
 
     // selectionCriteria.addCriteria("studySite", "Mt. Zion");
     // selectionCriteria.addCriteria("biopsySite", "Bone");
