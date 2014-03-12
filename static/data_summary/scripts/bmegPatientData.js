@@ -97,14 +97,14 @@ function cohortData(deserializedCohortJson) {
         for (var i = 0; i < idList.length; i++) {
             var patient = this.getPatient(idList[i]);
             var patientFeatures = patient.getFeatures();
-            for (var j = 0; patientFeatures.length; j++) {
+            for (var j = 0; j < patientFeatures.length; j++) {
                 var patientFeature = patientFeatures[j];
-                if (features.indexOf(patientFeature) >= 0) {
-                    features.push();
+                if (features.indexOf(patientFeature) < 0) {
+                    features.push(patientFeature);
                 }
             }
         }
-        return features;
+        return features.sort();
     };
 
     /**

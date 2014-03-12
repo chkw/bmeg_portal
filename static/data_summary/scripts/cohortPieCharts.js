@@ -362,7 +362,7 @@ function initializeChart(containingDivId, title, dataFeature, selectedIds) {
 function initializeCharts() {
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
-    studySiteChart = initializeChart("chart1", "Study Site", 'tcga_attr:her2_fish_status', selectedIds);
+    studySiteChart = initializeChart("chart1", "tcga_attr:her2_fish_status", 'tcga_attr:her2_fish_status', selectedIds);
     // biopsySiteChart = initializeChart("chart2", "Biopsy Site", 'biopsySite', selectedIds);
     // subsequentDrugsChart = initializeChart("chart3", "On-Study Drugs", 'subsequentDrugs', selectedIds);
     //
@@ -427,35 +427,15 @@ function getDatatypeData(url) {
 // TODO onload
 window.onload = function() {
 
-    //var script = "g.V('type','tcga_attr:Sample').groupBy{it.type}{it}[0..3]";
-    //var script = "g.V().outE('tcga_attr:gender').inV().groupCount().cap()";
-
-    //queryBmeg(script, function(resp){
-    //var resultsArray = getBmegResultsArray(resp);
-    //console.log(prettyJson(resultsArray));
-    //});
-
-    // queryGenderCounts(function(counts) {
-    // console.log(prettyJson(counts));
-    // });
-
     var p = getAllPatients();
     // console.log(prettyJson(p));
 
     cohort = new cohortData(p);
+
     var features = cohort.getAllFeatures();
     console.log(prettyJson(features));
-    // var allIds = cohort.getAllPatientIds();
-//
-    // var counts = cohort.getPatientCounts(allIds, "tcga_attr:her2_fish_status");
-    // console.log(prettyJson(counts));
-
-    // selectionCriteria.addCriteria("studySite", "Mt. Zion");
-    // selectionCriteria.addCriteria("biopsySite", "Bone");
 
     selectionCriteria.clearCriteria();
-
-    //cohort = setCohortData(dataUrl);
 
     initializeCharts();
 };
