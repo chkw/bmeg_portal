@@ -330,16 +330,16 @@ function extractColorMapping(chart) {
 function redrawCharts() {
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
-    redrawNewData(studySiteChart, cohort.getPatientCounts(selectedIds, 'studysite'));
-    redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'biopsysite'));
-    redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'subsequentdrugs'));
-    redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'treatmentdetails'));
-    redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'ctc'));
-    redrawNewData(acghChart, cohort.getPatientCounts(selectedIds, 'acgh'));
-    redrawNewData(rnaseqChart, cohort.getPatientCounts(selectedIds, 'rnaseq'));
-    redrawNewData(fishChart, cohort.getPatientCounts(selectedIds, 'ar_fish'));
-    redrawNewData(ptenIhcChart, cohort.getPatientCounts(selectedIds, 'pten_ihc'));
-    redrawNewData(mutationPanelChart, cohort.getPatientCounts(selectedIds, 'mutation_panel'));
+    redrawNewData(studySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:her2_fish_status'));
+    // redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'biopsysite'));
+    // redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'subsequentdrugs'));
+    // redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'treatmentdetails'));
+    // redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'ctc'));
+    // redrawNewData(acghChart, cohort.getPatientCounts(selectedIds, 'acgh'));
+    // redrawNewData(rnaseqChart, cohort.getPatientCounts(selectedIds, 'rnaseq'));
+    // redrawNewData(fishChart, cohort.getPatientCounts(selectedIds, 'ar_fish'));
+    // redrawNewData(ptenIhcChart, cohort.getPatientCounts(selectedIds, 'pten_ihc'));
+    // redrawNewData(mutationPanelChart, cohort.getPatientCounts(selectedIds, 'mutation_panel'));
     // redrawNewData(rnaMutationChart, cohort.getPatientCounts(selectedIds, 'rna-mutation call'));
 
     updateChartCrumbs(selectionCriteria);
@@ -362,19 +362,19 @@ function initializeChart(containingDivId, title, dataFeature, selectedIds) {
 function initializeCharts() {
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
-    studySiteChart = initializeChart("chart1", "Study Site", 'studySite', selectedIds);
-    biopsySiteChart = initializeChart("chart2", "Biopsy Site", 'biopsySite', selectedIds);
-    subsequentDrugsChart = initializeChart("chart3", "On-Study Drugs", 'subsequentDrugs', selectedIds);
-
-    treatmentDetailsChart = initializeChart("chart4", "Treatment Details", 'treatmentDetails', selectedIds);
-    ctcChart = initializeChart("chart5", "CTC Data", 'ctc', selectedIds);
-    acghChart = initializeChart("chart6", "aCGH Data", 'acgh', selectedIds);
-
-    rnaseqChart = initializeChart("chart7", "RNAseq Data", 'rnaseq', selectedIds);
-    fishChart = initializeChart("chart8", "FISH Data", 'ar_fish', selectedIds);
-    ptenIhcChart = initializeChart("chart9", "PTEN_IHC Data", 'pten_ihc', selectedIds);
-
-    mutationPanelChart = initializeChart("chart10", "Mutation Panel Data", 'mutation_panel', selectedIds);
+    studySiteChart = initializeChart("chart1", "Study Site", 'tcga_attr:her2_fish_status', selectedIds);
+    // biopsySiteChart = initializeChart("chart2", "Biopsy Site", 'biopsySite', selectedIds);
+    // subsequentDrugsChart = initializeChart("chart3", "On-Study Drugs", 'subsequentDrugs', selectedIds);
+    //
+    // treatmentDetailsChart = initializeChart("chart4", "Treatment Details", 'treatmentDetails', selectedIds);
+    // ctcChart = initializeChart("chart5", "CTC Data", 'ctc', selectedIds);
+    // acghChart = initializeChart("chart6", "aCGH Data", 'acgh', selectedIds);
+    //
+    // rnaseqChart = initializeChart("chart7", "RNAseq Data", 'rnaseq', selectedIds);
+    // fishChart = initializeChart("chart8", "FISH Data", 'ar_fish', selectedIds);
+    // ptenIhcChart = initializeChart("chart9", "PTEN_IHC Data", 'pten_ihc', selectedIds);
+    //
+    // mutationPanelChart = initializeChart("chart10", "Mutation Panel Data", 'mutation_panel', selectedIds);
     // rnaMutationChart = initializeChart("chart11", "RNA-mutation call Data", 'rna-mutation call', selectedIds);
 
     updateChartCrumbs(selectionCriteria);
@@ -436,24 +436,26 @@ window.onload = function() {
     //});
 
     // queryGenderCounts(function(counts) {
-        // console.log(prettyJson(counts));
+    // console.log(prettyJson(counts));
     // });
 
     var p = getAllPatients();
     // console.log(prettyJson(p));
 
-    var cohort = new cohortData(p);
-    var allIds = cohort.getAllPatientIds();
-
-    var counts = cohort.getPatientCounts(allIds,"tcga_attr:her2_fish_status");
-    console.log(prettyJson(counts));
+    cohort = new cohortData(p);
+    var features = cohort.getAllFeatures();
+    console.log(prettyJson(features));
+    // var allIds = cohort.getAllPatientIds();
+//
+    // var counts = cohort.getPatientCounts(allIds, "tcga_attr:her2_fish_status");
+    // console.log(prettyJson(counts));
 
     // selectionCriteria.addCriteria("studySite", "Mt. Zion");
     // selectionCriteria.addCriteria("biopsySite", "Bone");
 
-    // selectionCriteria.clearCriteria();
+    selectionCriteria.clearCriteria();
 
     //cohort = setCohortData(dataUrl);
 
-    //initializeCharts();
+    initializeCharts();
 };

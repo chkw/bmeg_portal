@@ -55,6 +55,16 @@ function patientData(data) {
             return null;
         }
     };
+
+    this.getFeatures = function() {
+        var features = [];
+        for (var key in this.data) {
+            if (this.data.hasOwnProperty(key)) {
+                features.push(key);
+            }
+        }
+        return features;
+    };
 }
 
 /**
@@ -75,6 +85,27 @@ function cohortData(deserializedCohortJson) {
 
     // set the cohort data
     this.cohort = this.loadData(deserializedCohortJson);
+
+    this.getAllFeatures = function(ids) {
+        var idList = null;
+        if (ids == null) {
+            idList = this.getAllPatientIds();
+        } else {
+            idList = ids;
+        }
+        var features = [];
+        for (var i = 0; i < idList.length; i++) {
+            var patient = this.getPatient(idList[i]);
+            var patientFeatures = patient.getFeatures();
+            for (var j = 0; patientFeatures.length; j++) {
+                var patientFeature = patientFeatures[j];
+                if (features.indexOf(patientFeature) >= 0) {
+                    features.push();
+                }
+            }
+        }
+        return features;
+    };
 
     /**
      * Get series data for pie chart from category counts.
