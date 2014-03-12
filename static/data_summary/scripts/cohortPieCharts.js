@@ -440,7 +440,13 @@ window.onload = function() {
     // });
 
     var p = getAllPatients();
-    console.log(prettyJson(p.length));
+    // console.log(prettyJson(p));
+
+    var cohort = new cohortData(p);
+    var allIds = cohort.getAllPatientIds();
+
+    var counts = cohort.getPatientCounts(allIds,"tcga_attr:her2_fish_status");
+    console.log(prettyJson(counts));
 
     // selectionCriteria.addCriteria("studySite", "Mt. Zion");
     // selectionCriteria.addCriteria("biopsySite", "Bone");
