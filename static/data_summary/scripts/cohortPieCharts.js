@@ -427,16 +427,24 @@ function getDatatypeData(url) {
 // TODO onload
 window.onload = function() {
 
-    var script = "g.V('type','tcga_attr:Sample').groupBy{it.type}{it}[0..3]";
+    //var script = "g.V('type','tcga_attr:Sample').groupBy{it.type}{it}[0..3]";
+    //var script = "g.V().outE('tcga_attr:gender').inV().groupCount().cap()";
 
-    queryBmeg(script);
+    //queryBmeg(script, function(resp){
+    //var resultsArray = getBmegResultsArray(resp);
+    //console.log(prettyJson(resultsArray));
+    //});
+
+    queryGenderCounts(function(counts) {
+        console.log(prettyJson(counts));
+    });
 
     // selectionCriteria.addCriteria("studySite", "Mt. Zion");
     // selectionCriteria.addCriteria("biopsySite", "Bone");
 
     // selectionCriteria.clearCriteria();
 
-    cohort = setCohortData(dataUrl);
+    //cohort = setCohortData(dataUrl);
 
-    initializeCharts();
+    //initializeCharts();
 };
