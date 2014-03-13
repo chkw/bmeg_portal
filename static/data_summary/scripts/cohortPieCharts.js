@@ -432,8 +432,10 @@ window.onload = function() {
 
     cohort = new cohortData(p);
 
-    var features = cohort.getAllFeatures();
-    console.log(prettyJson(features));
+    // var features = cohort.getAllFeatures();
+    // console.log(prettyJson(features));
+
+    var a = queryGenderCounts();
 
     selectionCriteria.clearCriteria();
 

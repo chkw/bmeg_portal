@@ -106,22 +106,13 @@ function getAllPatients() {
 
 /**
  * Get gender counts
+ *
  * @param {Object} callbackFunction
  */
 function queryGenderCounts(callbackFunction) {
-    var script = "g.V().outE('tcga_attr:gender').inV().groupCount().cap()";
-    var counts = [];
+    var script = "g.V('type','tcga_attr:Gender').in('tcga_attr:gender').has('type','tcga_attr:Patient')";
     queryBmeg(script, function(response) {
-        var results = getBmegResultsArray(response)[0];
-        for (var key in results) {
-            var result = results[key];
-            var feature = result["_key"]["name"];
-            var count = result["_value"];
-            counts.push({
-                "feature" : feature,
-                "count" : count
-            });
-        }
-        callbackFunction(counts);
+        logJsonCallback(response);
+        var results = getBmegResultsArray(response);
     });
 }
