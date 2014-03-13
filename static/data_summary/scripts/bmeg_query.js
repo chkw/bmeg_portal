@@ -9,7 +9,7 @@ var bmeg_service_host = "http://localhost:9886";
 /**
  * Synchronous bmeg query.
  */
-function queryBmeg_synch(script) {
+function queryBmeg_sync(script) {
     var query_uri_base = bmeg_service_host + "/query?script=";
     // var url = query_uri_base + script;
     var url = "/static/data_summary/data/patients.json";
@@ -100,7 +100,7 @@ function getBmegResultsArray(serializedJsonResponse) {
  */
 function getAllPatients() {
     var script = "g.V('type','tcga_attr:Patient')";
-    var results = getBmegResultsArray(queryBmeg_synch(script));
+    var results = getBmegResultsArray(queryBmeg_sync(script));
     return results;
 }
 
