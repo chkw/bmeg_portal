@@ -331,8 +331,8 @@ function redrawCharts() {
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
     redrawNewData(studySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:her2_fish_status'));
-    // redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'biopsysite'));
-    // redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'subsequentdrugs'));
+    redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:tumor_status'));
+    redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:race'));
     // redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'treatmentdetails'));
     // redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'ctc'));
     // redrawNewData(acghChart, cohort.getPatientCounts(selectedIds, 'acgh'));
@@ -363,8 +363,8 @@ function initializeCharts() {
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
     studySiteChart = initializeChart("chart1", "tcga_attr:her2_fish_status", 'tcga_attr:her2_fish_status', selectedIds);
-    // biopsySiteChart = initializeChart("chart2", "Biopsy Site", 'biopsySite', selectedIds);
-    // subsequentDrugsChart = initializeChart("chart3", "On-Study Drugs", 'subsequentDrugs', selectedIds);
+    biopsySiteChart = initializeChart("chart2", "tcga_attr:tumor_status", 'tcga_attr:tumor_status', selectedIds);
+    subsequentDrugsChart = initializeChart("chart3", "tcga_attr:race", 'tcga_attr:race', selectedIds);
     //
     // treatmentDetailsChart = initializeChart("chart4", "Treatment Details", 'treatmentDetails', selectedIds);
     // ctcChart = initializeChart("chart5", "CTC Data", 'ctc', selectedIds);

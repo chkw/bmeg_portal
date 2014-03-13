@@ -52,7 +52,7 @@ function patientData(data) {
         if ( feature in this.data) {
             return this.data[feature];
         } else {
-            return null;
+            return "not assessed";
         }
     };
 
