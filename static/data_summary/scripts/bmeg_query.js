@@ -46,7 +46,7 @@ function queryBmeg_sync(script) {
  * @param {Object} script
  * @param {Object} successCallback
  */
-function queryBmeg(script, successCallback) {
+function queryBmeg_async(script, successCallback) {
     var query_uri_base = bmeg_service_host + "/query?script=";
     var url = query_uri_base + script;
 
@@ -105,14 +105,30 @@ function getAllPatients() {
 }
 
 /**
- * Get gender counts
+ * Get a table of gender counts
  *
  * @param {Object} callbackFunction
  */
-function queryGenderCounts(callbackFunction) {
-    var script = "g.V('type','tcga_attr:Gender').in('tcga_attr:gender').has('type','tcga_attr:Patient')";
-    queryBmeg(script, function(response) {
-        logJsonCallback(response);
+function queryGender(callbackFunction) {
+    var script = "t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').name.as('patientVName').table(t).cap()";
+    queryBmeg_async(script, function(response) {
         var results = getBmegResultsArray(response);
+        var genderPatients = {};
+        for (var i = 0; i < results[0].length; i++) {
+            var row = results[0][i];
+            var name = row['patientVName'];
+            var gender = row['genderV']['name'];
+            if ( gender in genderPatients) {
+            } else {
+                genderPatients[gender] = [];
+            }
+            genderPatients[gender].push(name);
+        }
+        if (callbackFunction != null) {
+            callbackFunction(genderPatients);
+        } else {
+
+            console.log(genderPatients);
+        }
     });
 }
