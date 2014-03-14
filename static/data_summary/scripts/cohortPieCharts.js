@@ -435,7 +435,10 @@ window.onload = function() {
     // var features = cohort.getAllFeatures();
     // console.log(prettyJson(features));
 
-    var a = queryGender();
+    var a = queryGender(function(genderData) {
+        cohort.addGenderData(genderData);
+        cohort.getPatientCounts(p, 'gender');
+    });
 
     selectionCriteria.clearCriteria();
 

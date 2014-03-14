@@ -110,25 +110,20 @@ function getAllPatients() {
  * @param {Object} callbackFunction
  */
 function queryGender(callbackFunction) {
-    var script = "t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').name.as('patientVName').table(t).cap()";
+    var script = "t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('patientVId').table(t).cap()";
     queryBmeg_async(script, function(response) {
         var results = getBmegResultsArray(response);
         var genderPatients = {};
         for (var i = 0; i < results[0].length; i++) {
             var row = results[0][i];
-            var name = row['patientVName'];
+            var id = row['patientVId'];
             var gender = row['genderV']['name'];
             if ( gender in genderPatients) {
             } else {
                 genderPatients[gender] = [];
             }
-            genderPatients[gender].push(name);
+            genderPatients[gender].push(id);
         }
-        if (callbackFunction != null) {
-            callbackFunction(genderPatients);
-        } else {
-
-            console.log(genderPatients);
-        }
+        (callbackFunction != null) ? callbackFunction(genderPatients) : console.log(genderPatients);
     });
 }

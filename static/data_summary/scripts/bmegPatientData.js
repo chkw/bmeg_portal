@@ -48,6 +48,10 @@ function selectionCriteria() {
 function patientData(data) {
     this.data = data;
 
+    this.setValue = function(feature, value) {
+        this.data[feature] = value;
+    };
+
     this.getValue = function(feature) {
         if ( feature in this.data) {
             return this.data[feature];
@@ -85,6 +89,21 @@ function cohortData(deserializedCohortJson) {
 
     // set the cohort data
     this.cohort = this.loadData(deserializedCohortJson);
+
+    this.addGenderData = function(genderData) {
+        for (var gender in genderData) {
+            var idList = genderData[gender];
+            for (var i = 0; i < idList.length; i++) {
+                var id = idList[i];
+                var patientData = this.getPatient(id);
+                if (patientData == null) {
+                } else {
+                    patientData.setValue("gender", gender);
+                }
+            }
+        }
+        return this;
+    };
 
     this.getAllFeatures = function(ids) {
         var idList = null;
@@ -126,6 +145,7 @@ function cohortData(deserializedCohortJson) {
      */
     this.getPatientVal = function(id, feature) {
         var patientVal = '__NOT_SET__';
+        console.log(id, feature);
         patientVal = this.getPatient(id).getValue(feature);
         return patientVal;
     };
