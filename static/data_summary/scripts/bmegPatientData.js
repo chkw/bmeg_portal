@@ -50,6 +50,7 @@ function patientData(data) {
 
     this.setValue = function(feature, value) {
         this.data[feature] = value;
+        return this;
     };
 
     this.getValue = function(feature) {
@@ -97,6 +98,7 @@ function cohortData(deserializedCohortJson) {
                 var id = idList[i];
                 var patientData = this.getPatient(id);
                 if (patientData == null) {
+                    console.error('no patient with id ' + id);
                 } else {
                     patientData.setValue("gender", gender);
                 }
@@ -145,8 +147,12 @@ function cohortData(deserializedCohortJson) {
      */
     this.getPatientVal = function(id, feature) {
         var patientVal = '__NOT_SET__';
-        console.log(id, feature);
-        patientVal = this.getPatient(id).getValue(feature);
+        var patient = this.getPatient(id);
+        if (patient == null) {
+            console.error("no patient with id", id);
+        } else {
+            patientVal = patient.getValue(feature);
+        }
         return patientVal;
     };
 

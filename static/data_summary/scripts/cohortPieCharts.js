@@ -437,7 +437,8 @@ window.onload = function() {
 
     var a = queryGender(function(genderData) {
         cohort.addGenderData(genderData);
-        cohort.getPatientCounts(p, 'gender');
+        var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'gender');
+        console.log(c);
     });
 
     selectionCriteria.clearCriteria();
