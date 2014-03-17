@@ -149,3 +149,43 @@ function queryGender() {
     }
     return genderPatients;
 }
+
+/**
+ * query: get all patients with mutation in specified hugo
+ * @param {Object} hugoId
+ */
+function queryMutationStatus(hugoId) {
+    var script = "t=new Table();";
+    script += "g.V('name','hugo:" + hugoId + "')";
+    script += ".as('hugo')";
+    script += ".in('bmeg:gene')";
+    script += ".as('mutation_event')";
+    script += ".out('bmeg:effect')";
+    script += ".as('effect')";
+    script += ".back('mutation_event')";
+    script += ".out('bmeg:analysis')";
+    script += ".out('bmeg:variant')";
+    script += ".in('tcga_attr:analysis')";
+    script += ".in('tcga_attr:sample')";
+    script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
+    script += ".table(t).cap()";
+
+    var results = getBmegResultsArray(queryBmeg_sync(script));
+
+    var groups = {};
+    for (var i = 0; i < results[0].length; i++) {
+        var row = results[0][i];
+        var patientVId = row['patientVId'];
+        var effect = row['effect']['name'];
+        if ( effect in groups) {
+        } else {
+            groups[effect] = [];
+        }
+        groups[effect].push(patientVId);
+    }
+
+    return {
+        "gene" : hugoId,
+        "calls" : groups
+    };
+}
