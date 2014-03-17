@@ -333,7 +333,7 @@ function redrawCharts() {
     redrawNewData(studySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:her2_fish_status'));
     redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:tumor_status'));
     redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:race'));
-    // redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'treatmentdetails'));
+    redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'gender'));
     // redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'ctc'));
     // redrawNewData(acghChart, cohort.getPatientCounts(selectedIds, 'acgh'));
     // redrawNewData(rnaseqChart, cohort.getPatientCounts(selectedIds, 'rnaseq'));
@@ -366,7 +366,7 @@ function initializeCharts() {
     biopsySiteChart = initializeChart("chart2", "tcga_attr:tumor_status", 'tcga_attr:tumor_status', selectedIds);
     subsequentDrugsChart = initializeChart("chart3", "tcga_attr:race", 'tcga_attr:race', selectedIds);
     //
-    // treatmentDetailsChart = initializeChart("chart4", "Treatment Details", 'treatmentDetails', selectedIds);
+    treatmentDetailsChart = initializeChart("chart4", "gender", 'gender', selectedIds);
     // ctcChart = initializeChart("chart5", "CTC Data", 'ctc', selectedIds);
     // acghChart = initializeChart("chart6", "aCGH Data", 'acgh', selectedIds);
     //
@@ -435,11 +435,13 @@ window.onload = function() {
     // var features = cohort.getAllFeatures();
     // console.log(prettyJson(features));
 
-    var a = queryGender(function(genderData) {
-        cohort.addGenderData(genderData);
-        var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'gender');
-        console.log(c);
-    });
+    // var a = queryGender(function(genderData) {
+    // cohort.addGenderData(genderData);
+    // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'gender');
+    // console.log(c);
+    // });
+
+    cohort.addGenderData(queryGender());
 
     selectionCriteria.clearCriteria();
 
