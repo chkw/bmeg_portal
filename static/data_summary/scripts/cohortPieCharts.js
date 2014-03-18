@@ -4,79 +4,11 @@
  * Draw pie charts using highcharts (http://www.highcharts.com/).
  */
 
-// on https://su2c-dev.ucsc.edu/
-// var dataUrl = "/api/medbook/book/assetsBook/wiki/overview%20reports/cohort.json";
-// var datatypeUrl = "/api/medbook/book/assetsBook/WCDT/WCDT_datatypes.tab";
-var dataUrl = "data_summary/data/cohort_20140227.json";
-var datatypeUrl = "data_summary/data/WCDT_datatypes_20140227.tab";
-
-/*
- * Synchronous GET
- */
-function getResponse(url) {
-    var status = null;
-    var xhr = null;
-    xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.onload = function() {
-        status = xhr.status;
-        if (status != 200) {
-            console.log("xhr status: " + status + " for " + url);
-        }
-    };
-    xhr.send(null);
-    var response = null;
-    if (status == 200) {
-        response = xhr.responseText;
-    }
-    return response;
-}
-
 /**
  * Get a pretty JSON.
  */
 function prettyJson(object) {
     return JSON.stringify(object, null, '\t');
-}
-
-/**
- * get the JSON data to create a cohortData object.
- */
-function setCohortData(url) {
-    var response = getResponse(url);
-
-    var parsedResponse = JSON && JSON.parse(response) || $.parseJSON(response);
-
-    // value of contents is a stringified JSON
-    var contents = JSON && JSON.parse(parsedResponse["contents"]) || $.parseJSON(parsedResponse["contents"]);
-
-    var contents2 = JSON && JSON.parse(contents["contents"]) || $.parseJSON(contents["contents"]);
-
-    // for (var i in parsedResponse) {
-    // console.log("parsedResponse->" + i);
-    // }
-    //
-    // for (var i in contents) {
-    // console.log("contents->" + i);
-    // }
-    //
-    // for (var i in contents2) {
-    // console.log("contents2->" + i);
-    // }
-
-    var cohort = new cohortData(contents2);
-
-    var ids = cohort.getAllPatientIds();
-    var datatypeData = getDatatypeData(datatypeUrl);
-    for (var i in ids) {
-        var id = ids[i];
-        if ( id in datatypeData) {
-            var patient = cohort.getPatient(id);
-            patient["data"]["datatypes"] = datatypeData[id]["datatypes"];
-        }
-    }
-
-    return cohort;
 }
 
 Highcharts.setOptions({
@@ -393,6 +325,8 @@ var mutationPanelChart = null;
 // var rnaMutationChart = null;
 
 var sliceColorMapping = {};
+
+var chartDeck = new chartDeck();
 
 var selectionCriteria = new selectionCriteria();
 var cohort = null;
