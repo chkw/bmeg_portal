@@ -445,6 +445,9 @@ window.onload = function() {
 
     cohort.addMutationData(queryMutationStatus("TP53"));
 
+    var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
+    console.log(c);
+
     selectionCriteria.clearCriteria();
 
     initializeCharts();

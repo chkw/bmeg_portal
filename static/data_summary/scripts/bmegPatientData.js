@@ -50,7 +50,15 @@ function patientData(data) {
 
     // TODO setMutation
     this.setMutation = function(gene, callType) {
-        console.log(gene, callType);
+        var feature = "mutation:" + gene;
+        var calls = this.getValue(feature);
+        if (calls === "not assessed") {
+            this.setValue(feature, callType);
+        } else {
+            var callList = calls.split(" ");
+            callList.push(callType);
+            this.setValue(feature, callList.join(" "));
+        }
         return this;
     };
 
