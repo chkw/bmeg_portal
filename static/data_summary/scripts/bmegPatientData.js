@@ -48,6 +48,12 @@ function selectionCriteria() {
 function patientData(data) {
     this.data = data;
 
+    // TODO setMutation
+    this.setMutation = function(gene, callType) {
+        console.log(gene, callType);
+        return this;
+    };
+
     this.setValue = function(feature, value) {
         this.data[feature] = value;
         return this;
@@ -104,6 +110,31 @@ function cohortData(deserializedCohortJson) {
                 }
             }
         }
+        return this;
+    };
+
+    // TODO addMutationData
+    this.addMutationData = function(mutationData) {
+        var gene = mutationData['gene'];
+        var calls = mutationData['calls'];
+
+        var callTypes = Object.keys(calls).sort();
+        console.log(callTypes);
+
+        for (var i = 0; i < callTypes.length; i++) {
+            var callType = callTypes[i];
+            var idList = calls[callType];
+            for (var j = 0; j < idList.length; j++) {
+                var id = idList[j];
+                var patientData = this.getPatient(id);
+                if (patientData == null) {
+                    console.error('no patient with id ' + id);
+                } else {
+                    patientData.setMutation(gene, callType);
+                }
+            }
+        }
+
         return this;
     };
 

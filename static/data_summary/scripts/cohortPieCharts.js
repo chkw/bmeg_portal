@@ -443,8 +443,7 @@ window.onload = function() {
 
     cohort.addGenderData(queryGender());
 
-    var statuses = queryMutationStatus("TP53");
-    console.log(statuses);
+    cohort.addMutationData(queryMutationStatus("TP53"));
 
     selectionCriteria.clearCriteria();
 
