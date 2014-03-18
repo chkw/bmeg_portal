@@ -52,7 +52,7 @@ function patientData(data) {
     this.setMutation = function(gene, callType) {
         var feature = "mutation:" + gene;
         var calls = this.getValue(feature);
-        if (calls === "not assessed") {
+        if (calls === "no annotation") {
             this.setValue(feature, callType);
         } else {
             var callList = calls.split(" ");
@@ -71,7 +71,7 @@ function patientData(data) {
         if ( feature in this.data) {
             return this.data[feature];
         } else {
-            return "not assessed";
+            return "no annotation";
         }
     };
 
@@ -108,6 +108,7 @@ function cohortData(deserializedCohortJson) {
     this.addGenderData = function(genderData) {
         for (var gender in genderData) {
             var idList = genderData[gender];
+            gender = gender.replace(/^tcga_attr:/i, "");
             for (var i = 0; i < idList.length; i++) {
                 var id = idList[i];
                 var patientData = this.getPatient(id);
@@ -132,6 +133,7 @@ function cohortData(deserializedCohortJson) {
         for (var i = 0; i < callTypes.length; i++) {
             var callType = callTypes[i];
             var idList = calls[callType];
+            var callType = callType.replace(/^bmeg:/i, "");
             for (var j = 0; j < idList.length; j++) {
                 var id = idList[j];
                 var patientData = this.getPatient(id);

@@ -334,7 +334,7 @@ function redrawCharts() {
     redrawNewData(biopsySiteChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:tumor_status'));
     redrawNewData(subsequentDrugsChart, cohort.getPatientCounts(selectedIds, 'tcga_attr:race'));
     redrawNewData(treatmentDetailsChart, cohort.getPatientCounts(selectedIds, 'gender'));
-    // redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'ctc'));
+    redrawNewData(ctcChart, cohort.getPatientCounts(selectedIds, 'mutation:TP53'));
     // redrawNewData(acghChart, cohort.getPatientCounts(selectedIds, 'acgh'));
     // redrawNewData(rnaseqChart, cohort.getPatientCounts(selectedIds, 'rnaseq'));
     // redrawNewData(fishChart, cohort.getPatientCounts(selectedIds, 'ar_fish'));
@@ -367,7 +367,7 @@ function initializeCharts() {
     subsequentDrugsChart = initializeChart("chart3", "tcga_attr:race", 'tcga_attr:race', selectedIds);
     //
     treatmentDetailsChart = initializeChart("chart4", "gender", 'gender', selectedIds);
-    // ctcChart = initializeChart("chart5", "CTC Data", 'ctc', selectedIds);
+    ctcChart = initializeChart("chart5", "mutation:TP53", 'mutation:TP53', selectedIds);
     // acghChart = initializeChart("chart6", "aCGH Data", 'acgh', selectedIds);
     //
     // rnaseqChart = initializeChart("chart7", "RNAseq Data", 'rnaseq', selectedIds);
