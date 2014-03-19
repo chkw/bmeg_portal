@@ -115,57 +115,6 @@ function setupChartOptions(renderTo, seriesName, seriesData, title, chartOptions
     return chartOptions;
 }
 
-/**
- * Set new series data directly on the chart instead of via chartOptions.
- * @param {Object} chartObject
- * @param {Object} chartData
- */
-function setNewChartData(chartObject, chartData) {
-    chartObject.series[0].data.length = 0;
-    chartObject.series[0].setData(chartData);
-}
-
-/**
- * Set the new chart data and redraw.
- */
-function redrawNewData(chart, data) {
-
-    // recover slice color mapping for chart
-    var title = chart["options"]["title"]["text"];
-    if ( title in sliceColorMapping) {
-    } else {
-        sliceColorMapping[title] = extractColorMapping(chart);
-    }
-
-    var colorMapping = sliceColorMapping[title];
-
-    // set slice colors in data object
-    for (var i = 0; i < data.length; i++) {
-        var color = colorMapping[data[i]["name"]];
-        data[i]["color"] = color;
-    }
-
-    // set new data for chart
-    setNewChartData(chart, data);
-    chart.redraw();
-}
-
-/**
- * Get the color mapping from a chart.
- */
-function extractColorMapping(chart) {
-    var mapping = {};
-    var data = chart.series[0]["options"]["data"];
-    var colors = chart["options"]["colors"];
-
-    for (var i = 0; i < data.length; i++) {
-        var name = data[i].name;
-        var color = colors[(i % colors.length)];
-        mapping[name] = color;
-    }
-    return mapping;
-}
-
 // TODO chartInfo
 
 /**
@@ -179,19 +128,58 @@ function chartInfo(data) {
         return this.info;
     };
 
+    this.getDivId = function() {
+        return this.info["divId"];
+    };
+
     this.getTitle = function() {
         return this.info["title"];
     };
 
-    this.getDivId = function() {
-        return this.info["divId"];
+    this.getFeature = function() {
+        return this.info["feature"];
     };
 
     this.setDivId = function(id) {
         this.info["divId"] = id;
     };
 
-    this.getChart = function() {
+    this.setChart = function(chart) {
+        this.info["chart"] = chart;
+    };
+
+    this.updateChart = function(selectedIds, cohortData) {
+        var data = cohortData.getPatientCounts(selectedIds, this.getFeature());
+        var colorMapping = this.getColorMap();
+
+        // set slice colors in data object
+        for (var i = 0; i < data.length; i++) {
+            var color = colorMapping[data[i]["name"]];
+            data[i]["color"] = color;
+        }
+
+        // set new data for chart
+        this.info["chart"].series[0].data.length = 0;
+        this.info["chart"].series[0].setData(data);
+
+        this.info["chart"].redraw();
+        return this;
+    };
+
+    this.getChart = function(selectedIds, cohortData) {
+        if ((selectedIds == null) || (cohortData == null)) {
+            // return this.info["chart"];
+        } else {
+            // create chart
+            var data = cohortData.getPatientCounts(selectedIds, this.getFeature());
+            var chartOptions = pieChartOptionsTemplate;
+
+            setupChartOptions(this.getDivId(), this.getFeature(), data, this.getTitle(), chartOptions);
+            this.info["chart"] = new Highcharts.Chart(chartOptions);
+
+            // extract the initial color mapping
+            this.getColorMap();
+        }
         return this.info["chart"];
     };
 
@@ -200,6 +188,20 @@ function chartInfo(data) {
     };
 
     this.getColorMap = function() {
+        if ((this.info["colorMap"] == null) && (this.info["chart"] != null)) {
+            // extract and set colorMap
+            var mapping = {};
+            var chart = this.info["chart"];
+            var data = chart.series[0]["options"]["data"];
+            var colors = chart["options"]["colors"];
+
+            for (var i = 0; i < data.length; i++) {
+                var name = data[i].name;
+                var color = colors[(i % colors.length)];
+                mapping[name] = color;
+            }
+            this.info["colorMap"] = mapping;
+        }
         return this.info["colorMap"];
     };
 }
@@ -226,21 +228,34 @@ function chartDeck() {
         return null;
     };
 
-    this.setInfo = function(divId, title, feature, chart) {
+    this.setInfo = function(divId, title, feature) {
         var newInfo = new chartInfo({
             "divId" : divId,
             "title" : title,
-            "feature" : feature,
-            "chart" : chart
+            "feature" : feature
         });
-        var savedInfo = this.getChartInfo(title);
+        var existingInfo = this.getChartInfo(title);
 
         if (existingInfo == null) {
             this.deck.push(newInfo);
         } else {
-            savedInfo = newInfo;
+            existingInfo = newInfo;
         }
         return this;
+    };
+
+    this.createCharts = function(selectedIds, cohortData) {
+        for (var i = 0; i < this.getSize(); i++) {
+            var chartInfo = this.deck[i];
+            chartInfo.getChart(selectedIds, cohortData);
+        }
+    };
+
+    this.updateCharts = function(selectedIds, cohortData) {
+        for (var i = 0; i < this.getSize(); i++) {
+            var chartInfo = this.deck[i];
+            chartInfo.updateChart(selectedIds, cohortData);
+        }
     };
 
     this.getSize = function() {
