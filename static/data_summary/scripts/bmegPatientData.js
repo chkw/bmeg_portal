@@ -126,9 +126,7 @@ function cohortData(deserializedCohortJson) {
     this.addMutationData = function(mutationData) {
         var gene = mutationData['gene'];
         var calls = mutationData['calls'];
-
         var callTypes = Object.keys(calls).sort();
-        console.log(callTypes);
 
         for (var i = 0; i < callTypes.length; i++) {
             var callType = callTypes[i];

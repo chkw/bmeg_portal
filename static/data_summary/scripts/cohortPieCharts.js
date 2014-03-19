@@ -133,8 +133,6 @@ function initializeCharts() {
 
     chartDeck.createCharts(selectedIds, cohort);
 
-    console.error(chartDeck);
-
     updateChartCrumbs(selectionCriteria);
 }
 
@@ -191,8 +189,8 @@ window.onload = function() {
 
     cohort.addMutationData(queryMutationStatus("TP53"));
 
-    var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
-    console.log(c);
+    // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
+    // console.log(c);
 
     selectionCriteria.clearCriteria();
 
