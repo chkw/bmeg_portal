@@ -120,16 +120,46 @@ function initializeChart(containingDivId, title, dataFeature, selectedIds) {
 }
 
 /**
+ * create inside of <article class="middle">,
+ * a div structure that looks like:
+ * <div id="chart1_container" class="pieChartContainer">
+ * <div id="chart1" class="pieChart"></div>
+ * </div>
+ */
+function createChartDiv(divId) {
+
+}
+
+/**
  * initial drawing of charts
  */
 function initializeCharts() {
+
+    var chartDivs = [{
+        "div" : "chart1",
+        "feature" : "tcga_attr:her2_fish_status"
+    }, {
+        "div" : "chart2",
+        "feature" : "tcga_attr:tumor_status"
+    }, {
+        "div" : "chart3",
+        "feature" : "tcga_attr:race"
+    }, {
+        "div" : "chart4",
+        "feature" : "gender"
+    }, {
+        "div" : "chart5",
+        "feature" : "mutation:TP53"
+    }];
+
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
 
-    chartDeck.setInfo("chart1", "tcga_attr:her2_fish_status", 'tcga_attr:her2_fish_status');
-    chartDeck.setInfo("chart2", "tcga_attr:tumor_status", 'tcga_attr:tumor_status');
-    chartDeck.setInfo("chart3", "tcga_attr:race", 'tcga_attr:race');
-    chartDeck.setInfo("chart4", "gender", 'gender');
-    chartDeck.setInfo("chart5", "mutation:TP53", 'mutation:TP53');
+    for (var i = 0; i < chartDivs.length; i++) {
+        var divId = chartDivs[i]["div"];
+        var feature = chartDivs[i]["feature"];
+        createChartDiv(divId);
+        chartDeck.setInfo(divId, feature, feature);
+    }
 
     chartDeck.createCharts(selectedIds, cohort);
 
