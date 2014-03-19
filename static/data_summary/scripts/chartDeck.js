@@ -72,35 +72,6 @@ var pieChartOptionsTemplate = {
 };
 
 /**
- * Set the renderTo attribute of the chart.
- * @param {Object} elementId
- * @param {Object} chartOptions
- */
-function setChartRenderTo(elementId, chartOptions) {
-    chartOptions["chart"]["renderTo"] = elementId;
-}
-
-/**
- * Set the chart series.
- * @param {Object} seriesName
- * @param {Object} seriesData
- * @param {Object} chart
- */
-function setChartSeries(seriesName, seriesData, chartOptions) {
-    chartOptions["series"][0]["name"] = seriesName;
-    chartOptions["series"][0]["data"] = seriesData;
-}
-
-/**
- * Set the chart title.
- * @param {Object} title
- * @param {Object} chartOptions
- */
-function setChartTitle(title, chartOptions) {
-    chartOptions["title"]["text"] = title;
-}
-
-/**
  * Setup chartOptions... returns the chartOptions.
  * @param {Object} renderTo
  * @param {Object} seriesName
@@ -109,9 +80,17 @@ function setChartTitle(title, chartOptions) {
  * @param {Object} chartOptions
  */
 function setupChartOptions(renderTo, seriesName, seriesData, title, chartOptions) {
-    setChartRenderTo(renderTo, chartOptions);
-    setChartSeries(seriesName, seriesData, chartOptions);
-    setChartTitle(title, chartOptions);
+
+    // renderTo
+    chartOptions["chart"]["renderTo"] = renderTo;
+
+    // chart series
+    chartOptions["series"][0]["name"] = seriesName;
+    chartOptions["series"][0]["data"] = seriesData;
+
+    // title
+    chartOptions["title"]["text"] = title;
+
     return chartOptions;
 }
 
