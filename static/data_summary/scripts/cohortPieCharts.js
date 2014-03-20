@@ -211,6 +211,8 @@ function setupControls(features) {
 
     var inputElement = document.createElement("select");
     inputElement.className = "selectFeatures chosen-select";
+    inputElement["multiple"] = true;
+
     formElement.appendChild(inputElement);
 
     // add options
