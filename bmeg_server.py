@@ -44,7 +44,7 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
 	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
 	try:
 		response = urllib2.urlopen(url).read()
-		sys.stderr.write("response\t" + prettyJson(response) + "\n")
+# 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
 		return response
 	except Exception, err:
 		sys.stderr.write(str(err) + "\n")
