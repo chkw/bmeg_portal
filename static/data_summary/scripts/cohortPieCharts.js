@@ -120,14 +120,31 @@ function initializeChart(containingDivId, title, dataFeature, selectedIds) {
 }
 
 /**
+ * Create an unattached div element
+ */
+function createDivElement(divId, divClass) {
+    var divTag = document.createElement("div");
+    if (divId != null) {
+        divTag.id = divId;
+    }
+    if (divClass != null) {
+        divTag.className = divClass;
+    }
+    return divTag;
+}
+
+/**
  * create inside of <article class="middle">,
  * a div structure that looks like:
  * <div id="chart1_container" class="pieChartContainer">
  * <div id="chart1" class="pieChart"></div>
  * </div>
  */
-function createChartDiv(divId) {
-
+function createChartDiv(chartId) {
+    var parentElement = document.getElementsByClassName("content")[0].getElementsByClassName("middle")[0];
+    var containerElement = createDivElement(chartId + "_container", "pieChartContainer");
+    containerElement.appendChild(createDivElement(chartId, "pieChart"));
+    parentElement.appendChild(containerElement);
 }
 
 /**
@@ -146,10 +163,13 @@ function initializeCharts() {
         "feature" : "tcga_attr:race"
     }, {
         "div" : "chart4",
-        "feature" : "gender"
-    }, {
-        "div" : "chart5",
-        "feature" : "mutation:TP53"
+        "feature" : "tcga_attr:micromet_detection_by_ihc"
+        // }, {
+        // "div" : "chart4",
+        // "feature" : "gender"
+        // }, {
+        // "div" : "chart5",
+        // "feature" : "mutation:TP53"
     }];
 
     var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());

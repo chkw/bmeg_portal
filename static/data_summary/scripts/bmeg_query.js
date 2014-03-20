@@ -11,8 +11,8 @@ var bmeg_service_host = "http://localhost:9886";
  */
 function queryBmeg_sync(script) {
     var query_uri_base = bmeg_service_host + "/query?script=";
-    var url = query_uri_base + script;
-    // var url = "/static/data_summary/data/patients.json";
+    // var url = query_uri_base + script;
+    var url = "/static/data_summary/data/patients.json";
 
     var response = null;
 
