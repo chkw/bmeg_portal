@@ -111,6 +111,11 @@ function chartInfo(data) {
         return this.info["divId"];
     };
 
+    this.setTitle = function(newTitle) {
+        this.info["title"] = newTitle;
+        return this;
+    };
+
     this.getTitle = function() {
         return this.info["title"];
     };
@@ -121,10 +126,12 @@ function chartInfo(data) {
 
     this.setDivId = function(id) {
         this.info["divId"] = id;
+        return this;
     };
 
     this.setChart = function(chart) {
         this.info["chart"] = chart;
+        return this;
     };
 
     this.updateChart = function(selectedIds, cohortData) {
@@ -164,6 +171,7 @@ function chartInfo(data) {
 
     this.setColorMap = function(map) {
         this.info["colorMap"] = map;
+        return this;
     };
 
     this.getColorMap = function() {
@@ -207,12 +215,15 @@ function chartDeck() {
         return null;
     };
 
-    this.setInfo = function(divId, title, feature) {
+    this.setInfo = function(divId, feature, title) {
         var newInfo = new chartInfo({
             "divId" : divId,
-            "title" : title,
             "feature" : feature
         });
+        if (title != null) {
+            newInfo.setTitle(title);
+        }
+
         var existingInfo = this.getChartInfo(title);
 
         if (existingInfo == null) {

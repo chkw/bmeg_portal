@@ -152,37 +152,23 @@ function createChartDiv(chartId) {
  */
 function initializeCharts() {
 
-    var chartDivs = [{
-        "div" : "chart1",
-        "feature" : "tcga_attr:her2_fish_status"
-    }, {
-        "div" : "chart2",
-        "feature" : "tcga_attr:tumor_status"
-    }, {
-        "div" : "chart3",
-        "feature" : "tcga_attr:race"
-    }, {
-        "div" : "chart4",
-        "feature" : "tcga_attr:micromet_detection_by_ihc"
-        // }, {
-        // "div" : "chart4",
-        // "feature" : "gender"
-        // }, {
-        // "div" : "chart5",
-        // "feature" : "mutation:TP53"
-    }];
+    // build up deck of chart info
+    var chartFeatures = ["tcga_attr:her2_fish_status", "tcga_attr:tumor_status", "tcga_attr:race", "tcga_attr:micromet_detection_by_ihc"
+    //,"gender","mutation:TP53"
+    ];
 
-    var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
-
-    for (var i = 0; i < chartDivs.length; i++) {
-        var divId = chartDivs[i]["div"];
-        var feature = chartDivs[i]["feature"];
+    for (var i = 0; i < chartFeatures.length; i++) {
+        var divId = "chart" + i;
+        var feature = chartFeatures[i];
         createChartDiv(divId);
         chartDeck.setInfo(divId, feature, feature);
     }
 
+    // draw charts
+    var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
     chartDeck.createCharts(selectedIds, cohort);
 
+    // update crumbs
     updateChartCrumbs(selectionCriteria);
 }
 
