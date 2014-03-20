@@ -153,9 +153,7 @@ function createChartDiv(chartId) {
 function initializeCharts() {
 
     // build up deck of chart info
-    var chartFeatures = ["tcga_attr:her2_fish_status", "tcga_attr:tumor_status", "tcga_attr:race", "tcga_attr:micromet_detection_by_ihc"
-    //,"gender","mutation:TP53"
-    ];
+    var chartFeatures = ["tcga_attr:her2_fish_status", "tcga_attr:tumor_status", "tcga_attr:race", "tcga_attr:micromet_detection_by_ihc", "gender", "mutation:TP53"];
 
     for (var i = 0; i < chartFeatures.length; i++) {
         var divId = "chart" + i;
@@ -204,6 +202,29 @@ function getDatatypeData(url) {
     return datatypesObj;
 }
 
+function setupControls(features) {
+    var parentElement = document.getElementsByClassName("content")[0].getElementsByClassName("first")[0];
+
+    var formElement = document.createElement("form");
+    formElement.className = "chartForm";
+    parentElement.appendChild(formElement);
+
+    var inputElement = document.createElement("select");
+    inputElement.className = "selectFeatures chosen-select";
+    formElement.appendChild(inputElement);
+
+    // add options
+    for (var i = 0; i < features.length; i++) {
+        var feature = features[i];
+        var optionTag = document.createElement("option");
+        optionTag["value"] = feature;
+        optionTag.innerHTML = feature;
+        inputElement.appendChild(optionTag);
+    }
+
+    $(".chosen-select").chosen();
+}
+
 // TODO onload
 window.onload = function() {
 
@@ -211,9 +232,6 @@ window.onload = function() {
     // console.log(prettyJson(p));
 
     cohort = new cohortData(p);
-
-    // var features = cohort.getAllFeatures();
-    // console.log(prettyJson(features));
 
     // var a = queryGender(function(genderData) {
     // cohort.addGenderData(genderData);
@@ -224,6 +242,10 @@ window.onload = function() {
     cohort.addGenderData(queryGender());
 
     cohort.addMutationData(queryMutationStatus("TP53"));
+
+    var features = cohort.getAllFeatures();
+
+    setupControls(features);
 
     // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
     // console.log(c);
