@@ -203,7 +203,7 @@ function getDatatypeData(url) {
 }
 
 function setupControls(features) {
-    var parentElement = document.getElementsByClassName("content")[0].getElementsByClassName("first")[0];
+    var parentElement = document.getElementsByClassName("content")[0].getElementsByClassName("middle")[0];
 
     var formElement = document.createElement("form");
     formElement.className = "chartForm";
@@ -224,7 +224,9 @@ function setupControls(features) {
         inputElement.appendChild(optionTag);
     }
 
-    $(".chosen-select").chosen();
+    $(".chosen-select").chosen({
+        "search_contains" : true
+    });
 }
 
 // TODO onload
