@@ -203,27 +203,18 @@ function getDatatypeData(url) {
 }
 
 function setupControls(features) {
-    var parentElement = document.getElementsByClassName("content")[0].getElementsByClassName("middle")[0];
-
-    var formElement = document.createElement("form");
-    formElement.className = "chartForm";
-    parentElement.appendChild(formElement);
-
-    var inputElement = document.createElement("select");
-    inputElement.className = "selectFeatures chosen-select";
-    inputElement["multiple"] = true;
-
-    formElement.appendChild(inputElement);
+    var selectTag = document.getElementsByClassName("selectFeatures")[0];
 
     // add options
     for (var i = 0; i < features.length; i++) {
         var feature = features[i];
         var optionTag = document.createElement("option");
         optionTag["value"] = feature;
-        optionTag.innerHTML = feature;
-        inputElement.appendChild(optionTag);
+        optionTag.innerHTML = feature.replace(/_/g, " ");
+        selectTag.appendChild(optionTag);
     }
 
+    // options for select.js
     $(".chosen-select").chosen({
         "search_contains" : true
     });
