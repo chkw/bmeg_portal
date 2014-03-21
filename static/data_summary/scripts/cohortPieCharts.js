@@ -218,6 +218,22 @@ function setupControls(features) {
     $(".chosen-select").chosen({
         "search_contains" : true
     });
+
+    var buttonElement = document.getElementById("selectFeaturesButton");
+    buttonElement.onclick = function() {
+        // TODO get the selected values
+        console.log("button clicked!");
+
+        var selectElement = document.forms.chartForm.selectFeatures;
+        var selectedFeatures = [];
+        for (var i = 0; i < selectElement.length; i++) {
+            var optionElement = selectElement[i];
+            if (optionElement.selected) {
+                selectedFeatures.push(optionElement["value"]);
+            }
+        }
+        console.log(selectedFeatures);
+    };
 }
 
 // TODO onload

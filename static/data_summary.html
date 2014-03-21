@@ -16,10 +16,9 @@
         </noscript>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <!--
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-        <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-        -->
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+
         <script type="text/javascript" src="https://code.highcharts.com/3.0.9/highcharts.js"></script>
         <!-- highcharts 3.0.10 breaks the chart redrawing -->
 
@@ -56,8 +55,10 @@
                 <h4>Data Release 0
                 <br>
                 March 7, 2014</h4>
-                <form class="chartForm">
-                    <select class="selectFeatures chosen-select" multiple=""></select>
+                <form class="chartForm" name="chartForm">
+                    <select class="selectFeatures chosen-select" multiple="" name="selectFeatures"></select>
+                    <input type="button" id="selectFeaturesButton" value="draw charts">
+
                 </form>
                 <!-- <p>
                 Put some charts/tables about the release here.  On our <a href="http://dcc.icgc.org/" target="icgc_portal">benchmark site</a>, nearly every chart and table is a search control.
