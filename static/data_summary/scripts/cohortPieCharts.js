@@ -236,6 +236,30 @@ function setupControls(features) {
     };
 }
 
+/**
+ * Get an object with UrlQueryString data.
+ */
+function getQueryObj() {
+    var result = {};
+    var keyValuePairs = location.search.slice(1).split('&');
+
+    keyValuePairs.forEach(function(keyValuePair) {
+        keyValuePair = keyValuePair.split('=');
+        result[keyValuePair[0]] = decodeURIComponent(keyValuePair[1]) || '';
+    });
+
+    return result;
+}
+
+/**
+ * querySettings is an object to be stringified into the query string.
+ * @param {Object} querySettings
+ */
+function loadNewSettings(querySettings) {
+    var url = window.location.pathname + "?query=" + JSON.stringify(querySettings);
+    window.open(url, "_self");
+}
+
 // TODO onload
 window.onload = function() {
 
