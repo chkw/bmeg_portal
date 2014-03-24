@@ -202,7 +202,7 @@ function getDatatypeData(url) {
     return datatypesObj;
 }
 
-function setupControls(features) {
+function setupControls(features, selectedFeatures) {
     var selectTag = document.getElementsByClassName("selectFeatures")[0];
 
     // add options
@@ -211,6 +211,9 @@ function setupControls(features) {
         var optionTag = document.createElement("option");
         optionTag["value"] = feature;
         optionTag.innerHTML = feature.replace(/_/g, " ");
+        if ((selectedFeatures != null) && (selectedFeatures.indexOf(feature) >= 0)) {
+            optionTag["defaultSelected"] = true;
+        }
         selectTag.appendChild(optionTag);
     }
 
@@ -221,9 +224,6 @@ function setupControls(features) {
 
     var buttonElement = document.getElementById("selectFeaturesButton");
     buttonElement.onclick = function() {
-        // TODO get the selected values
-        console.log("button clicked!");
-
         var selectElement = document.forms.chartForm.selectFeatures;
         var selectedFeatures = [];
         for (var i = 0; i < selectElement.length; i++) {
@@ -232,7 +232,8 @@ function setupControls(features) {
                 selectedFeatures.push(optionElement["value"]);
             }
         }
-        console.log(selectedFeatures);
+        // TODO do something with the selected features
+        console.log(JSON.stringify(selectedFeatures));
     };
 }
 
@@ -280,7 +281,9 @@ window.onload = function() {
 
     var features = cohort.getAllFeatures();
 
-    setupControls(features);
+    var selectedFeatures = ["tcga_attr:race", "tcga_attr:tumor_status"];
+
+    setupControls(features, selectedFeatures);
 
     // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
     // console.log(c);
