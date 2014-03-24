@@ -283,8 +283,14 @@ window.onload = function() {
 
     var features = cohort.getAllFeatures();
 
-    var queryObject = getQueryObj()["query"];
-    queryObject = JSON && JSON.parse(queryObject) || $.parseJSON(queryObject);
+    var queryObject = getQueryObj();
+
+    if ("query" in queryObject) {
+    } else {
+        queryObject["query"] = "[]";
+    }
+
+    queryObject = JSON && JSON.parse(queryObject["query"]) || $.parseJSON(queryObject["query"]);
     var selectedFeatures = queryObject["selectedFeatures"];
 
     setupControls(features, selectedFeatures);
