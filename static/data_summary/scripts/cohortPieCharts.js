@@ -232,10 +232,16 @@ function setupControls(features, selectedFeatures) {
                 selectedFeatures.push(optionElement["value"]);
             }
         }
-        // TODO do something with the selected features
+        // do something with the selected features
         loadNewSettings({
             "selectedFeatures" : selectedFeatures
         });
+    };
+
+    buttonElement = document.getElementById("mutationGeneButton");
+    buttonElement.onclick = function() {
+        var geneName = document.forms.chartForm.mutationGeneTextBox.value;
+        // TODO do something with gene name
     };
 }
 

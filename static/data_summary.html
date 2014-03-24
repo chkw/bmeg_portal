@@ -1,90 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>BMEG Portal</title>
-        <meta charset="utf-8">
+	<head>
+		<title>BMEG Portal</title>
+		<meta charset="utf-8">
 
-        <link rel="stylesheet" href="data_summary/css/main.css" type="text/css" />
-        <link rel="stylesheet" href="data_summary/scripts/chosen.min.css" type="text/css" />
-        <link href="data_summary/images/favicon.ico" rel="icon" type="image/x-icon">
-        <noscript>
-            <div align="center">
-                <p style="color:black;background-color:red;font-size:18pt">
-                    This website requires JavaScript.  Please turn on JavaScript and then <a href="">try it again</a>.
-                </p>
-            </div>
-        </noscript>
+		<link rel="stylesheet" href="data_summary/css/main.css" type="text/css" />
+		<link rel="stylesheet" href="data_summary/scripts/chosen.min.css" type="text/css" />
+		<link href="data_summary/images/favicon.ico" rel="icon" type="image/x-icon">
+		<noscript>
+			<div align="center">
+				<p style="color:black;background-color:red;font-size:18pt">
+					This website requires JavaScript.  Please turn on JavaScript and then <a href="">try it again</a>.
+				</p>
+			</div>
+		</noscript>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
 
-        <script type="text/javascript" src="https://code.highcharts.com/3.0.9/highcharts.js"></script>
-        <!-- highcharts 3.0.10 breaks the chart redrawing -->
+		<script type="text/javascript" src="https://code.highcharts.com/3.0.9/highcharts.js"></script>
+		<!-- highcharts 3.0.10 breaks the chart redrawing -->
 
-        <script type="text/javascript" src="data_summary/scripts/d3.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="data_summary/scripts/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="data_summary/scripts/bmegPatientData.js"></script>
-        <script type="text/javascript" src="data_summary/scripts/chartDeck.js"></script>
-        <script type="text/javascript" src="data_summary/scripts/bmeg_query.js"></script>
-        <script type="text/javascript" src="data_summary/scripts/cohortPieCharts.js"></script>
+		<script type="text/javascript" src="data_summary/scripts/d3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="data_summary/scripts/chosen.jquery.min.js"></script>
+		<script type="text/javascript" src="data_summary/scripts/bmegPatientData.js"></script>
+		<script type="text/javascript" src="data_summary/scripts/chartDeck.js"></script>
+		<script type="text/javascript" src="data_summary/scripts/bmeg_query.js"></script>
+		<script type="text/javascript" src="data_summary/scripts/cohortPieCharts.js"></script>
 
-    </head>
-    <body>
-        <header class="header">
-            <h1> BMEG&nbsp;Portal </h1>
-        </header>
-        <div class="content">
-            <article class="first">
-                <h3>What is a BMEG?</h3>
-                <p>
-                    A BMEG is a graph.
-                </p>
-            </article>
-            <article class="last">
-                <h3>blah blsh blah</h3>
-                <article>
-                    <h4> blah </h4>
-                    <p>
-                        blah blah blah blah blah
-                    </p>
-                </article>
-            </article>
-            <article class="middle">
-                <h3 align="center">samples</h3>
-                <h4>Data Release 0
-                <br>
-                March 7, 2014</h4>
-                <form class="chartForm" name="chartForm">
-                    <select class="selectFeatures chosen-select" multiple="" name="selectFeatures"></select>
-                    <input type="button" id="selectFeaturesButton" value="draw charts">
+	</head>
+	<body>
+		<header class="header">
+			<h1> BMEG&nbsp;Portal </h1>
+		</header>
+		<div class="content">
+			<article class="first">
+				<h3>What is a BMEG?</h3>
+				<p>
+					A BMEG is a graph.
+				</p>
+			</article>
+			<article class="last">
+				<h3>blah blsh blah</h3>
+				<article>
+					<h4> blah </h4>
+					<p>
+						blah blah blah blah blah
+					</p>
+				</article>
+			</article>
+			<article class="middle">
+				<h3 align="center">samples</h3>
+				<h4>Data Release 0
+				<br>
+				March 7, 2014</h4>
+				<form class="chartForm" name="chartForm">
+					<select class="selectFeatures chosen-select" multiple="" name="selectFeatures"></select>
+					<input type="button" id="selectFeaturesButton" value="draw charts">
+					<br>
+					<input type="text" id="mutationGeneTextBox" name="mutationGeneTextBox">
+					<input type="button" id="mutationGeneButton" value="use gene">
 
-                </form>
-                <!-- <p>
-                Put some charts/tables about the release here.  On our <a href="http://dcc.icgc.org/" target="icgc_portal">benchmark site</a>, nearly every chart and table is a search control.
-                </p> -->
-                <div id="chartCrumbs"></div>
-                <!-- nest divs for charts and chart containers go in here -->
-                <!-- <div id="chart1_container" class="pieChartContainer">
-                <div id="chart1" class="pieChart"></div>
-                </div>
-                <div id="chart2_container" class="pieChartContainer">
-                <div id="chart2" class="pieChart"></div>
-                </div>
-                <div id="chart3_container" class="pieChartContainer">
-                <div id="chart3" class="pieChart"></div>
-                </div>
-                -->
-            </article>
-        </div>
-        <footer class="footer">
-            <!-- <a href="http://www.standup2cancer.org/" target="su2c_portal"><img height="40px" src="data_summary/images/Stand_up_to_Cancer_logo.svg" alt="SU2C Logo"></a>
-            <a href="http://www.pcf.org/" target="pcf_portal"><img height="40px" src="data_summary/images/prostate_cancer_foundation_logo.png" alt="PCF Logo"></a>
-            -->
-            <br>
-            This is the Prototype for the BMEG Portal
-            <br>
-            <script type="text/javascript">
+				</form>
+				<!-- <p>
+				Put some charts/tables about the release here.  On our <a href="http://dcc.icgc.org/" target="icgc_portal">benchmark site</a>, nearly every chart and table is a search control.
+				</p> -->
+				<div id="chartCrumbs"></div>
+				<!-- nest divs for charts and chart containers go in here -->
+				<!-- <div id="chart1_container" class="pieChartContainer">
+				<div id="chart1" class="pieChart"></div>
+				</div>
+				<div id="chart2_container" class="pieChartContainer">
+				<div id="chart2" class="pieChart"></div>
+				</div>
+				<div id="chart3_container" class="pieChartContainer">
+				<div id="chart3" class="pieChart"></div>
+				</div>
+				-->
+			</article>
+		</div>
+		<footer class="footer">
+			<!-- <a href="http://www.standup2cancer.org/" target="su2c_portal"><img height="40px" src="data_summary/images/Stand_up_to_Cancer_logo.svg" alt="SU2C Logo"></a>
+			<a href="http://www.pcf.org/" target="pcf_portal"><img height="40px" src="data_summary/images/prostate_cancer_foundation_logo.png" alt="PCF Logo"></a>
+			-->
+			<br>
+			This is the Prototype for the BMEG Portal
+			<br>
+			<script type="text/javascript">
                 function WriteTodaysDate() {
                     var months = new Array();
                     months[1] = "January";
@@ -109,7 +112,7 @@
                     year2 = (year2 < 10) ? "0" + year2 : year2;
                     document.write(months[month] + " " + date + ", " + year);
                 }WriteTodaysDate();
-            </script>
-        </footer>
-    </body>
+			</script>
+		</footer>
+	</body>
 </html>
