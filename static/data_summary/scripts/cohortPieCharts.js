@@ -150,10 +150,10 @@ function createChartDiv(chartId) {
 /**
  * initial drawing of charts
  */
-function initializeCharts() {
+function initializeCharts(chartFeatures) {
 
     // build up deck of chart info
-    var chartFeatures = ["tcga_attr:her2_fish_status", "tcga_attr:tumor_status", "tcga_attr:race", "tcga_attr:micromet_detection_by_ihc", "gender", "mutation:TP53"];
+    // var chartFeatures = ["tcga_attr:her2_fish_status", "tcga_attr:tumor_status", "tcga_attr:race", "tcga_attr:micromet_detection_by_ihc", "gender", "mutation:TP53"];
 
     for (var i = 0; i < chartFeatures.length; i++) {
         var divId = "chart" + i;
@@ -233,7 +233,9 @@ function setupControls(features, selectedFeatures) {
             }
         }
         // TODO do something with the selected features
-        console.log(JSON.stringify(selectedFeatures));
+        loadNewSettings({
+            "selectedFeatures" : selectedFeatures
+        });
     };
 }
 
@@ -281,14 +283,19 @@ window.onload = function() {
 
     var features = cohort.getAllFeatures();
 
-    var selectedFeatures = ["tcga_attr:race", "tcga_attr:tumor_status"];
+    var queryObject = getQueryObj()["query"];
+    queryObject = JSON && JSON.parse(queryObject) || $.parseJSON(queryObject);
+    var selectedFeatures = queryObject["selectedFeatures"];
 
     setupControls(features, selectedFeatures);
+
+    var a = cohort.getPatientCounts(cohort.getAllPatientIds(), "tcga_attr:her2_copy_number");
+    console.log(prettyJson(a.length));
 
     // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
     // console.log(c);
 
     selectionCriteria.clearCriteria();
 
-    initializeCharts();
+    initializeCharts(selectedFeatures);
 };
