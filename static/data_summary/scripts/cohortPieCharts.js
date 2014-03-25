@@ -220,11 +220,23 @@ function getSpecifiedGene() {
 }
 
 function setupControls(features, selectedFeatures) {
+    var featuresForOptions = features.slice(0);
+
     var selectTag = document.getElementsByClassName("selectFeatures")[0];
 
+    // make sure selected features appear in the select box
+    if (selectedFeatures != null) {
+        for (var i = 0; i < selectedFeatures.length; i++) {
+            var selectedFeature = selectedFeatures[i];
+            if (featuresForOptions.indexOf(selectedFeature) == -1) {
+                featuresForOptions.push(selectedFeature);
+            }
+        }
+    }
+
     // add options
-    for (var i = 0; i < features.length; i++) {
-        var feature = features[i];
+    for (var i = 0; i < featuresForOptions.length; i++) {
+        var feature = featuresForOptions[i];
         var optionTag = document.createElement("option");
         optionTag["value"] = feature;
         optionTag.innerHTML = feature.replace(/_/g, " ");
@@ -253,7 +265,7 @@ function setupControls(features, selectedFeatures) {
         var selectedFeatures = getSelectedFeatures();
         var geneName = getSpecifiedGene();
         selectedFeatures.push("mutation:" + geneName);
-        // TODO do something with gene name
+        // do something with gene name
         console.log("gene->", geneName);
         loadNewSettings({
             "selectedFeatures" : selectedFeatures
@@ -285,13 +297,17 @@ function loadNewSettings(querySettings) {
     window.open(url, "_self");
 }
 
-function getMutationData(selectedFeatures) {
+function getOtherData(selectedFeatures) {
+    var mutationList = [];
     for (var i = 0; i < selectedFeatures.length; i++) {
         var feature = selectedFeatures[i];
         if (feature.indexOf("mutation:") == 0) {
-            console.log("need to get mutation data for: " + feature);
+            mutationList.push(feature.replace(/^mutation:/, ""));
         }
     }
+
+    // TODO get the mutation data for cohort
+    console.log("mutationList", mutationList);
 }
 
 // TODO onload
@@ -316,6 +332,10 @@ window.onload = function() {
     cohort.addGenderData(queryGender());
 
     cohort.addMutationData(queryMutationStatus("TP53"));
+
+    if (selectedFeatures != null) {
+        getOtherData(selectedFeatures);
+    }
 
     var features = cohort.getAllFeatures();
 
