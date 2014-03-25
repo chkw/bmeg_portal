@@ -202,6 +202,23 @@ function getDatatypeData(url) {
     return datatypesObj;
 }
 
+function getSelectedFeatures() {
+    var selectElement = document.forms.chartForm.selectFeatures;
+    var selectedFeatures = [];
+    for (var i = 0; i < selectElement.length; i++) {
+        var optionElement = selectElement[i];
+        if (optionElement.selected) {
+            selectedFeatures.push(optionElement["value"]);
+        }
+    }
+    return selectedFeatures;
+}
+
+function getSpecifiedGene() {
+    var geneName = document.forms.chartForm.mutationGeneTextBox.value;
+    return geneName;
+}
+
 function setupControls(features, selectedFeatures) {
     var selectTag = document.getElementsByClassName("selectFeatures")[0];
 
@@ -224,14 +241,7 @@ function setupControls(features, selectedFeatures) {
 
     var buttonElement = document.getElementById("selectFeaturesButton");
     buttonElement.onclick = function() {
-        var selectElement = document.forms.chartForm.selectFeatures;
-        var selectedFeatures = [];
-        for (var i = 0; i < selectElement.length; i++) {
-            var optionElement = selectElement[i];
-            if (optionElement.selected) {
-                selectedFeatures.push(optionElement["value"]);
-            }
-        }
+        var selectedFeatures = getSelectedFeatures();
         // do something with the selected features
         loadNewSettings({
             "selectedFeatures" : selectedFeatures
@@ -240,8 +250,14 @@ function setupControls(features, selectedFeatures) {
 
     buttonElement = document.getElementById("mutationGeneButton");
     buttonElement.onclick = function() {
-        var geneName = document.forms.chartForm.mutationGeneTextBox.value;
+        var selectedFeatures = getSelectedFeatures();
+        var geneName = getSpecifiedGene();
+        selectedFeatures.push("mutation:" + geneName);
         // TODO do something with gene name
+        console.log("gene->", geneName);
+        loadNewSettings({
+            "selectedFeatures" : selectedFeatures
+        });
     };
 }
 
@@ -269,12 +285,26 @@ function loadNewSettings(querySettings) {
     window.open(url, "_self");
 }
 
+function getMutationData(selectedFeatures) {
+    for (var i = 0; i < selectedFeatures.length; i++) {
+        var feature = selectedFeatures[i];
+        if (feature.indexOf("mutation:") == 0) {
+            console.log("need to get mutation data for: " + feature);
+        }
+    }
+}
+
 // TODO onload
 window.onload = function() {
+    var queryObject = getQueryObj();
+    if ("query" in queryObject) {
+    } else {
+        queryObject["query"] = "[]";
+    }
+    queryObject = JSON && JSON.parse(queryObject["query"]) || $.parseJSON(queryObject["query"]);
+    var selectedFeatures = queryObject["selectedFeatures"];
 
     var p = getAllPatients();
-    // console.log(prettyJson(p));
-
     cohort = new cohortData(p);
 
     // var a = queryGender(function(genderData) {
@@ -288,16 +318,6 @@ window.onload = function() {
     cohort.addMutationData(queryMutationStatus("TP53"));
 
     var features = cohort.getAllFeatures();
-
-    var queryObject = getQueryObj();
-
-    if ("query" in queryObject) {
-    } else {
-        queryObject["query"] = "[]";
-    }
-
-    queryObject = JSON && JSON.parse(queryObject["query"]) || $.parseJSON(queryObject["query"]);
-    var selectedFeatures = queryObject["selectedFeatures"];
 
     setupControls(features, selectedFeatures);
 
