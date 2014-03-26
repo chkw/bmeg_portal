@@ -157,8 +157,15 @@ function queryGender() {
 function queryMutationStatus(hugoIdList) {
     var script = "t=new Table();";
     // script += "g.V('name','hugo:" + hugoId + "')";
+    // script += "g.V.has('name',T.in," + JSON.stringify(hugoIdList) + ")";
     // TODO for performance reasons, may be better to use "store" with "g.V('name',name)"
-    script += "g.V.has('name',T.in," + JSON.stringify(hugoIdList) + ")";
+    script += "x=[];";
+    for (var i = 0; i < hugoIdList.length; i++) {
+        var hugoId = hugoIdList[i];
+        script += "g.V('name','hugo:" + hugoId + "').store(x).next();";
+    }
+    script += "x._()";
+
     script += ".as('hugo')";
     script += ".in('bmeg:gene')";
     script += ".as('mutation_event')";
