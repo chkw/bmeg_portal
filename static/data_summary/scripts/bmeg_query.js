@@ -154,9 +154,11 @@ function queryGender() {
  * query: get all patients with mutation in specified hugo
  * @param {Object} hugoId
  */
-function queryMutationStatus(hugoId) {
+function queryMutationStatus(hugoIdList) {
     var script = "t=new Table();";
-    script += "g.V('name','hugo:" + hugoId + "')";
+    // script += "g.V('name','hugo:" + hugoId + "')";
+    // TODO for performance reasons, may be better to use "store" with "g.V('name',name)"
+    script += "g.V.has('name',T.in," + JSON.stringify(hugoIdList) + ")";
     script += ".as('hugo')";
     script += ".in('bmeg:gene')";
     script += ".as('mutation_event')";
@@ -169,6 +171,8 @@ function queryMutationStatus(hugoId) {
     script += ".in('tcga_attr:sample')";
     script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
     script += ".table(t).cap()";
+
+    console.log(script);
 
     var results = getBmegResultsArray(queryBmeg_sync(script));
 
@@ -185,7 +189,7 @@ function queryMutationStatus(hugoId) {
     }
 
     return {
-        "gene" : hugoId,
+        "genes" : hugoIdList,
         "calls" : groups
     };
 }

@@ -297,7 +297,7 @@ function loadNewSettings(querySettings) {
     window.open(url, "_self");
 }
 
-function getOtherData(selectedFeatures) {
+function getOtherData(cohortData, selectedFeatures) {
     var mutationList = [];
     for (var i = 0; i < selectedFeatures.length; i++) {
         var feature = selectedFeatures[i];
@@ -306,8 +306,8 @@ function getOtherData(selectedFeatures) {
         }
     }
 
-    // TODO get the mutation data for cohort
-    console.log("mutationList", mutationList);
+    // get the mutation data for cohort
+    cohortData.addMutationData(queryMutationStatus(mutationList));
 }
 
 // TODO onload
@@ -331,10 +331,10 @@ window.onload = function() {
 
     cohort.addGenderData(queryGender());
 
-    cohort.addMutationData(queryMutationStatus("TP53"));
+    // cohort.addMutationData(queryMutationStatus(["TP53"]));
 
     if (selectedFeatures != null) {
-        getOtherData(selectedFeatures);
+        getOtherData(cohort, selectedFeatures);
     }
 
     var features = cohort.getAllFeatures();
