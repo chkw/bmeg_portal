@@ -307,7 +307,9 @@ function getOtherData(cohortData, selectedFeatures) {
     }
 
     // get the mutation data for cohort
-    cohortData.addMutationData(queryMutationStatus(mutationList));
+    if (mutationList.length > 0) {
+        cohortData.addMutationData(queryMutationStatus(mutationList));
+    }
 }
 
 // TODO onload

@@ -124,25 +124,27 @@ function cohortData(deserializedCohortJson) {
 
     // TODO addMutationData
     this.addMutationData = function(mutationData) {
-        var gene = mutationData['gene'];
-        var calls = mutationData['calls'];
-        var callTypes = Object.keys(calls).sort();
-
-        for (var i = 0; i < callTypes.length; i++) {
-            var callType = callTypes[i];
-            var idList = calls[callType];
-            var callType = callType.replace(/^bmeg:/i, "");
-            for (var j = 0; j < idList.length; j++) {
-                var id = idList[j];
-                var patientData = this.getPatient(id);
-                if (patientData == null) {
-                    console.error('no patient with id ' + id);
-                } else {
-                    patientData.setMutation(gene, callType);
+        var geneList = Object.keys(mutationData);
+        for (var i = 0; i < geneList.length; i++) {
+            var gene = geneList[i];
+            var callData = mutationData[gene];
+            gene = gene.replace(/^hugo:/i, "");
+            var callTypes = Object.keys(callData).sort();
+            for (var j = 0; j < callTypes.length; j++) {
+                var callType = callTypes[j];
+                var idList = callData[callType];
+                var callType = callType.replace(/^bmeg:/i, "");
+                for (var k = 0; k < idList.length; k++) {
+                    var id = idList[k];
+                    var patientData = this.getPatient(id);
+                    if (patientData == null) {
+                        console.error('no patient with id ' + id);
+                    } else {
+                        patientData.setMutation(gene, callType);
+                    }
                 }
             }
         }
-
         return this;
     };
 

@@ -11,8 +11,8 @@ var bmeg_service_host = "http://localhost:9886";
  */
 function queryBmeg_sync(script) {
     var query_uri_base = bmeg_service_host + "/query?script=";
-    // var url = query_uri_base + script;
-    var url = "/static/data_summary/data/patients.json";
+    var url = query_uri_base + script;
+    // var url = "/static/data_summary/data/patients.json";
 
     var response = null;
 
@@ -150,6 +150,10 @@ function queryGender() {
     return genderPatients;
 }
 
+function queryProject() {
+    var script = "t=new Table();";
+}
+
 /**
  * query: get all patients with mutation in specified hugo
  * @param {Object} hugoId
@@ -174,29 +178,29 @@ function queryMutationStatus(hugoIdList) {
     script += ".back('mutation_event')";
     script += ".out('bmeg:analysis')";
     script += ".out('bmeg:variant')";
-    script += ".in('tcga_attr:analysis')";
-    script += ".in('tcga_attr:sample')";
+    script += ".out('tcga_attr:patient')";
     script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
     script += ".table(t).cap()";
 
-    console.log(script);
-
     var results = getBmegResultsArray(queryBmeg_sync(script));
 
-    var groups = {};
+    var genes = {};
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
         var patientVId = row['patientVId'];
         var effect = row['effect']['name'];
-        if ( effect in groups) {
-        } else {
-            groups[effect] = [];
-        }
-        groups[effect].push(patientVId);
-    }
+        var gene = row['hugo']['name'];
 
-    return {
-        "genes" : hugoIdList,
-        "calls" : groups
-    };
+        if ( gene in genes) {
+            if ( effect in genes[gene]) {
+            } else {
+                genes[gene][effect] = [];
+            }
+        } else {
+            genes[gene] = {};
+            genes[gene][effect] = [];
+        }
+        genes[gene][effect].push(patientVId);
+    }
+    return genes;
 }
