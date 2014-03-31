@@ -320,18 +320,17 @@ window.onload = function() {
         queryObject["query"] = "[]";
     }
     queryObject = JSON && JSON.parse(queryObject["query"]) || $.parseJSON(queryObject["query"]);
-    var selectedFeatures = queryObject["selectedFeatures"];
+    var selectedFeatures = ("selectedFeatures" in queryObject) ? queryObject["selectedFeatures"] : [];
+
+    if (selectedFeatures.length == 0) {
+        selectedFeatures.push('diseaseCode');
+    }
 
     var p = getAllPatients();
     cohort = new cohortData(p);
 
-    // var a = queryGender(function(genderData) {
-    // cohort.addGenderData(genderData);
-    // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'gender');
-    // console.log(c);
-    // });
-
     cohort.addGenderData(queryGender());
+    cohort.addDiseaseCodeData(queryDiseaseCode());
 
     // cohort.addMutationData(queryMutationStatus(["TP53"]));
 

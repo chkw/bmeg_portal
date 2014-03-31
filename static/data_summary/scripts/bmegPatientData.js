@@ -122,6 +122,23 @@ function cohortData(deserializedCohortJson) {
         return this;
     };
 
+    this.addDiseaseCodeData = function(diseaseCodeData) {
+        for (var disease in diseaseCodeData) {
+            var idList = diseaseCodeData[disease];
+            disease = disease.replace(/^tcga_attr:/i, "");
+            for (var i = 0; i < idList.length; i++) {
+                var id = idList[i];
+                var patientData = this.getPatient(id);
+                if (patientData == null) {
+                    console.error('no patient with id ' + id);
+                } else {
+                    patientData.setValue("diseaseCode", disease);
+                }
+            }
+        }
+        return this;
+    };
+
     // TODO addMutationData
     this.addMutationData = function(mutationData) {
         var geneList = Object.keys(mutationData);

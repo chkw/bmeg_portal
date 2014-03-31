@@ -132,7 +132,12 @@ function queryGender_async(callbackFunction) {
  * Get a table of gender counts
  */
 function queryGender() {
-    var script = "t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('patientVId').table(t).cap()";
+    var script = "t=new Table();";
+    script += "g.V('type','tcga_attr:Gender')";
+    script += ".as('genderV')";
+    script += ".in('tcga_attr:gender')";
+    script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
+    script += ".table(t).cap()";
 
     var results = getBmegResultsArray(queryBmeg_sync(script));
 
@@ -150,8 +155,29 @@ function queryGender() {
     return genderPatients;
 }
 
-function queryProject() {
+function queryDiseaseCode() {
     var script = "t=new Table();";
+    script += "g.V('type','tcga_attr:Patient')";
+    script += ".as('patientV')";
+    script += ".out('tcga_attr:disease_code')";
+    script += ".name.as('diseaseCode')";
+    script += ".table(t).cap()";
+
+    var results = getBmegResultsArray(queryBmeg_sync(script));
+
+    var diseasePatients = {};
+    for (var i = 0; i < results[0].length; i++) {
+        var row = results[0][i];
+        var diseaseCode = row['diseaseCode'];
+        var patientId = row['patientV']['_id'];
+        if ( diseaseCode in diseasePatients) {
+
+        } else {
+            diseasePatients[diseaseCode] = [];
+        }
+        diseasePatients[diseaseCode].push(patientId);
+    }
+    return diseasePatients;
 }
 
 /**
