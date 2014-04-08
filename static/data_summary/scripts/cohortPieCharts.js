@@ -27,11 +27,23 @@ Highcharts.setOptions({
             // http://api.highcharts.com/highcharts#Renderer
             // https://stackoverflow.com/questions/11214481/how-can-i-add-element-with-attributes-to-svg-using-jquery
             load : function() {
+                // clickable 'move to top' text
                 this.renderer.text("move to top", 3, 11).attr({
                     "cursor" : "pointer"
                 }).on("click", function() {
                     var chartDivElement = this.parentNode.parentNode.parentNode;
                     moveChartUp(chartDivElement);
+                }).add();
+
+                // clickable testing text
+                this.renderer.text("test", 3, 22).attr({
+                    "cursor" : "pointer"
+                }).on("click", function() {
+                    var containerDivId = this.parentNode.parentNode.parentNode.parentNode.id;
+                    console.log("containerDivId:", containerDivId);
+                    var number = containerDivId.replace(/_container$/, "").match(/\d+$/);
+                    number = parseInt(number, 10);
+                    console.log("number", number);
                 }).add();
             }
         }
