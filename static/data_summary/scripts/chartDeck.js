@@ -32,7 +32,7 @@ var plotOptions = {
                 click : function() {
                     var feature = this.series.name;
                     var value = this.name;
-                    selectionCriteria.addCriteria(feature, value);
+                    selCrit.addCriteria(feature, value);
                     redrawCharts();
                 }
             }

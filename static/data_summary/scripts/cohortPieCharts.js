@@ -44,10 +44,17 @@ Highcharts.setOptions({
                     var containerDivId = this.parentNode.parentNode.parentNode.parentNode.id;
                     var number = containerDivId.replace(/_container$/, "").match(/\d+$/);
                     number = parseInt(number, 10);
+
                     var chart = chartDeck.getDeck()[number].getChart();
                     var title = chart.options.title.text;
                     var visiblePoints = getChartVisiblePoints(chart);
-                    console.log(title, visiblePoints);
+
+                    var sc = new selectionCriteria();
+                    for (var i = 0; i < visiblePoints.length; i++) {
+                        var featureVal = visiblePoints[i];
+                        sc.addCriteria(title, featureVal);
+                    }
+                    console.log(prettyJson(sc));
                 }).add();
             }
         }
@@ -64,7 +71,7 @@ function createCrumbButton(feature, value) {
     }, function() {
         this.innerHTML = innerHtml;
     }).click(function() {
-        selectionCriteria.removeCriteria(feature, value);
+        selCrit.removeCriteria(feature, value);
         redrawCharts();
     });
     return buttonElement;
@@ -117,11 +124,11 @@ function moveChartUp(promotedChartDiv) {
  * Redraw pie charts using the current selectionCriteria object.
  */
 function redrawCharts() {
-    var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
+    var selectedIds = cohort.selectIds(selCrit.getCriteria());
 
     chartDeck.updateCharts(selectedIds, cohort);
 
-    updateChartCrumbs(selectionCriteria);
+    updateChartCrumbs(selCrit);
 }
 
 /**
@@ -179,16 +186,16 @@ function initializeCharts(chartFeatures) {
     }
 
     // draw charts
-    var selectedIds = cohort.selectIds(selectionCriteria.getCriteria());
+    var selectedIds = cohort.selectIds(selCrit.getCriteria());
     chartDeck.createCharts(selectedIds, cohort);
 
     // update crumbs
-    updateChartCrumbs(selectionCriteria);
+    updateChartCrumbs(selCrit);
 }
 
 var chartDeck = new chartDeck();
 
-var selectionCriteria = new selectionCriteria();
+var selCrit = new selectionCriteria();
 var cohort = null;
 
 function getDatatypeData(url) {
@@ -364,7 +371,7 @@ window.onload = function() {
     // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
     // console.log(c);
 
-    selectionCriteria.clearCriteria();
+    selCrit.clearCriteria();
 
     initializeCharts(selectedFeatures);
 };
