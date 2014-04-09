@@ -29,6 +29,7 @@ Highcharts.setOptions({
             load : function() {
                 // clickable 'move to top' text
                 this.renderer.text("move to top", 3, 11).attr({
+                    "class" : "moveToTopText",
                     "cursor" : "pointer"
                 }).on("click", function() {
                     var chartDivElement = this.parentNode.parentNode.parentNode;
@@ -37,6 +38,7 @@ Highcharts.setOptions({
 
                 // clickable testing text
                 this.renderer.text("test", 3, 22).attr({
+                    "class" : "testText",
                     "cursor" : "pointer"
                 }).on("click", function() {
                     var containerDivId = this.parentNode.parentNode.parentNode.parentNode.id;
