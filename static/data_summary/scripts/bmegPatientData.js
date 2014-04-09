@@ -248,13 +248,17 @@ function cohortData(deserializedCohortJson) {
      * selectionCriteria is an Array of objects{feature,value}.
      */
     this.selectIds = function(selectionCriteria) {
+        // TODO needs an "or" mode
+        // TODO incorrect usage of selectionCriteria here. Using an array instead of the object.
         var ids = this.getAllPatientIds();
         if (selectionCriteria.length == 0) {
             return ids;
         }
-        for (var i in selectionCriteria) {
+        for (var i = 0; i < selectionCriteria.length; i++) {
             var feature = selectionCriteria[i]["feature"];
             var value = selectionCriteria[i]["value"];
+
+            console.log(feature, value);
 
             ids = this.selectPatients(ids, feature, value);
         }
@@ -270,7 +274,7 @@ function cohortData(deserializedCohortJson) {
         for (var i in startingIds) {
             var id = startingIds[i];
             var patientVal = this.getPatientVal(id, feature);
-            if ((patientVal != '__NOT_SET__') && (patientVal == value)) {
+            if ((patientVal !== '__NOT_SET__') && (patientVal === value)) {
                 keptIds.push(id);
             }
         }

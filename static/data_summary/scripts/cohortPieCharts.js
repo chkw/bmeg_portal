@@ -54,7 +54,8 @@ Highcharts.setOptions({
                         var featureVal = visiblePoints[i];
                         sc.addCriteria(title, featureVal);
                     }
-                    console.log(prettyJson(sc));
+                    var ids = cohort.selectIds(sc.getCriteria());
+                    console.log(ids);
                 }).add();
             }
         }
