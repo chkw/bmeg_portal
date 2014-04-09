@@ -42,10 +42,10 @@ Highcharts.setOptions({
                     "cursor" : "pointer"
                 }).on("click", function() {
                     var containerDivId = this.parentNode.parentNode.parentNode.parentNode.id;
-                    console.log("containerDivId:", containerDivId);
                     var number = containerDivId.replace(/_container$/, "").match(/\d+$/);
                     number = parseInt(number, 10);
-                    console.log("number", number);
+                    var chart = chartDeck.getDeck()[number].getChart();
+                    console.log(chart);
                 }).add();
             }
         }
