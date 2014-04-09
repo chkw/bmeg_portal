@@ -252,3 +252,15 @@ function chartDeck() {
         return this.deck.length;
     };
 }
+
+function getChartVisiblePoints(chart) {
+    var pointNames = [];
+    var seriesData = chart.series[0].data;
+    for (var i = 0; i < seriesData.length; i++) {
+        var point = seriesData[i];
+        if (point.visible) {
+            pointNames.push(point.name);
+        }
+    }
+    return pointNames;
+}

@@ -45,7 +45,9 @@ Highcharts.setOptions({
                     var number = containerDivId.replace(/_container$/, "").match(/\d+$/);
                     number = parseInt(number, 10);
                     var chart = chartDeck.getDeck()[number].getChart();
-                    console.log(chart);
+                    var title = chart.options.title.text;
+                    var visiblePoints = getChartVisiblePoints(chart);
+                    console.log(title, visiblePoints);
                 }).add();
             }
         }
