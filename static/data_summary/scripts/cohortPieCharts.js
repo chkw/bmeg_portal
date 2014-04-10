@@ -49,13 +49,14 @@ Highcharts.setOptions({
                     var title = chart.options.title.text;
                     var visiblePoints = getChartVisiblePoints(chart);
 
-                    var sc = new selectionCriteria();
+                    var ids = [];
                     for (var i = 0; i < visiblePoints.length; i++) {
                         var featureVal = visiblePoints[i];
-                        sc.addCriteria(title, featureVal);
+                        var sc = new selectionCriteria().addCriteria(title, featureVal);
+                        var selectedIds = cohort.selectIds(sc);
+                        ids = ids.concat(selectedIds);
                     }
-                    var ids = cohort.selectIds(sc.getCriteria());
-                    console.log(ids);
+                    console.log("The", ids.length, "IDs from the visible pie slices from", title, "are", ids);
                 }).add();
             }
         }
@@ -86,7 +87,7 @@ function updateChartCrumbs(selectionCriteria) {
     var e = document.getElementById(id);
     e.innerHTML = "applied filters: ";
     var criteria = selectionCriteria.getCriteria();
-    for (var i in criteria) {
+    for (var i = 0; i < criteria.length; i++) {
         var feature = criteria[i]["feature"];
         var value = criteria[i]["value"];
         createCrumbButton(feature, value).appendTo(e);
@@ -125,7 +126,7 @@ function moveChartUp(promotedChartDiv) {
  * Redraw pie charts using the current selectionCriteria object.
  */
 function redrawCharts() {
-    var selectedIds = cohort.selectIds(selCrit.getCriteria());
+    var selectedIds = cohort.selectIds(selCrit);
 
     chartDeck.updateCharts(selectedIds, cohort);
 
@@ -187,7 +188,7 @@ function initializeCharts(chartFeatures) {
     }
 
     // draw charts
-    var selectedIds = cohort.selectIds(selCrit.getCriteria());
+    var selectedIds = cohort.selectIds(selCrit);
     chartDeck.createCharts(selectedIds, cohort);
 
     // update crumbs
