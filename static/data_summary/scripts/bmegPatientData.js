@@ -153,6 +153,8 @@ function cohortData(deserializedCohortJson) {
             for (var j = 0; j < callTypes.length; j++) {
                 var callType = callTypes[j];
                 var idList = callData[callType];
+                // dedup idList
+                idList = eliminateDuplicates(idList);
                 var callType = callType.replace(/^bmeg:/i, "");
                 for (var k = 0; k < idList.length; k++) {
                     var id = idList[k];
@@ -294,4 +296,20 @@ function cohortData(deserializedCohortJson) {
         }
         return ids;
     };
+}
+
+/**
+ * From https://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
+ * @param {Object} arr
+ */
+function eliminateDuplicates(arr) {
+    var i, len = arr.length, out = [], obj = {};
+
+    for ( i = 0; i < len; i++) {
+        obj[arr[i]] = 0;
+    }
+    for (i in obj) {
+        out.push(i);
+    }
+    return out;
 }
