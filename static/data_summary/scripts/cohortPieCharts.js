@@ -45,13 +45,19 @@ Highcharts.setOptions({
                     var number = containerDivId.replace(/_container$/, "").match(/\d+$/);
                     number = parseInt(number, 10);
 
-                    var chart = chartDeck.getDeck()[number].getChart();
-                    var title = chart.options.title.text;
+                    var title = chartDeck.getDeck()[number].getChart().options.title.text;
 
                     var ids = chartDeck.getVisiblePointsIds(title);
-
                     console.log("The", ids.length, "IDs from the visible pie slices from", title, "are", ids);
-                    console.log(cohort);
+
+                    var names = [];
+                    for (var i = 0; i < ids.length; i++) {
+                        var id = ids[i];
+                        var name = cohort.getPatientVal(id, 'name');
+                        names.push(name);
+                    }
+                    names = eliminateDuplicates(names);
+                    console.log("The", names.length, "names from the visible pie slices from", title, "are", names);
                 }).add();
             }
         }
