@@ -47,16 +47,11 @@ Highcharts.setOptions({
 
                     var chart = chartDeck.getDeck()[number].getChart();
                     var title = chart.options.title.text;
-                    var visiblePoints = getChartVisiblePoints(chart);
 
-                    var ids = [];
-                    for (var i = 0; i < visiblePoints.length; i++) {
-                        var featureVal = visiblePoints[i];
-                        var sc = new selectionCriteria().addCriteria(title, featureVal);
-                        var selectedIds = cohort.selectIds(sc);
-                        ids = ids.concat(selectedIds);
-                    }
+                    var ids = chartDeck.getVisiblePointsIds(title);
+
                     console.log("The", ids.length, "IDs from the visible pie slices from", title, "are", ids);
+                    console.log(cohort);
                 }).add();
             }
         }

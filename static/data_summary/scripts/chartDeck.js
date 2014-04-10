@@ -251,16 +251,40 @@ function chartDeck() {
     this.getSize = function() {
         return this.deck.length;
     };
-}
 
-function getChartVisiblePoints(chart) {
-    var pointNames = [];
-    var seriesData = chart.series[0].data;
-    for (var i = 0; i < seriesData.length; i++) {
-        var point = seriesData[i];
-        if (point.visible) {
-            pointNames.push(point.name);
+    this.getVisiblePointsIds = function(chartTitle) {
+        // find chart with matching title
+        var chartObj = null;
+        for (var i = 0; i < this.getSize(); i++) {
+            var chartInfo = this.deck[i];
+            chartObj = chartInfo.getChart();
+            if (chartObj.options.title.text === chartTitle) {
+                break;
+            }
         }
-    }
-    return pointNames;
+        if (chartObj == null) {
+            return [];
+        }
+
+        // find chart's visible points
+        var visiblePoints = [];
+        var seriesData = chartObj.series[0].data;
+        for (var i = 0; i < seriesData.length; i++) {
+            var point = seriesData[i];
+            if (point.visible) {
+                visiblePoints.push(point.name);
+            }
+        }
+
+        // find the IDs in the visible points
+        var ids = [];
+        for (var i = 0; i < visiblePoints.length; i++) {
+            var featureVal = visiblePoints[i];
+            var sc = new selectionCriteria().addCriteria(chartTitle, featureVal);
+            var selectedIds = cohort.selectIds(sc);
+            ids = ids.concat(selectedIds);
+        }
+
+        return eliminateDuplicates(ids);
+    };
 }
