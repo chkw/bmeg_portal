@@ -25,6 +25,7 @@ function selectionCriteria() {
             }
         }
         this.criteria.push(criteria);
+        return this;
     };
 
     this.removeCriteria = function(feature, value) {
@@ -34,10 +35,12 @@ function selectionCriteria() {
                 break;
             }
         }
+        return this;
     };
 
     this.clearCriteria = function() {
         this.criteria.splice(0, this.criteria.length);
+        return this;
     };
 }
 
@@ -244,21 +247,18 @@ function cohortData(deserializedCohortJson) {
     };
 
     /*
-     *Select the IDs based on multiple criteria.
-     * selectionCriteria is an Array of objects{feature,value}.
+     *Select the IDs based on multiple criteria chained with "AND".
      */
     this.selectIds = function(selectionCriteria) {
         // TODO needs an "or" mode
-        // TODO incorrect usage of selectionCriteria here. Using an array instead of the object.
         var ids = this.getAllPatientIds();
-        if (selectionCriteria.length == 0) {
+        if (selectionCriteria.getCriteria().length == 0) {
             return ids;
         }
-        for (var i = 0; i < selectionCriteria.length; i++) {
-            var feature = selectionCriteria[i]["feature"];
-            var value = selectionCriteria[i]["value"];
-
-            console.log(feature, value);
+        var criteria = selectionCriteria.getCriteria();
+        for (var i = 0; i < criteria.length; i++) {
+            var feature = criteria[i]["feature"];
+            var value = criteria[i]["value"];
 
             ids = this.selectPatients(ids, feature, value);
         }
