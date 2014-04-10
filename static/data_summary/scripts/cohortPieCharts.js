@@ -4,13 +4,6 @@
  * Draw pie charts using highcharts (http://www.highcharts.com/).
  */
 
-/**
- * Get a pretty JSON.
- */
-function prettyJson(object) {
-    return JSON.stringify(object, null, '\t');
-}
-
 Highcharts.setOptions({
     chart : {
         // backgroundColor : {
@@ -96,16 +89,6 @@ function updateChartCrumbs(selectionCriteria) {
 }
 
 /**
- * Assumes the parents are divs.
- */
-function swapContainingDivs(nodeA, nodeB) {
-    var parentA = nodeA.parentNode;
-    var parentB = nodeB.parentNode;
-    $("#" + nodeA.id).appendTo(parentB);
-    $("#" + nodeB.id).appendTo(parentA);
-}
-
-/**
  * Move a chart to the top.  Assumes the chart is in a container div.
  */
 function moveChartUp(promotedChartDiv) {
@@ -143,20 +126,6 @@ function initializeChart(containingDivId, title, dataFeature, selectedIds) {
 
     setupChartOptions(containingDivId, dataFeature, data, title, chartOptions);
     return new Highcharts.Chart(chartOptions);
-}
-
-/**
- * Create an unattached div element
- */
-function createDivElement(divId, divClass) {
-    var divTag = document.createElement("div");
-    if (divId != null) {
-        divTag.id = divId;
-    }
-    if (divClass != null) {
-        divTag.className = divClass;
-    }
-    return divTag;
 }
 
 /**
@@ -297,30 +266,6 @@ function setupControls(features, selectedFeatures) {
             "selectedFeatures" : selectedFeatures
         });
     };
-}
-
-/**
- * Get an object with UrlQueryString data.
- */
-function getQueryObj() {
-    var result = {};
-    var keyValuePairs = location.search.slice(1).split('&');
-
-    keyValuePairs.forEach(function(keyValuePair) {
-        keyValuePair = keyValuePair.split('=');
-        result[keyValuePair[0]] = decodeURIComponent(keyValuePair[1]) || '';
-    });
-
-    return result;
-}
-
-/**
- * querySettings is an object to be stringified into the query string.
- * @param {Object} querySettings
- */
-function loadNewSettings(querySettings) {
-    var url = window.location.pathname + "?query=" + JSON.stringify(querySettings);
-    window.open(url, "_self");
 }
 
 function getOtherData(cohortData, selectedFeatures) {

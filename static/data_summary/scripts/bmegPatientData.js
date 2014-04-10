@@ -297,19 +297,3 @@ function cohortData(deserializedCohortJson) {
         return ids;
     };
 }
-
-/**
- * From https://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
- * @param {Object} arr
- */
-function eliminateDuplicates(arr) {
-    var i, len = arr.length, out = [], obj = {};
-
-    for ( i = 0; i < len; i++) {
-        obj[arr[i]] = 0;
-    }
-    for (i in obj) {
-        out.push(i);
-    }
-    return out;
-}

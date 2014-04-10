@@ -78,7 +78,7 @@ function queryBmeg_async(script, successCallback) {
  * @param {Object} serializedJsonResponse
  */
 function logJsonCallback(serializedJsonResponse) {
-    var parsedResponse = JSON && JSON.parse(serializedJsonResponse) || $.parseJSON(serializedJsonResponse);
+    var parsedResponse = parseJson(serializedJsonResponse);
     console.log(prettyJson(parsedResponse));
 }
 
@@ -87,7 +87,7 @@ function logJsonCallback(serializedJsonResponse) {
  * @param {Object} serializedJsonResponse
  */
 function getBmegResultsArray(serializedJsonResponse) {
-    var parsedResponse = JSON && JSON.parse(serializedJsonResponse) || $.parseJSON(serializedJsonResponse);
+    var parsedResponse = parseJson(serializedJsonResponse);
     if ((parsedResponse["success"] == true) && ("results" in parsedResponse)) {
         return parsedResponse["results"];
     } else {
