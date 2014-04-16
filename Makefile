@@ -3,8 +3,12 @@
 PAGE_NAME = data_summary
 
 TARGET_DIR = /data/www/html
+APACHE_WSGI_DIR = /var/www/wsgi
 
 test:
+
+deploy_wsgi:
+	rsync -avP ./*.wsgi $(APACHE_WSGI_DIR)/. ;
 
 deploy:
 	rsync -avP $(PAGE_NAME).html $(TARGET_DIR)/. ;
