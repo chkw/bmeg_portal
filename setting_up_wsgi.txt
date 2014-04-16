@@ -94,3 +94,9 @@ I'm not sure how the portNumber effects the script.
 serve_forever() tells the script to keep serving until the script's process is killed.
 
 One important thing to remember is the URL mapping parameter for the WSGIApplication.  The URLs MUST MATCH the ones specified in httpd.conf file's WSGIScriptAlias.
+https://stackoverflow.com/questions/21378847/running-tornado-in-apache
+
+9) Some other sources of information are listed below:
+	http://www.tornadoweb.org/en/stable/wsgi.html
+	https://docs.python.org/2/library/wsgiref.html
+	http://wsgi.org
