@@ -66,11 +66,12 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 			self.write({"success":False})
 
 # map urls to handlers
+# for WSGI in apache, the URL must match the WSGIScriptAlias in the VirtualHost tag of httpd.conf
 #application = tornado.web.Application([
 application = tornado.wsgi.WSGIApplication([
-	(r"/", MainHandler),
-	(r"/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
-	(r"/query", BmegGremlinQueryHandler)
+	(r"/gremlin", MainHandler),
+	(r"/gremlin/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
+	(r"/gremlin/query", BmegGremlinQueryHandler)
 ])
 
 # start server
