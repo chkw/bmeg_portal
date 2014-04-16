@@ -313,12 +313,6 @@ window.onload = function() {
 
     setupControls(features, selectedFeatures);
 
-    var a = cohort.getPatientCounts(cohort.getAllPatientIds(), "tcga_attr:her2_copy_number");
-    console.log(prettyJson(a.length));
-
-    // var c = cohort.getPatientCounts(cohort.getAllPatientIds(), 'mutation:TP53');
-    // console.log(c);
-
     selCrit.clearCriteria();
 
     initializeCharts(selectedFeatures);
