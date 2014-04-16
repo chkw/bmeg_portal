@@ -1,0 +1,96 @@
+Wed Apr 16 15:40:29 PDT 2014	chrisw
+
+Here are some notes about what I did to set-up Apache + WSGI in CentOS 6.5.
+
+I started by installing an x86_64 CentOS 6.5 (software developer terminal) guest OS in VirtualBox.  This installation comes with Apache 2.2.15 installed.  The host OS is OSX 10.9.2 (Mavericks).
+
+1) apachectl -k start
+This should start the Apache server.  Going to localhost on a web browser should bring up an information screen.  If server is not up, or there is something wrong, there will be an error message.
+
+To restart apache:
+	apachectl -k restart
+
+To stop apache:
+	apachectl -k stop
+
+2) Apache's config file is </etc/httpd/conf/httpd.conf>.  In it, the default document root is specified as </var/www/html>.  I tested this out by putting a test html file in the document root.  Visit <localhost/test.html> in a web browser to view the file.
+
+3) A VirtualHost tag in httpd.conf will map URLs to WSGI scripts.  Here's what I used:
+
+### BEGIN ###
+<VirtualHost *:80>
+
+    ServerName localhost
+    ServerAlias localhost
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www/html
+
+    <Directory /var/www/html>
+    Order allow,deny
+    Allow from all
+    </Directory>
+
+    WSGIScriptAlias /gremlin /var/www/wsgi/gremlin_query_server.wsgi
+
+    <Directory /var/www/wsgi>
+    Order allow,deny
+    Allow from all
+    </Directory>
+
+    WSGIScriptAlias /hello /var/www/wsgi/hello.wsgi
+
+    <Directory /var/www/wsgi>
+    Order allow,deny
+    Allow from all
+    </Directory>
+
+</VirtualHost>
+### END ###
+
+This directs /hello URLs to the hello.wsgi script in /var/www/wsgi directory.  Similarly, /gremlin URLs will go to /var/www/wsgi/gremlin_query_server.wsgi .  Use a directory for WSGI that is distinct from the DocumentRoot so as to avoid exposing code to clients by serving up script files as static content.
+
+4) yum install mod_wsgi.x86_64
+The default installation of Apache does not understand WSGI, so we install mod_wsgi module.
+
+5) The CentOS installation includes Python 2.6.6.  To get WSGI going, we install some python packages:
+	pip install tornado
+	pip install wsgiref
+
+The tornado package required gcc and python-devel packages to be installed:
+	yum install gcc python-devel
+
+6) https://code.google.com/p/modwsgi/wiki/QuickConfigurationGuide
+There is some good information there about different ways that Apache can be configured for WSGI.  I used the first option, embedded.  Daemon mode may be of interest at a later point.
+
+7) There is a test WSGI application at <https://code.google.com/p/modwsgi/wiki/QuickConfigurationGuide> that can be saved as hello.wsgi for testing the configuration.  Here's what it looks like:
+
+### BEGIN ###
+def application(environ, start_response):
+    status = '200 OK'
+    output = 'Hello World!'
+
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(output)))]
+    start_response(status, response_headers)
+
+    return [output]
+### END ###
+
+The file was saved as </var/www/wsgi/hello.wsgi> so that it will be available at <localhost/hello>.
+
+8) I converted my Tornado server script to use WSGI by using:
+	import tornado.wsgi
+	import wsgiref.simple_server
+
+tornado.wsgi.WSGIApplication is similar to tornado.web.Application.  It was sufficient for me to simply replace the web version with the wsgi version, and using the same arguments.
+
+I added the lines:
+	server = wsgiref.simple_server.make_server('', portNumber, application)
+ 	server.serve_forever()
+
+I'm not sure how the portNumber effects the script.
+
+serve_forever() tells the script to keep serving until the script's process is killed.
+
+One important thing to remember is the URL mapping parameter for the WSGIApplication.  The URLs MUST MATCH the ones specified in httpd.conf file's WSGIScriptAlias.
