@@ -7,13 +7,13 @@ A tornado server for submitting Gremlin query scripts to Rexster.
 Requests should have a query parameter, "script", whose value is a Groovy flavored Gremlin script.
 
 """
+import query_gremlin
 
 import sys
 import tornado.ioloop
 import tornado.web
 import tornado.autoreload
 import datetime
-import urllib2
 import json
 
 def getTime():
@@ -37,26 +37,15 @@ def getQueryParams(uri):
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-		self.write("Hello, world.  This is the MainHandler.")
-
-# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
-	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
-	try:
-		response = urllib2.urlopen(url).read()
-# 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
-		return response
-	except Exception, err:
-		sys.stderr.write(str(err) + "\n")
-		sys.stderr.write("url\t" + url + "\n")
-		return {"success":False}
+#  		self.write("Hello, world.  This is the MainHandler.")
+ 		self.write(query_gremlin.test() + " from MainHandler")
 
 # test with: http://localhost:9886/query?script=g.V("name","tcga_attr:FEMALE").in().count()
 class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
 		params = getQueryParams(self.request.uri)
 		if ("script" in params):
-			response = query_bmeg(params["script"])
+			response = query_gremlin.query_bmeg(params["script"])
 			self.write(response)
 		else:
 			self.write({"success":False})
