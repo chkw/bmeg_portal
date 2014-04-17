@@ -244,5 +244,5 @@ function queryDiseaseCode() {
 }
 
 function queryMutationStatus(hugoIdList) {
-    return queryMutationStatus(hugoIdList);
+    return queryMutationStatus_old(hugoIdList);
 }
