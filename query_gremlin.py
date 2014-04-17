@@ -34,3 +34,51 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
 		sys.stderr.write(str(err) + "\n")
 		sys.stderr.write("url\t" + url + "\n")
 		return {"success":False}
+	
+def getAllPatients():
+	script = "g.V('type','tcga_attr:Patient')"
+	return query_bmeg(script)
+
+def queryGender():
+	strList = []
+	strList.append("t=new Table();")
+	strList.append("g.V('type','tcga_attr:Gender')")
+	strList.append(".as('genderV')")
+	strList.append(".in('tcga_attr:gender')")
+	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
+	strList.append(".table(t).cap()")
+	return query_bmeg('' + strList.join())
+
+def queryDiseaseCode():
+	strList = []
+	strList.append("t=new Table();")
+	strList.append("g.V('type','tcga_attr:Patient')")
+	strList.append(".as('patientV')")
+	strList.append(".out('tcga_attr:disease_code')")
+	strList.append(".name.as('diseaseCode')")
+	strList.append(".table(t).cap()")
+	return query_bmeg('' + strList.join())
+	
+def queryMutationStatus(hugoIdList):
+	strList = []
+	strList.append("x=[];")
+	
+	for hugoId in hugoIdList:
+		strList.append("g.V('name','hugo:" + hugoId + "').store(x).next();")
+	
+	strList.append("x._()")
+	strList.append(".as('hugo')")
+	strList.append(".in('bmeg:gene')")
+	strList.append(".as('mutation_event')")
+	strList.append(".out('bmeg:effect')")
+	strList.append(".as('effect')")
+	strList.append(".back('mutation_event')")
+	strList.append(".out('bmeg:analysis')")
+	strList.append(".out('bmeg:variant')")
+	strList.append(".out('tcga_attr:patient')")
+	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
+	strList.append(".table(t).cap()")
+
+	return query_bmeg('' + strList.join())
+	
+	
