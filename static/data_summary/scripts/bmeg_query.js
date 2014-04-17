@@ -98,7 +98,7 @@ function getBmegResultsArray(serializedJsonResponse) {
 /**
  * Synchronously get all patients.
  */
-function getAllPatients() {
+function getAllPatients_old() {
     var script = "g.V('type','tcga_attr:Patient')";
     var results = getBmegResultsArray(queryBmeg_sync(script));
     return results;
@@ -131,7 +131,7 @@ function queryGender_async(callbackFunction) {
 /**
  * Get a table of gender counts
  */
-function queryGender() {
+function queryGender_old() {
     var script = "t=new Table();";
     script += "g.V('type','tcga_attr:Gender')";
     script += ".as('genderV')";
@@ -155,7 +155,7 @@ function queryGender() {
     return genderPatients;
 }
 
-function queryDiseaseCode() {
+function queryDiseaseCode_old() {
     var script = "t=new Table();";
     script += "g.V('type','tcga_attr:Patient')";
     script += ".as('patientV')";
@@ -184,7 +184,7 @@ function queryDiseaseCode() {
  * query: get all patients with mutation in specified hugo
  * @param {Object} hugoId
  */
-function queryMutationStatus(hugoIdList) {
+function queryMutationStatus_old(hugoIdList) {
     var script = "t=new Table();";
     // script += "g.V('name','hugo:" + hugoId + "')";
     // script += "g.V.has('name',T.in," + JSON.stringify(hugoIdList) + ")";
@@ -229,4 +229,20 @@ function queryMutationStatus(hugoIdList) {
         genes[gene][effect].push(patientVId);
     }
     return genes;
+}
+
+function getAllPatients() {
+    return getAllPatients_old();
+}
+
+function queryGender() {
+    return queryGender_old();
+}
+
+function queryDiseaseCode() {
+    return queryDiseaseCode_old();
+}
+
+function queryMutationStatus(hugoIdList) {
+    return queryMutationStatus(hugoIdList);
 }

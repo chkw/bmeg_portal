@@ -35,6 +35,8 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
 		sys.stderr.write("url\t" + url + "\n")
 		return {"success":False}
 	
+### QUERIES ###	
+
 def getAllPatients():
 	script = "g.V('type','tcga_attr:Patient')"
 	return query_bmeg(script)
