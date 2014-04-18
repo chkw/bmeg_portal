@@ -30,10 +30,14 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
 		response = urllib2.urlopen(url).read()
 # 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
 		return response
-	except Exception, err:
-		sys.stderr.write(str(err) + "\n")
-		sys.stderr.write("url\t" + url + "\n")
-		return {"success":False}
+ 	except urllib2.HTTPError, error:
+ 		sys.stderr.write("urllib2.HTTPError\n")
+ 		response = error.read()
+ 		return response
+  	except Exception, err:
+  		sys.stderr.write(str(err) + "\n")
+  		sys.stderr.write("url\t" + url + "\n")
+  		return {"success":False}
 	
 ### QUERIES ###	
 
@@ -49,7 +53,7 @@ def queryGender():
 	strList.append(".in('tcga_attr:gender')")
 	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
 	strList.append(".table(t).cap()")
-	return query_bmeg('' + strList.join())
+	return query_bmeg(''.join(strList))
 
 def queryDiseaseCode():
 	strList = []
@@ -59,7 +63,7 @@ def queryDiseaseCode():
 	strList.append(".out('tcga_attr:disease_code')")
 	strList.append(".name.as('diseaseCode')")
 	strList.append(".table(t).cap()")
-	return query_bmeg('' + strList.join())
+	return query_bmeg(''.join(strList))
 	
 def queryMutationStatus(hugoIdList):
 	strList = []
@@ -81,6 +85,6 @@ def queryMutationStatus(hugoIdList):
 	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
 	strList.append(".table(t).cap()")
 
-	return query_bmeg('' + strList.join())
+	return query_bmeg(''.join(strList))
 	
 	

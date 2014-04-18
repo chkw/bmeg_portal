@@ -15,6 +15,7 @@ import tornado.web
 import tornado.autoreload
 import datetime
 import json
+import urllib2
 
 def getTime():
 	now = datetime.datetime.now()
@@ -24,6 +25,10 @@ def prettyJson(object):
  	jo = (json.loads(object) if (isinstance(object, basestring)) else object)
 	s = json.dumps(jo, sort_keys=True, indent=4, separators=(',', ': '))
 	return s
+
+def urlDecode(encodedString):
+	decodedString = urllib2.unquote(encodedString.encode("utf8"))
+	return decodedString
 
 def getQueryParams(uri):
 	params = dict()
@@ -44,9 +49,25 @@ class MainHandler(tornado.web.RequestHandler):
 class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
 		params = getQueryParams(self.request.uri)
+		# run gremlin script directly from URL query string
 		if ("script" in params):
 			response = query_gremlin.query_bmeg(params["script"])
 			self.write(response)
+		# use URL query string params to build/submit gremlin query
+		elif ("queryObject" in params):
+			queryObject = json.loads(urlDecode(params["queryObject"]))
+			if (not "method" in queryObject):
+				self.write({"success":False})
+				return
+			if (queryObject["method"] == "getAllPatients"):
+				response = query_gremlin.getAllPatients()
+				self.write(response)
+			elif (queryObject["method"] == "queryGender"):
+				response = query_gremlin.queryGender()
+				self.write(response)
+			else:
+				self.write({"success":False})
+		# default response
 		else:
 			self.write({"success":False})
 
