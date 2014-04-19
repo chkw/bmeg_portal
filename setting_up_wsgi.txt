@@ -18,6 +18,7 @@ To stop apache:
 3) A VirtualHost tag in httpd.conf will map URLs to WSGI scripts.  Here's what I used:
 
 ### BEGIN ###
+WSGIPythonPath /var/www/wsgi
 <VirtualHost *:80>
 
     ServerName localhost
@@ -47,6 +48,8 @@ To stop apache:
 
 </VirtualHost>
 ### END ###
+
+The WSGIPythonPath directive that appears right before the VirtualHost tag allows .py files to be imported from the specified directory.  Here, I used the same directory where the .wsgi files will be located.
 
 This directs /hello URLs to the hello.wsgi script in /var/www/wsgi directory.  Similarly, /gremlin URLs will go to /var/www/wsgi/gremlin_query_server.wsgi .  Use a directory for WSGI that is distinct from the DocumentRoot so as to avoid exposing code to clients by serving up script files as static content.
 
