@@ -8,12 +8,15 @@ Methods for building and submitting Groovy-flavored Gremlin query scripts to Rex
 
 import sys
 import datetime
-from urllib import urlencode
+import urllib
 import urllib2
 import json
 
 def test():
 	return (str(getTime()) + ": this is query_gremlin")
+
+def logStdErr(message):
+	sys.stderr.write(str(getTime()) + "\t" + message + "\n")
 
 def getTime():
 	now = datetime.datetime.now()
@@ -26,15 +29,16 @@ def prettyJson(object):
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
 def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
-	queryString = urllib.urlencode(("script", gremlin_script_groovy_flavor))
+	queryMapping = {"script": gremlin_script_groovy_flavor}
+	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
 	try:
 		response = urllib2.urlopen(url).read()
 # 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
 		return response
  	except Exception, err:
-  		sys.stderr.write(str(err) + "\n")
-  		sys.stderr.write("url\t" + url + "\n")
+  		logStdErr(str(err))
+  		logStdErr("url\t" + url)
   		return {"success":False}
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
@@ -45,18 +49,18 @@ def query_bmeg_old(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:
 # 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
 		return response
  	except urllib2.HTTPError, error:
- 		sys.stderr.write("urllib2.HTTPError\n")
+ 		logStdErr("urllib2.HTTPError")
  		response = error.read()
  		return response
   	except Exception, err:
-  		sys.stderr.write(str(err) + "\n")
-  		sys.stderr.write("url\t" + url + "\n")
+  		logStdErr(str(err))
+  		logStdErr("url\t" + url)
   		return {"success":False}
 	
 ### QUERIES ###	
 
 def getAllPatients():
-	script = "g.V('type','tcga_attr:Patient')"
+	script = r"g.V('type','tcga_attr:Patient')"
 	return query_bmeg(script)
 
 def queryGender():
