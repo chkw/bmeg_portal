@@ -9,6 +9,40 @@ var bmeg_service_host = "http://localhost:9886";
 /**
  * Synchronous bmeg query.
  */
+function queryBmeg_sync_2(queryObject) {
+    var serializedQueryObject = JSON.Stringify(queryObject);
+    var url = bmeg_service_host + "/query?queryObject=" + serializedQueryObject;
+    // var url = "/static/data_summary/data/patients.json";
+
+    var response = null;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, false);
+    xhr.onload = function(e) {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                response = xhr.responseText;
+            } else {
+                console.error("error: " + xhr.statusText);
+                console.error("url was: " + url);
+            }
+        } else {
+            console.error("not ready: " + xhr.readyState);
+            console.error("url was: " + url);
+        }
+    };
+    xhr.onerror = function(e) {
+        console.error("error: " + xhr.statusText);
+        console.error("url was: " + url);
+    };
+    xhr.send(null);
+
+    return response;
+}
+
+/**
+ * Synchronous bmeg query.
+ */
 function queryBmeg_sync(script) {
     var query_uri_base = bmeg_service_host + "/query?script=";
     var url = query_uri_base + script;
@@ -232,17 +266,34 @@ function queryMutationStatus_old(hugoIdList) {
 }
 
 function getAllPatients() {
-    return getAllPatients_old();
+    var queryObject = {
+        "method" : "getAllPatients"
+    };
+    return queryBmeg_sync_2(queryObject);
+    // return getAllPatients_old();
 }
 
 function queryGender() {
-    return queryGender_old();
+    var queryObject = {
+        "method" : "queryGender"
+    };
+    return queryBmeg_sync_2(queryObject);
+    // return queryGender_old();
 }
 
 function queryDiseaseCode() {
-    return queryDiseaseCode_old();
+    var queryObject = {
+        "method" : "queryDiseaseCode"
+    };
+    return queryBmeg_sync_2(queryObject);
+    // return queryDiseaseCode_old();
 }
 
 function queryMutationStatus(hugoIdList) {
-    return queryMutationStatus_old(hugoIdList);
+    var queryObject = {
+        "method" : "queryMutationStatus",
+        "hugoIdList" : hugoIdList
+    };
+    return queryBmeg_sync_2(queryObject);
+    // return queryMutationStatus_old(hugoIdList);
 }
