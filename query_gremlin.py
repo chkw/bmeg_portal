@@ -39,7 +39,7 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
  	except Exception, err:
   		logStdErr(str(err))
   		logStdErr("url\t" + url)
-  		return {"success":False}
+  		return {"success":False, "query":gremlin_script_groovy_flavor}
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
 def query_bmeg_old(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
