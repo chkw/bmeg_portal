@@ -55,6 +55,9 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 			elif (queryObject["method"] == "queryGender"):
 				response = query_gremlin.queryGender()
 				self.write(response)
+			elif (queryObject["method"] == "queryDiseaseCode"):
+				response = query_gremlin.queryDiseaseCode()
+				self.write(response)
 			elif (queryObject["method"] == "queryMutationStatus"):
 				bmegQueryParams = queryObject["params"]
 				response = query_gremlin.queryMutationStatus(bmegQueryParams['hugoIdList'])
