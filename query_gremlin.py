@@ -8,6 +8,7 @@ Methods for building and submitting Groovy-flavored Gremlin query scripts to Rex
 
 import sys
 import datetime
+from urllib import urlencode
 import urllib2
 import json
 
@@ -25,6 +26,19 @@ def prettyJson(object):
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
 def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
+	queryString = urllib.urlencode(("script", gremlin_script_groovy_flavor))
+	url = rexster_uri + "?" + queryString
+	try:
+		response = urllib2.urlopen(url).read()
+# 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
+		return response
+ 	except Exception, err:
+  		sys.stderr.write(str(err) + "\n")
+  		sys.stderr.write("url\t" + url + "\n")
+  		return {"success":False}
+
+# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
+def query_bmeg_old(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
 	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
 	try:
 		response = urllib2.urlopen(url).read()
