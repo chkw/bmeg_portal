@@ -9,8 +9,8 @@ var bmeg_service_host = "http://localhost:9886";
 /**
  * Synchronous bmeg query.
  */
-function queryBmeg_sync_2(queryObject) {
-    var serializedQueryObject = JSON.Stringify(queryObject);
+function queryBmeg_sync(queryObject) {
+    var serializedQueryObject = JSON.stringify(queryObject);
     var url = bmeg_service_host + "/query?queryObject=" + serializedQueryObject;
     // var url = "/static/data_summary/data/patients.json";
 
@@ -41,73 +41,6 @@ function queryBmeg_sync_2(queryObject) {
 }
 
 /**
- * Synchronous bmeg query.
- */
-function queryBmeg_sync(script) {
-    var query_uri_base = bmeg_service_host + "/query?script=";
-    var url = query_uri_base + script;
-    // var url = "/static/data_summary/data/patients.json";
-
-    var response = null;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, false);
-    xhr.onload = function(e) {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                response = xhr.responseText;
-            } else {
-                console.error("error: " + xhr.statusText);
-                console.error("url was: " + url);
-            }
-        } else {
-            console.error("not ready: " + xhr.readyState);
-            console.error("url was: " + url);
-        }
-    };
-    xhr.onerror = function(e) {
-        console.error("error: " + xhr.statusText);
-        console.error("url was: " + url);
-    };
-    xhr.send(null);
-
-    return response;
-}
-
-/**
- * Read this: http://blog.getify.com/native-javascript-sync-async/
- * https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
- * @param {Object} script
- * @param {Object} successCallback
- */
-function queryBmeg_async(script, successCallback) {
-    var query_uri_base = bmeg_service_host + "/query?script=";
-    var url = query_uri_base + script;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-    xhr.onload = function(e) {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                if (successCallback == null) {
-                    logJsonCallback(xhr.responseText);
-                } else {
-                    successCallback(xhr.responseText);
-                }
-            } else {
-                console.error("error: " + xhr.statusText);
-                console.error("url was: " + url);
-            }
-        }
-    };
-    xhr.onerror = function(e) {
-        console.error("error: " + xhr.statusText);
-        console.error("url was: " + url);
-    };
-    xhr.send(null);
-}
-
-/**
  * A callback function to be used as a default.
  * @param {Object} serializedJsonResponse
  */
@@ -129,51 +62,20 @@ function getBmegResultsArray(serializedJsonResponse) {
     }
 }
 
-/**
- * Synchronously get all patients.
- */
-function getAllPatients_old() {
-    var script = "g.V('type','tcga_attr:Patient')";
-    var results = getBmegResultsArray(queryBmeg_sync(script));
-    return results;
+function getAllPatients() {
+    var queryObject = {
+        "method" : "getAllPatients"
+    };
+    var response = queryBmeg_sync(queryObject);
+    return getBmegResultsArray(response);
 }
 
-/**
- * Get a table of gender counts
- *
- * @param {Object} callbackFunction
- */
-function queryGender_async(callbackFunction) {
-    var script = "t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('patientVId').table(t).cap()";
-    queryBmeg_async(script, function(response) {
-        var results = getBmegResultsArray(response);
-        var genderPatients = {};
-        for (var i = 0; i < results[0].length; i++) {
-            var row = results[0][i];
-            var id = row['patientVId'];
-            var gender = row['genderV']['name'];
-            if ( gender in genderPatients) {
-            } else {
-                genderPatients[gender] = [];
-            }
-            genderPatients[gender].push(id);
-        }
-        (callbackFunction != null) ? callbackFunction(genderPatients) : console.log(genderPatients);
-    });
-}
+function queryGender() {
+    var queryObject = {
+        "method" : "queryGender"
+    };
 
-/**
- * Get a table of gender counts
- */
-function queryGender_old() {
-    var script = "t=new Table();";
-    script += "g.V('type','tcga_attr:Gender')";
-    script += ".as('genderV')";
-    script += ".in('tcga_attr:gender')";
-    script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
-    script += ".table(t).cap()";
-
-    var results = getBmegResultsArray(queryBmeg_sync(script));
+    var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var genderPatients = {};
     for (var i = 0; i < results[0].length; i++) {
@@ -189,15 +91,12 @@ function queryGender_old() {
     return genderPatients;
 }
 
-function queryDiseaseCode_old() {
-    var script = "t=new Table();";
-    script += "g.V('type','tcga_attr:Patient')";
-    script += ".as('patientV')";
-    script += ".out('tcga_attr:disease_code')";
-    script += ".name.as('diseaseCode')";
-    script += ".table(t).cap()";
+function queryDiseaseCode() {
+    var queryObject = {
+        "method" : "queryDiseaseCode"
+    };
 
-    var results = getBmegResultsArray(queryBmeg_sync(script));
+    var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var diseasePatients = {};
     for (var i = 0; i < results[0].length; i++) {
@@ -214,35 +113,15 @@ function queryDiseaseCode_old() {
     return diseasePatients;
 }
 
-/**
- * query: get all patients with mutation in specified hugo
- * @param {Object} hugoId
- */
-function queryMutationStatus_old(hugoIdList) {
-    var script = "t=new Table();";
-    // script += "g.V('name','hugo:" + hugoId + "')";
-    // script += "g.V.has('name',T.in," + JSON.stringify(hugoIdList) + ")";
-    // TODO for performance reasons, may be better to use "store" with "g.V('name',name)"
-    script += "x=[];";
-    for (var i = 0; i < hugoIdList.length; i++) {
-        var hugoId = hugoIdList[i];
-        script += "g.V('name','hugo:" + hugoId + "').store(x).next();";
-    }
-    script += "x._()";
+function queryMutationStatus(hugoIdList) {
+    var queryObject = {
+        "method" : "queryMutationStatus",
+        "params" : {
+            "hugoIdList" : hugoIdList
+        }
+    };
 
-    script += ".as('hugo')";
-    script += ".in('bmeg:gene')";
-    script += ".as('mutation_event')";
-    script += ".out('bmeg:effect')";
-    script += ".as('effect')";
-    script += ".back('mutation_event')";
-    script += ".out('bmeg:analysis')";
-    script += ".out('bmeg:variant')";
-    script += ".out('tcga_attr:patient')";
-    script += ".has('type','tcga_attr:Patient').id.as('patientVId')";
-    script += ".table(t).cap()";
-
-    var results = getBmegResultsArray(queryBmeg_sync(script));
+    var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var genes = {};
     for (var i = 0; i < results[0].length; i++) {
@@ -263,37 +142,4 @@ function queryMutationStatus_old(hugoIdList) {
         genes[gene][effect].push(patientVId);
     }
     return genes;
-}
-
-function getAllPatients() {
-    var queryObject = {
-        "method" : "getAllPatients"
-    };
-    return queryBmeg_sync_2(queryObject);
-    // return getAllPatients_old();
-}
-
-function queryGender() {
-    var queryObject = {
-        "method" : "queryGender"
-    };
-    return queryBmeg_sync_2(queryObject);
-    // return queryGender_old();
-}
-
-function queryDiseaseCode() {
-    var queryObject = {
-        "method" : "queryDiseaseCode"
-    };
-    return queryBmeg_sync_2(queryObject);
-    // return queryDiseaseCode_old();
-}
-
-function queryMutationStatus(hugoIdList) {
-    var queryObject = {
-        "method" : "queryMutationStatus",
-        "hugoIdList" : hugoIdList
-    };
-    return queryBmeg_sync_2(queryObject);
-    // return queryMutationStatus_old(hugoIdList);
 }
