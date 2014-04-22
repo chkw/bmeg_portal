@@ -85,6 +85,7 @@ def queryDiseaseCode():
 	
 def queryMutationStatus(hugoIdList):
 	strList = []
+	strList.append("t=new Table();")
 	strList.append("x=[];")
 	
 	for hugoId in hugoIdList:
