@@ -117,8 +117,7 @@ Basically, the app mostly lives in the guestOS except for the Titan stack.
 1) Setup VirtualBox to allow guestOS to make requests to hostOS.
 	A) Create a "host-only" network adapter on the VirtualBox hostOS (vboxnet0).
 	B) Create a "host-only" network adapter on the VirtualBox guestOS that connectes to the one from A.
-	C) Set hostOS to allow remote connections via "system prefs" -> "sharing" -> "remote login"
-	D) Should now be able to SSH from guestOS to hostOS.  Also, should be able to view host's Rexster webpage in a guestOS web browser.
+	C) Should be able to view host's Rexster webpage in a guestOS web browser.
 
 2) Now, when I went to try to view data_summary.html on the guestOS, I was met with something like: <urlopen error [Errno 13] Permission denied>.
 
