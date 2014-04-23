@@ -12,6 +12,8 @@ import urllib
 import urllib2
 import json
 
+rexsterHostUrl = r"http://localhost:8182"
+
 def test():
 	return (str(getTime()) + ": this is query_gremlin")
 
@@ -28,7 +30,7 @@ def prettyJson(object):
 	return s
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
+def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterHostUrl + r"/graphs/graph/tp/gremlin"):
 	queryMapping = {"script": gremlin_script_groovy_flavor}
 	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
@@ -39,23 +41,7 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182
  	except Exception, err:
   		logStdErr(str(err))
   		logStdErr("url\t" + url)
-  		return {"success":False, "query":gremlin_script_groovy_flavor}
-
-# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg_old(gremlin_script_groovy_flavor, rexster_uri=r"http://localhost:8182/graphs/graph/tp/gremlin"):
-	url = rexster_uri + "?script=" + gremlin_script_groovy_flavor
-	try:
-		response = urllib2.urlopen(url).read()
-# 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
-		return response
- 	except urllib2.HTTPError, error:
- 		logStdErr("urllib2.HTTPError")
- 		response = error.read()
- 		return response
-  	except Exception, err:
-  		logStdErr(str(err))
-  		logStdErr("url\t" + url)
-  		return {"success":False}
+  		return {"success":False, "query":gremlin_script_groovy_flavor, "error":str(err)}
 	
 ### QUERIES ###	
 
