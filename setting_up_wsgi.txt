@@ -103,3 +103,24 @@ https://stackoverflow.com/questions/21378847/running-tornado-in-apache
 	http://www.tornadoweb.org/en/stable/wsgi.html
 	https://docs.python.org/2/library/wsgiref.html
 	http://wsgi.org
+
+###############################
+Wed Apr 23 15:22:48 PDT 2014	chrisw
+
+I ran into some trouble when trying visiting localhost/data_summary.html with the following client-server setup:
+
+* Apache + mod_wsgi on guestOS (CentOS 6.5)
+* Titan + Rexster on hostOS (OSX 10.9.2)
+
+Basically, the app mostly lives in the guestOS except for the Titan stack.
+
+1) Setup VirtualBox to allow guestOS to make requests to hostOS.
+	A) Create a "host-only" network adapter on the VirtualBox hostOS (vboxnet0).
+	B) Create a "host-only" network adapter on the VirtualBox guestOS that connectes to the one from A.
+	C) Set hostOS to allow remote connections via "system prefs" -> "sharing" -> "remote login"
+	D) Should now be able to SSH from guestOS to hostOS.  Also, should be able to view host's Rexster webpage in a guestOS web browser.
+
+2) Now, when I went to try to view data_summary.html on the guestOS, I was met with something like: <urlopen error [Errno 13] Permission denied>.
+
+3) The problem is SELinux is blocking Apache from submitting the request to hostOS's Rexster.  To prevent this from happening, I disabled SELinux by editing the SELinux config file (/etc/selinux/config).  This is a temporary solution that I read about at <http://www.how2centos.com/disable-selinux-centos-6/>.
+###############################
