@@ -4,7 +4,7 @@
  * bmeg_query.js contains methods to make queries to BMEG and parse the response.
  */
 
-var bmeg_service_host = "http://localhost:9886";
+var bmeg_service_host = "";
 
 /**
  * Synchronous bmeg query.
