@@ -13,6 +13,7 @@ import urllib2
 import json
 
 rexsterHostUrl = r"http://localhost:8182"
+# rexsterHostUrl = r"http://192.168.56.1:8182"
 
 def test():
 	return (str(getTime()) + ": this is query_gremlin")

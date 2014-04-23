@@ -5,6 +5,7 @@
  */
 
 var bmeg_service_host = "";
+// var bmeg_service_host = "/gremlin";
 
 /**
  * Synchronous bmeg query.
