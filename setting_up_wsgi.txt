@@ -122,4 +122,9 @@ Basically, the app mostly lives in the guestOS except for the Titan stack.
 2) Now, when I went to try to view data_summary.html on the guestOS, I was met with something like: <urlopen error [Errno 13] Permission denied>.
 
 3) The problem is SELinux is blocking Apache from submitting the request to hostOS's Rexster.  To prevent this from happening, I disabled SELinux by editing the SELinux config file (/etc/selinux/config).  This is a temporary solution that I read about at <http://www.how2centos.com/disable-selinux-centos-6/>.
+
 ###############################
+Fri Apr 25 12:28:10 PDT 2014	chrisw
+
+After being unable to reach the webpage on guestOS from hostOS, I realized that the CentOS firewall may be blocking the required ports for incoming http.  I used the GUI to open the ports 80 and 443, and now seems to work.
+
