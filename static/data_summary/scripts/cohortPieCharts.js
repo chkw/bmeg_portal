@@ -40,7 +40,9 @@ Highcharts.setOptions({
 
                     var title = chartDeck.getDeck()[number].getChart().options.title.text;
 
-                    var ids = chartDeck.getVisiblePointsIds(title);
+                    var unfilteredIds = cohort.selectIds(selCrit);
+
+                    var ids = chartDeck.getVisiblePointsIds(title, unfilteredIds);
                     console.log("The", ids.length, "IDs from the visible pie slices from", title, "are", ids);
 
                     var names = [];

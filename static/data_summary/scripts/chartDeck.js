@@ -252,7 +252,7 @@ function chartDeck() {
         return this.deck.length;
     };
 
-    this.getVisiblePointsIds = function(chartTitle) {
+    this.getVisiblePointsIds = function(chartTitle, idListPool) {
         // find chart with matching title
         var chartObj = null;
         for (var i = 0; i < this.getSize(); i++) {
@@ -285,6 +285,13 @@ function chartDeck() {
             ids = ids.concat(selectedIds);
         }
 
-        return eliminateDuplicates(ids);
+        // visible IDs
+        ids = eliminateDuplicates(ids);
+        // add ID list pool
+        ids = ids.concat(idListPool);
+        // only IDs from both list
+        ids = keepReplicates(ids);
+
+        return ids;
     };
 }
