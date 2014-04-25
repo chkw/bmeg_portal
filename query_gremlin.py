@@ -11,9 +11,11 @@ import datetime
 import urllib
 import urllib2
 import json
+import ConfigParser
 
-rexsterHostUrl = r"http://localhost:8182"
-# rexsterHostUrl = r"http://192.168.56.1:8182"
+config = ConfigParser.ConfigParser({'host':'localhost', 'port':'8182'})
+config.read('query_gremlin.cfg')
+rexsterServerUrl = "http://" + config.get('rexster', 'host') + ":" + config.get('rexster', 'port')
 
 def test():
 	return (str(getTime()) + ": this is query_gremlin")
@@ -31,7 +33,7 @@ def prettyJson(object):
 	return s
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterHostUrl + r"/graphs/graph/tp/gremlin"):
+def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin"):
 	queryMapping = {"script": gremlin_script_groovy_flavor}
 	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
