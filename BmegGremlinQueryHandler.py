@@ -37,13 +37,13 @@ def getQueryParams(uri):
 		params[strings[0]] = strings[1]
 	return params
 
-def generate_session():
-	return base64.b64encode(os.urandom(16))
+def generate_sessionId():
+	return str(base64.b64encode(os.urandom(16))).replace('==', '')
 
 def getSessionId(requestHandler):
 	sessionId = requestHandler.get_cookie('sessionId')
 	if not sessionId:
-		requestHandler.set_cookie('sessionId', str(generate_session()).replace('==', ''))
+		requestHandler.set_cookie('sessionId', generate_sessionId())
 	return requestHandler.get_cookie('sessionId')
 
 # test with: http://localhost:9886/query?script=g.V("name","tcga_attr:FEMALE").in().count()
