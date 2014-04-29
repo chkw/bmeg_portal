@@ -1,0 +1,32 @@
+Tue Apr 29 12:50:51 PDT 2014	chrisw
+
+These are notes about how I installed mongodb in CentOS 6.5 (64-bit).  The system is a virtualbox guestOS.
+I followed the steps at:
+http://docs.mongodb.org/manual/tutorial/install-mongodb-on-red-hat-centos-or-fedora-linux/
+
+1) Configure YUM by creating </etc/yum.repos.d/mongodb.repo> file.  The contents are:
+
+[mongodb]
+name=MongoDB Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgcheck=0
+enabled=1
+
+2) Install via yum with <sudo yum install mongodb-org>.
+
+3) Start mongod with <sudo service mongod start>.
+This actually didn't work for me.  There were error messages:
+
+2014-04-29T14:56:47.548-0700 [initandlisten] ERROR: Insufficient free space for journal files
+2014-04-29T14:56:47.548-0700 [initandlisten] Please make at least 3379MB available in /var/db/journal or use --smallfiles
+2014-04-29T14:56:47.548-0700 [initandlisten] 
+2014-04-29T14:56:47.548-0700 [initandlisten] exception in initAndListen: 15926 Insufficient free space for journals, terminating
+
+At first, I made sure /var/db existed.
+
+Next, I tried the --smallfiles option, which seems like it works.  The command to start mongod was:
+
+sudo mongod --dbpath /var/db --smallfiles
+
+4) Connect to mongod via <mongo>.4) Connect to mongod via <mongo>.4) Connect to mongod via <mongo>.4) Connect to mongod via <mongo>.
+
