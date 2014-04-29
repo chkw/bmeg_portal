@@ -12,6 +12,7 @@ deploy: deploy_wsgi deploy_client
 deploy_wsgi:
 	rsync -avP ./*.wsgi $(APACHE_WSGI_DIR)/. ;
 	rsync -avP ./*.py $(APACHE_WSGI_DIR)/. --exclude="bmeg_server.py" --delete-excluded ;
+	rsync -avP ./*.cfg $(APACHE_WSGI_DIR)/. ;
 
 deploy_client:
 	rsync -avP static/$(PAGE_NAME).html $(APACHE_STATIC_DIR)/. ;
