@@ -12,6 +12,8 @@ import json
 import tornado.web
 import urllib2
 
+import os, base64
+
 def getTime():
 	now = datetime.datetime.now()
 	return now
@@ -35,9 +37,20 @@ def getQueryParams(uri):
 		params[strings[0]] = strings[1]
 	return params
 
+def generate_session():
+	return base64.b64encode(os.urandom(16))
+
+def getSessionId(requestHandler):
+	sessionId = requestHandler.get_cookie('sessionId')
+	if not sessionId:
+		requestHandler.set_cookie('sessionId', str(generate_session()).replace('==', ''))
+	return requestHandler.get_cookie('sessionId')
+
 # test with: http://localhost:9886/query?script=g.V("name","tcga_attr:FEMALE").in().count()
 class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
+		getSessionId(self)
+		
 		params = getQueryParams(self.request.uri)
 		# run gremlin script directly from URL query string
 		if ("script" in params):
