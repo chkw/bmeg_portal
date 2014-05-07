@@ -40,5 +40,4 @@ def writeSession(id, data, collectionName='sessions'):
 	
 	db[collectionName].insert(input)
 
-	
-	
+	client.disconnect()
