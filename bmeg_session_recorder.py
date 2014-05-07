@@ -33,19 +33,23 @@ def prettyJson(object):
 	return s
 
 def getRecords(id, collectionName='sessions'):
-	logStdErr('getRecords')
-	result = db[collectionName].find({'id':id}).sort('timeStamp').count()
-	logStdErr(str(result))
-	
-	client.close()
+	try:
+		cursor = db[collectionName].find({'id':id})
+		for doc in cursor:
+			id = doc['id']
+			objectId = doc['_id']  # bson.objectid.ObjectId
+			logStdErr(str(objectId))
+	except Exception, err:
+		logStdErr('error with getRecords: ' + str(err))
+#  	client.disconnect()
 
 def writeSession(id, data, collectionName='sessions'):
-	logStdErr('writeSession')
 	input = {}
 	input['id'] = id
 	input['timeStamp'] = getTime()
 	input['queryObject'] = data
-	
-	db[collectionName].insert(input)
-
-	client.disconnect()
+	try:
+		db[collectionName].insert(input)
+	except Exception, err:
+		logStdErr('error with writeSession: ' + str(err))
+#  	client.disconnect()
