@@ -4,6 +4,7 @@ April 2014	chrisw
 A tornado.web.RequestHandler for handling requests for BMEG query results.
 
 """
+import bmeg_session_recorder
 import query_gremlin
 
 import sys
@@ -49,7 +50,7 @@ def getSessionId(requestHandler):
 # test with: http://localhost:9886/query?script=g.V("name","tcga_attr:FEMALE").in().count()
 class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 	def get(self):
-		getSessionId(self)
+		id = getSessionId(self)
 		
 		params = getQueryParams(self.request.uri)
 		# run gremlin script directly from URL query string
@@ -59,6 +60,7 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 		# use URL query string params to build/submit gremlin query
 		elif ("queryObject" in params):
 			queryObject = json.loads(urlDecode(params["queryObject"]))
+			bmeg_session_recorder.writeSession(id, queryObject)
 			if (not "method" in queryObject):
 				self.write({"success":False})
 				return

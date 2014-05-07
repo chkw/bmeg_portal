@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """query_gremlin.py:
 April 2014	chrisw
 
@@ -14,7 +13,7 @@ import json
 import ConfigParser
 
 config = ConfigParser.ConfigParser({'host':'localhost', 'port':'8182'})
-config.read('query_gremlin.cfg')
+config.read('bmeg.cfg')
 rexsterServerUrl = "http://" + config.get('rexster', 'host') + ":" + config.get('rexster', 'port')
 
 def test():
