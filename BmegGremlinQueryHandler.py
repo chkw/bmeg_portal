@@ -61,6 +61,7 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 		elif ("queryObject" in params):
 			queryObject = json.loads(urlDecode(params["queryObject"]))
 			bmeg_session_recorder.writeSession(id, queryObject)
+ 			bmeg_session_recorder.getRecords(id)
 			if (not "method" in queryObject):
 				self.write({"success":False})
 				return

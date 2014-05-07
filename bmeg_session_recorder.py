@@ -21,7 +21,7 @@ def test():
 	return (str(getTime()) + ": this is query_gremlin")
 
 def logStdErr(message):
-	sys.stderr.write(str(getTime()) + "\t" + message + "\n")
+	sys.stderr.write(str(getTime()) + "\tbmeg_session_recorder\t" + message + "\n")
 
 def getTime():
 	now = datetime.datetime.now()
@@ -32,11 +32,19 @@ def prettyJson(object):
 	s = json.dumps(jo, sort_keys=True, indent=4, separators=(',', ': '))
 	return s
 
+def getRecords(id, collectionName='sessions'):
+	logStdErr('getRecords')
+	result = db[collectionName].find({'id':id}).sort('timeStamp').count()
+	logStdErr(str(result))
+	
+	client.close()
+
 def writeSession(id, data, collectionName='sessions'):
-	logStdErr('bmeg_session_recorder.writeSession')
+	logStdErr('writeSession')
 	input = {}
 	input['id'] = id
 	input['timeStamp'] = getTime()
+	input['queryObject'] = data
 	
 	db[collectionName].insert(input)
 
