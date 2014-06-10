@@ -32,8 +32,10 @@ def prettyJson(object):
 	return s
 
 # query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin"):
+def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
 	queryMapping = {"script": gremlin_script_groovy_flavor}
+	if logQuery:
+		logStdErr(prettyJson(queryMapping))
 	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
 	try:
