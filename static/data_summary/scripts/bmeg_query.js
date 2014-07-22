@@ -4,7 +4,10 @@
  * bmeg_query.js contains methods to make queries to BMEG and parse the response.
  */
 
+// config1
 var bmeg_service_host = "";
+
+// config2
 // var bmeg_service_host = "/gremlin";
 
 /**
