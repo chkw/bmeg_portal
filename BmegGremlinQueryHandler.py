@@ -15,6 +15,9 @@ import urllib2
 
 import os, base64
 
+def test():
+	return query_gremlin.test()
+
 def getTime():
 	now = datetime.datetime.now()
 	return now
@@ -82,4 +85,4 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 				self.write({"success":False})
 		# default response
 		else:
-			self.write({"success":False})
+			self.write({"success":False,"test":test(),"message":"no query object"})

@@ -14,7 +14,7 @@ import wsgiref.simple_server
 
 class MainHandler(tornado.web.RequestHandler):
 	def get(self):
-		self.write(query_gremlin.test() + " from MainHandler")
+		self.write(BmegGremlinQueryHandler.test() + " from MainHandler")
 
 # map urls to handlers
 # for WSGI in apache, the URL must match the WSGIScriptAlias in the VirtualHost tag of httpd.conf
