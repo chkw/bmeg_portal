@@ -108,6 +108,14 @@ function cohortData(deserializedCohortJson) {
     // set the cohort data
     this.cohort = this.loadData(deserializedCohortJson);
 
+    /**
+     * Add a blank patient with an ID.
+     */
+    this.addPatient = function(id) {
+        this.cohort[id] = {};
+        return new patientData(this.cohort[id]);
+    };
+
     this.addGenderData = function(genderData) {
         for (var gender in genderData) {
             var idList = genderData[gender];
@@ -116,7 +124,9 @@ function cohortData(deserializedCohortJson) {
                 var id = idList[i];
                 var patientData = this.getPatient(id);
                 if (patientData == null) {
-                    console.error('no patient with id ' + id);
+                    // console.error('no patient with id ' + id);
+                    var newPatient = this.addPatient(id);
+                    newPatient.setValue("gender", gender);
                 } else {
                     patientData.setValue("gender", gender);
                 }
@@ -133,7 +143,9 @@ function cohortData(deserializedCohortJson) {
                 var id = idList[i];
                 var patientData = this.getPatient(id);
                 if (patientData == null) {
-                    console.error('no patient with id ' + id);
+                    // console.error('no patient with id ' + id);
+                    var newPatient = this.addPatient(id);
+                    newPatient.setValue("diseaseCode", disease);
                 } else {
                     patientData.setValue("diseaseCode", disease);
                 }
@@ -160,7 +172,9 @@ function cohortData(deserializedCohortJson) {
                     var id = idList[k];
                     var patientData = this.getPatient(id);
                     if (patientData == null) {
-                        console.error('no patient with id ' + id);
+                        // console.error('no patient with id ' + id);
+                        var newPatient = this.addPatient(id);
+                        newPatient.setMutation(gene, callType);
                     } else {
                         patientData.setMutation(gene, callType);
                     }
