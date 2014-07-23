@@ -16,7 +16,19 @@ edit:
 	\
 	mv 1.tmp static/$(PAGE_NAME)/scripts/bmeg_query.js ;
 	\
-	rm -f 1.tmp ;
+	echo "set path to config file" ;
+	\
+	sed -e "s,config.read('bmeg.cfg'),config.read('/var/www/wsgi/bmeg.cfg')," bmeg_session_recorder.py \
+	> 2.tmp ;
+	\
+	mv 2.tmp bmeg_session_recorder.py ;
+	\
+	sed -e "s,config.read('bmeg.cfg'),config.read('/var/www/wsgi/bmeg.cfg')," query_gremlin.py \
+	> 3.tmp ;
+	\
+	mv 3.tmp query_gremlin.py ;
+	\
+	rm -f 1.tmp 2.tmp 3.tmp ;
 	\
 
 deploy: deploy_wsgi deploy_client
