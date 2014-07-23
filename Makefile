@@ -7,6 +7,18 @@ APACHE_WSGI_DIR = /var/www/wsgi
 
 test:
 
+edit:
+	echo "set path to query server" ;
+	\
+	sed -e 's,bmeg_service_host = "",bmeg_service_host = "/gremlin",' \
+		static/$(PAGE_NAME)/scripts/bmeg_query.js \
+	> 1.tmp ;
+	\
+	mv 1.tmp static/$(PAGE_NAME)/scripts/bmeg_query.js ;
+	\
+	rm -f 1.tmp ;
+	\
+
 deploy: deploy_wsgi deploy_client
 
 deploy_wsgi:
