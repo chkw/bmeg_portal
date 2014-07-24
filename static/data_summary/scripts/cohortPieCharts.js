@@ -177,7 +177,7 @@ function getDatatypeData(url) {
     if (response == null) {
         return new Object();
     }
-    var parsedResponse = JSON && JSON.parse(response) || $.parseJSON(response);
+    var parsedResponse = parseJson(response);
     var contents = parsedResponse["contents"];
     var datatypeData = d3.tsv.parse(contents);
     var datatypesObj = new Object();
@@ -292,17 +292,19 @@ window.onload = function() {
     } else {
         queryObject["query"] = "[]";
     }
-    queryObject = JSON && JSON.parse(queryObject["query"]) || $.parseJSON(queryObject["query"]);
+    queryObject = parseJson(queryObject["query"]);
     var selectedFeatures = ("selectedFeatures" in queryObject) ? queryObject["selectedFeatures"] : [];
 
     if (selectedFeatures.length == 0) {
         selectedFeatures.push('diseaseCode');
     }
 
-    var p = getAllPatients();
-    cohort = new cohortData(p);
+    //var p = getAllPatients();
+    //cohort = new cohortData(p);
 
-    cohort.addGenderData(queryGender());
+    cohort = new cohortData([]);
+
+    //cohort.addGenderData(queryGender());
     cohort.addDiseaseCodeData(queryDiseaseCode());
 
     // cohort.addMutationData(queryMutationStatus(["TP53"]));
