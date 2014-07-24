@@ -79,6 +79,11 @@ function queryGender() {
     var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var genderPatients = {};
+
+    if (results.length == 0) {
+        return genderPatients;
+    }
+
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
         var id = row['patientVId'];
@@ -100,6 +105,11 @@ function queryDiseaseCode() {
     var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var diseasePatients = {};
+
+    if (results.length == 0) {
+        return diseasePatients;
+    }
+
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
         var diseaseCode = row['diseaseCode'];
