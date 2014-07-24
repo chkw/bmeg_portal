@@ -135,6 +135,11 @@ function queryMutationStatus(hugoIdList) {
     var results = getBmegResultsArray(queryBmeg_sync(queryObject));
 
     var genes = {};
+
+    if (results.length == 0) {
+        return genes;
+    }
+
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
         var patientVId = row['patientVId'];
