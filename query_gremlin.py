@@ -47,14 +47,13 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/g
   		logStdErr("url\t" + url)
   		return {"success":False, "query":gremlin_script_groovy_flavor, "error":str(err)}
   	
-def query_bmeg_paged(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
+def query_bmeg_paged(gremlin_script_groovy_flavor, batch_size=3000, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
 	# get total number of records
 	query_result = query_bmeg(gremlin_script_groovy_flavor + '.count()')
 	total_count = json.loads(query_result)['results'][0]
 	
 	# get tuples of start,end indices
 	start = 0
-	batch_size = 1000
 	end = batch_size
 	batch_indices = []
 	while end < total_count:
