@@ -12,10 +12,10 @@ import datetime
 import json
 import ConfigParser
 
-config = ConfigParser.ConfigParser({'host':'localhost', 'port':'27017'})
+config = ConfigParser.ConfigParser({'host':'localhost', 'port':'27017', 'db':'bmeg_sessions'})
 config.read('bmeg.cfg')
 client = pymongo.MongoClient(config.get('mongod', 'host'), int(config.get('mongod', 'port'), 0))
-db = client['bmeg_sessions']
+db = client[config.get('mongod', 'db')]
 
 def test():
 	return (str(getTime()) + ": this is query_gremlin")

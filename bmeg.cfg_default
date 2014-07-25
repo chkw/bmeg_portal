@@ -1,5 +1,5 @@
 [rexster]
-host = bmeg.soe.ucsc.edu
+host = localhost
 port = 8182
 
 [mongod]

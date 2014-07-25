@@ -46,14 +46,59 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/g
   		logStdErr(str(err))
   		logStdErr("url\t" + url)
   		return {"success":False, "query":gremlin_script_groovy_flavor, "error":str(err)}
+  	
+def query_bmeg_paged(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
+	# get total number of records
+	query_result = query_bmeg(gremlin_script_groovy_flavor + '.count()')
+	total_count = json.loads(query_result)['results'][0]
+	
+	# get tuples of start,end indices
+	start = 0
+	batch_size = 1000
+	end = batch_size
+	batch_indices = []
+	while end < total_count:
+		batch_indices.append((str(start), str(end)))
+		start += (batch_size + 1)
+		end += (batch_size + 1)
+	if end >= total_count:
+		end = total_count - 1
+		batch_indices.append((start, end))
+		
+	# get paged results
+	pages = []
+	for batch in batch_indices:
+		start = batch[0]
+		end = batch[1]
+		query_result = query_bmeg(gremlin_script_groovy_flavor + '[' + str(start) + '..' + str(end) + ']')
+		pages.append(query_result)
+		
+	# assemble paged results into one result
+	completeResult = {}
+	completeResult['success'] = True
+	completeResult['results'] = []
+	
+	for page in pages:
+		partialResult = json.loads(page)
+		success = partialResult['success']
+		if (not success):
+			completeResult['success'] = False
+		completeResult['results'] = completeResult['results'] + partialResult['results']
+	
+	return completeResult
 	
 ### QUERIES ###	
 
 def getAllPatients():
-	script = r"g.V('type','tcga_attr:Patient')"
-	return query_bmeg(script)
+	return getAllPatientIdByIndex()
+
+def getAllPatientIdByIndex():
+	script = r"g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().id"
+	result = query_bmeg_paged(script)
+	return result
 
 def queryGender():
+# 	t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('patientVId').table(t).cap()
 	strList = []
 	strList.append("t=new Table();")
 	strList.append("g.V('type','tcga_attr:Gender')")
