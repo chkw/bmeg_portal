@@ -94,6 +94,14 @@ def getAllPatients():
 def getAllPatientIdByIndex():
 	script = r"g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().id"
 	result = query_bmeg_paged(script)
+	
+	idList = result['results']
+	result['results'] = []
+	for id in idList:
+		patient = {}
+		patient['_id'] = str(id)
+		result['results'].append(patient)
+	
 	return result
 
 def queryGender():
