@@ -34,11 +34,13 @@ def prettyJson(object):
 
 def getRecords(id, collectionName='sessions'):
 	try:
-		cursor = db[collectionName].find({'id':id})
+		mongoIdList = []
+		cursor = db[collectionName].find({'id':id}).sort('timeStamp', pymongo.DESCENDING)
 		for doc in cursor:
 			id = doc['id']
 			objectId = doc['_id']  # bson.objectid.ObjectId
-			logStdErr(str(objectId))
+			mongoIdList.append(objectId)
+		logStdErr(str(len(mongoIdList)) + ' docs: ' + str(mongoIdList))
 	except Exception, err:
 		logStdErr('error with getRecords: ' + str(err))
 #  	client.disconnect()
