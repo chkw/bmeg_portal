@@ -112,8 +112,8 @@ function queryDiseaseCode() {
 
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
-        var diseaseCode = row['diseaseCode'];
-        var patientId = row['patientV']['_id'];
+        var diseaseCode = row['j'];
+        var patientId = row['i'];
         if ( diseaseCode in diseasePatients) {
 
         } else {
@@ -142,9 +142,9 @@ function queryMutationStatus(hugoIdList) {
 
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
-        var patientVId = row['patientVId'];
-        var effect = row['effect']['name'];
-        var gene = row['hugo']['name'];
+        var patientVId = row['id'];
+        var effect = row['effect'];
+        var gene = row['hugo'];
 
         if ( gene in genes) {
             if ( effect in genes[gene]) {

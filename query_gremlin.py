@@ -38,6 +38,7 @@ def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/g
 		logStdErr(prettyJson(queryMapping))
 	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
+	logStdErr(str(url))
 	try:
 		response = urllib2.urlopen(url).read()
 # 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
@@ -116,30 +117,19 @@ def queryGender():
 	return query_bmeg(''.join(strList))
 
 def queryDiseaseCode():
-# "t=new Table();g.V('type','tcga_attr:Patient').as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()"
-# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()
+# 	http://localhost:9886/query?queryObject={%22method%22:%22queryDiseaseCode%22}
+# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().as('i').out('tcga_attr:disease_code').name.as('j').table(t){it.id}{it}.cap()
 	strList = []
 	strList.append("t=new Table();")
 	strList.append("g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._()")
-	strList.append(".as('patientV')")
+	strList.append(".as('i')")
 	strList.append(".out('tcga_attr:disease_code')")
-	strList.append(".name.as('diseaseCode')")
-	strList.append(".table(t).cap()")
-	return query_bmeg(''.join(strList))
-
-def queryDiseaseCode_old():
-# "t=new Table();g.V('type','tcga_attr:Patient').as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()"
-# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()
-	strList = []
-	strList.append("t=new Table();")
-	strList.append("g.V('type','tcga_attr:Patient')")
-	strList.append(".as('patientV')")
-	strList.append(".out('tcga_attr:disease_code')")
-	strList.append(".name.as('diseaseCode')")
-	strList.append(".table(t).cap()")
+	strList.append(".name.as('j')")
+	strList.append(".table(t){it.id}{it}.cap()")
 	return query_bmeg(''.join(strList))
 	
 def queryMutationStatus(hugoIdList):
+# 	http://localhost:9886/query?queryObject={%22method%22:%22queryMutationStatus%22,%22params%22:{%22hugoIdList%22:[%22TP53%22,%22SPOP%22]}}
 	strList = []
 	strList.append("t=new Table();")
 	strList.append("x=[];")
@@ -157,8 +147,8 @@ def queryMutationStatus(hugoIdList):
 	strList.append(".out('bmeg:analysis')")
 	strList.append(".out('bmeg:variant')")
 	strList.append(".out('tcga_attr:patient')")
-	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
-	strList.append(".table(t).cap()")
+	strList.append(".has('type','tcga_attr:Patient').id.as('id')")
+	strList.append(".table(t){it.name}{}{it.name}{it}.cap()")
 
 	return query_bmeg(''.join(strList))
 	
