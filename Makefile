@@ -7,6 +7,11 @@ APACHE_WSGI_DIR = /var/www/wsgi
 
 test:
 
+update:
+	git checkout -- * ;
+	\
+	git pull
+
 edit:
 	echo "set path to query server" ;
 	\
@@ -31,7 +36,9 @@ edit:
 	rm -f 1.tmp 2.tmp 3.tmp ;
 	\
 
-deploy: deploy_wsgi deploy_client
+deploy: update edit deploy_wsgi deploy_client
+	~/apache_restart.sh ;
+	\
 
 deploy_wsgi:
 	rsync -avP ./*.wsgi $(APACHE_WSGI_DIR)/. ;
