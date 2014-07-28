@@ -86,8 +86,8 @@ function queryGender() {
 
     for (var i = 0; i < results[0].length; i++) {
         var row = results[0][i];
-        var id = row['patientVId'];
-        var gender = row['genderV']['name'];
+        var id = row['b'];
+        var gender = row['a'];
         if ( gender in genderPatients) {
         } else {
             genderPatients[gender] = [];

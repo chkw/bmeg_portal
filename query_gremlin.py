@@ -106,14 +106,14 @@ def getAllPatientIdByIndex():
 	return result
 
 def queryGender():
-# 	t=new Table();g.V('type','tcga_attr:Gender').as('genderV').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('patientVId').table(t).cap()
+# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Gender').vertices()._().as('a').in('tcga_attr:gender').has('type','tcga_attr:Patient').id.as('b').table(t){it.name}{it}.cap()
 	strList = []
 	strList.append("t=new Table();")
-	strList.append("g.V('type','tcga_attr:Gender')")
-	strList.append(".as('genderV')")
+	strList.append("g.query().has('type', EQUAL, 'tcga_attr:Gender').vertices()._()")
+	strList.append(".as('a')")
 	strList.append(".in('tcga_attr:gender')")
-	strList.append(".has('type','tcga_attr:Patient').id.as('patientVId')")
-	strList.append(".table(t).cap()")
+	strList.append(".has('type','tcga_attr:Patient').id.as('b')")
+	strList.append(".table(t){it.name}{it}.cap()")
 	return query_bmeg(''.join(strList))
 
 def queryDiseaseCode():
