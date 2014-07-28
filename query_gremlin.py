@@ -116,6 +116,20 @@ def queryGender():
 	return query_bmeg(''.join(strList))
 
 def queryDiseaseCode():
+# "t=new Table();g.V('type','tcga_attr:Patient').as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()"
+# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()
+	strList = []
+	strList.append("t=new Table();")
+	strList.append("g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._()")
+	strList.append(".as('patientV')")
+	strList.append(".out('tcga_attr:disease_code')")
+	strList.append(".name.as('diseaseCode')")
+	strList.append(".table(t).cap()")
+	return query_bmeg(''.join(strList))
+
+def queryDiseaseCode_old():
+# "t=new Table();g.V('type','tcga_attr:Patient').as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()"
+# 	t=new Table();g.query().has('type', EQUAL, 'tcga_attr:Patient').vertices()._().as('patientV').out('tcga_attr:disease_code').name.as('diseaseCode').table(t).cap()
 	strList = []
 	strList.append("t=new Table();")
 	strList.append("g.V('type','tcga_attr:Patient')")
