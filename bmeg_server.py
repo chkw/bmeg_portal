@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """bmeg_server.py:
 March 2014	chrisw
 

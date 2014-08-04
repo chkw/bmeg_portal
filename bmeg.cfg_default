@@ -6,3 +6,6 @@ port = 8182
 host = localhost
 port = 27017
 db = bmeg_sessions
+
+[memcached]
+server = localhost

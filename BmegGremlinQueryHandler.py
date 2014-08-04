@@ -6,6 +6,7 @@ A tornado.web.RequestHandler for handling requests for BMEG query results.
 """
 import bmeg_session_recorder
 import query_gremlin
+import memcached_check
 
 import sys
 import datetime

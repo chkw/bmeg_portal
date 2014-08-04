@@ -146,8 +146,7 @@ def queryMutationStatus(hugoIdList):
 	strList.append(".back('mutation_event')")
 	strList.append(".out('bmeg:analysis')")
 	strList.append(".out('bmeg:variant')")
-	strList.append(".out('tcga_attr:patient')")
-	strList.append(".has('type','tcga_attr:Patient').id.as('id')")
+	strList.append(".out('tcga_attr:patient').id.as('id')")
 	strList.append(".table(t){it.name}{}{it.name}{it}.cap()")
 
 	return query_bmeg(''.join(strList))
