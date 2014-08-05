@@ -244,7 +244,7 @@ function setupControls(features, selectedFeatures) {
     }
 
     // options for select.js
-    $(".chosen-select").chosen({
+    $(".selectFeatures").chosen({
         "search_contains" : true
     });
 
