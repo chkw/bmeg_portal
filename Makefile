@@ -33,7 +33,12 @@ edit:
 	\
 	mv 3.tmp query_gremlin.py ;
 	\
-	rm -f 1.tmp 2.tmp 3.tmp ;
+	sed -e "s,config.read('bmeg.cfg'),config.read('/var/www/wsgi/bmeg.cfg')," memcached_check.py \
+	> 4.tmp ;
+	\
+	mv 4.tmp memcached_check.py ;
+	\
+	rm -f 1.tmp 2.tmp 3.tmp 4.tmp ;
 	\
 
 deploy: update edit deploy_wsgi deploy_client
