@@ -6,7 +6,6 @@ A tornado.web.RequestHandler for handling requests for BMEG query results.
 """
 import bmeg_session_recorder
 import query_gremlin
-import memcached_check
 
 import sys
 import datetime
@@ -86,4 +85,4 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 				self.write({"success":False})
 		# default response
 		else:
-			self.write({"success":False,"test":test(),"message":"no query object"})
+			self.write({"success":False, "test":test(), "message":"no query object"})

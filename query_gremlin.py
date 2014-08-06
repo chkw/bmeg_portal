@@ -11,6 +11,7 @@ import urllib
 import urllib2
 import json
 import ConfigParser
+import memcached_check
 
 config = ConfigParser.ConfigParser({'host':'localhost', 'port':'8182'})
 config.read('bmeg.cfg')
@@ -31,24 +32,38 @@ def prettyJson(object):
 	s = json.dumps(jo, sort_keys=True, indent=4, separators=(',', ': '))
 	return s
 
-# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension				
-def query_bmeg(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
+# built url for gremlin-extension https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension
+def build_query_url(gremlin_script_groovy_flavor, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", log=False):
 	queryMapping = {"script": gremlin_script_groovy_flavor}
-	if logQuery:
-		logStdErr(prettyJson(queryMapping))
 	queryString = urllib.urlencode(queryMapping)
 	url = rexster_uri + "?" + queryString
-	logStdErr(str(url))
+	if log:
+		logStdErr(prettyJson(queryMapping))
+		logStdErr(str(url))
+	return url
+
+# query rexster as in https://github.com/tinkerpop/rexster/wiki/Gremlin-Extension
+def query_bmeg_no_memcache(gremlin_script_groovy_flavor):
+	url = build_query_url(gremlin_script_groovy_flavor)
 	try:
 		response = urllib2.urlopen(url).read()
-# 		sys.stderr.write("response\t" + prettyJson(response) + "\n")
 		return response
  	except Exception, err:
   		logStdErr(str(err))
   		logStdErr("url\t" + url)
   		return {"success":False, "query":gremlin_script_groovy_flavor, "error":str(err)}
   	
-def query_bmeg_paged(gremlin_script_groovy_flavor, batch_size=3000, rexster_uri=rexsterServerUrl + r"/graphs/graph/tp/gremlin", logQuery=False):
+# query bmeg, but first check memcached
+def query_bmeg(gremlin_script_groovy_flavor):
+	key = gremlin_script_groovy_flavor
+	obj = memcached_check.getCache(key)
+	if not obj:
+		obj = query_bmeg_no_memcache(gremlin_script_groovy_flavor)
+		memcached_check.setCache(key, obj)
+
+	return obj
+
+def query_bmeg_paged(gremlin_script_groovy_flavor, batch_size=3000):
 	# get total number of records
 	query_result = query_bmeg(gremlin_script_groovy_flavor + '.count()')
 	total_count = json.loads(query_result)['results'][0]
