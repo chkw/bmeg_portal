@@ -81,6 +81,10 @@ class BmegGremlinQueryHandler(tornado.web.RequestHandler):
 				bmegQueryParams = queryObject["params"]
 				response = query_gremlin.queryMutationStatus(bmegQueryParams['hugoIdList'])
 				self.write(response)
+			elif (queryObject["method"] == "queryHugoSymbol"):
+				bmegQueryParams = queryObject["params"]
+				response = query_gremlin.queryHugoSymbol(bmegQueryParams['searchString'])
+				self.write(response)
 			else:
 				self.write({"success":False})
 		# default response

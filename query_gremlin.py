@@ -2,6 +2,7 @@
 April 2014	chrisw
 
 Methods for building and submitting Groovy-flavored Gremlin query scripts to Rexster.
+Using titan's indexing backend: https://github.com/thinkaurelius/titan/wiki/Indexing-Backend-Overview
 
 """
 
@@ -166,4 +167,14 @@ def queryMutationStatus(hugoIdList):
 
 	return query_bmeg(''.join(strList))
 	
-	
+def queryHugoSymbol(str):
+# g.query().has('type', EQUAL, 'bmeg:HugoGene').has("name", CONTAINS_PREFIX, "hugo:TP").vertices()._().name
+	strList = []
+	strList.append("g.query().has('type', EQUAL, 'bmeg:HugoGene')")
+	strList.append(".has('name', CONTAINS_PREFIX, 'hugo:" + str + "')")
+	strList.append(".vertices()._()")
+	strList.append(".name")
+	# TODO result will be a JSON object {"results":["hugo:TP53","hugo:TP73", ... ]}
+	strList = []
+	strList.append("g.query().has('type', EQUAL, 'tcga_attr:Gender').has('type', CONTAINS_PREFIX, 'T').vertices()._().name")
+	return query_bmeg(''.join(strList))
