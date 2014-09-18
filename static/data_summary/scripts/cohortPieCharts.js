@@ -268,6 +268,13 @@ function setupControls(features, selectedFeatures) {
             "selectedFeatures" : selectedFeatures
         });
     };
+
+    buttonElement = document.getElementById("testButton");
+    buttonElement.onclick = function() {
+        var searchString = getSpecifiedGene();
+        var geneList = queryHugoSymbol(searchString);
+        console.log(prettyJson(geneList));
+    };
 }
 
 function getOtherData(cohortData, selectedFeatures) {

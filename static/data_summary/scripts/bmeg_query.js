@@ -131,9 +131,7 @@ function queryMutationStatus(hugoIdList) {
             "hugoIdList" : hugoIdList
         }
     };
-
     var results = getBmegResultsArray(queryBmeg_sync(queryObject));
-
     var genes = {};
 
     if (results.length == 0) {
@@ -158,4 +156,25 @@ function queryMutationStatus(hugoIdList) {
         genes[gene][effect].push(patientVId);
     }
     return genes;
+}
+
+function queryHugoSymbol(str) {
+    var queryObject = {
+        "method" : "queryHugoSymbol",
+        "params" : {
+            "searchString" : str
+        }
+    };
+    var results = getBmegResultsArray(queryBmeg_sync(queryObject));
+    var symbols = [];
+
+    if (results.length == 0) {
+        return symbols;
+    }
+
+    for (var i = 0; i < results.length; i++) {
+        var name = results[i];
+        symbols.push(name.replace(/^hugo:/, ''));
+    }
+    return symbols.sort();
 }
