@@ -1,14 +1,11 @@
 /*tutorial for 3-column pages --> http://www.boutell.com/newfaq/creating/threecolumnlayout.html*/
-
 html {
     font-family: Verdana;
 }
-
 table {
     font-size: smaller;
     font-weight: normal;
     /*background-color: orange*/
-
 }
 .header {
     text-align: center;
@@ -19,7 +16,6 @@ table {
     /*border-color: gray*/
 }
 .content {
-
 }
 article.first {
     float: left;
@@ -60,5 +56,8 @@ article.last {
     vertical-align: bottom
 }
 .selectFeatures {
+    width: 400px
+}
+.selectHugo {
     width: 400px
 }

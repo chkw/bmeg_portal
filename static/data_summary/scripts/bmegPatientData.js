@@ -78,6 +78,9 @@ function patientData(data) {
         }
     };
 
+    /**
+     * Get the features that have been recorded for this patient.
+     */
     this.getFeatures = function() {
         var features = [];
         for (var key in this.data) {

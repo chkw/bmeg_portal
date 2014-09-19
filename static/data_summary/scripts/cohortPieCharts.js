@@ -216,32 +216,42 @@ function getSpecifiedGene() {
     return geneName;
 }
 
-function setupControls(features, selectedFeatures) {
-    var featuresForOptions = features.slice(0);
+/**
+ * A static method to set the options for a select box control.
+ * @param {Object} selectElem
+ * @param {Object} options
+ * @param {Object} selectedOptions
+ */
+function setSelectOptions(selectElem, options, selectedOptions) {
+    var featuresForOptions = options.slice(0);
 
-    var selectTag = document.getElementsByClassName("selectFeatures")[0];
+    var selectTag = selectElem;
 
-    // make sure selected features appear in the select box
-    if (selectedFeatures != null) {
-        for (var i = 0; i < selectedFeatures.length; i++) {
-            var selectedFeature = selectedFeatures[i];
-            if (featuresForOptions.indexOf(selectedFeature) == -1) {
-                featuresForOptions.push(selectedFeature);
+    // make sure selected options appear in the select box
+    if (selectedOptions != null) {
+        for (var i = 0; i < selectedOptions.length; i++) {
+            var selectedOption = selectedOptions[i];
+            if (featuresForOptions.indexOf(selectedOption) == -1) {
+                featuresForOptions.push(selectedOption);
             }
         }
     }
 
-    // add options
+    // add options to select element
     for (var i = 0; i < featuresForOptions.length; i++) {
         var feature = featuresForOptions[i];
         var optionTag = document.createElement("option");
         optionTag["value"] = feature;
         optionTag.innerHTML = feature.replace(/_/g, " ");
-        if ((selectedFeatures != null) && (selectedFeatures.indexOf(feature) >= 0)) {
+        if ((selectedOptions != null) && (selectedOptions.indexOf(feature) >= 0)) {
             optionTag["defaultSelected"] = true;
         }
         selectTag.appendChild(optionTag);
     }
+}
+
+function setupControls(features, selectedFeatures) {
+    setSelectOptions(document.getElementsByClassName("selectFeatures")[0], features, selectedFeatures);
 
     // options for select.js
     $(".selectFeatures").chosen({
@@ -269,9 +279,14 @@ function setupControls(features, selectedFeatures) {
         });
     };
 
-    buttonElement = document.getElementById("testButton");
+    $(".selectHugo").chosen({
+        "search_contains" : true
+    });
+
+    buttonElement = document.getElementById("selectHugoButton");
     buttonElement.onclick = function() {
-        var searchString = getSpecifiedGene();
+        var searchString = document.forms.chartForm.selectHugo.value;
+        console.log('searchString: ' + searchString);
         var geneList = queryHugoSymbol(searchString);
         console.log(prettyJson(geneList));
     };
