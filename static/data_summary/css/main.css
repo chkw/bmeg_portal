@@ -61,3 +61,7 @@ article.last {
 .selectHugo {
     width: 400px
 }
+
+.hidden {
+    display: none
+}
