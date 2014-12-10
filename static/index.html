@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>index.html</title>
+		<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+		<link type="text/css" rel="stylesheet" href="index.css" />
+
+		<noscript>
+			<div align="center">
+				<p style="color:black;background-color:red;font-size:18pt">
+					This website requires JavaScript.  Please turn on JavaScript and then <a href="">try it again</a>.
+				</p>
+			</div>
+		</noscript>
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-aria/angular-aria.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/hammerjs/hammer.js"></script>
+		<script src="bower_components/angular-material/angular-material.js"></script>
+		<script type="text/javascript" src="index.js"></script>
+	</head>
+	<body ng-app="ngDemo1">
+		<header class="header">
+			<!-- <h1> Welcome To BMEG </h1> -->
+		</header>
+		<div class="content">
+			<div ng-controller="SideNavCtrl" layout="column" layout-fill>
+				<section layout="row" flex>
+					<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
+						<md-toolbar class="md-theme-indigo">
+							<h1 class="md-toolbar-tools">(BMEG logo here)</h1>
+						</md-toolbar>
+						<md-content class="md-padding" ng-controller="LeftCtrl">
+							<md-button ng-click="close()" class="md-primary" hide-gt-md>
+								Close Sidenav Left
+							</md-button>
+							<p hide show-gt-md>
+								This sidenav is locked open on your device. To go back to the default behavior,
+								narrow your display.
+							</p>
+						</md-content>
+					</md-sidenav>
+					<md-content flex class="md-padding">
+						<div layout="column" layout-fill layout-align="center center">
+							<p>
+								The left sidenav will 'lock open' on a medium (>=960px wide) device.
+							</p>
+							<div>
+								<md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+									Toggle left
+								</md-button>
+							</div>
+						</div>
+					</md-content>
+				</section>
+			</div>
+		</div>
+		<footer class="footer"></footer>
+
+		<!-- It seems that these angular files need to go in this section, at the end of the body tag.  The scripts must run at this point in the DOM construction. -->
+		<!-- <script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-aria/angular-aria.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/hammerjs/hammer.js"></script>
+		<script src="bower_components/angular-material/angular-material.js"></script>
+		<script type="text/javascript" src="index.js"></script> -->
+
+	</body>
+</html>

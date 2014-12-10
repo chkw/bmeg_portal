@@ -1,0 +1,9 @@
+Fri Dec  5 11:25:01 PST 2014	chrisw
+
+urls:
+ICGC/TCGA PanCancer --> http://pancancer.info/
+TCGA live --> https://www.synapse.org/#!Synapse:syn2812961
+ICGC-TCGA DREAM Genomic Mutation Calling Challenge --> https://www.synapse.org/#!Synapse:syn312572
+ICGC-TCGA DREAM Somatic Mutation Calling - RNA Challenge (SMC-RNA) --> https://www.synapse.org/#!Synapse:syn2813589
+ICGC-TCGA DREAM Somatic Mutation Calling - Tumour Heterogeneity Challenge (SMC-Het) --> https://www.synapse.org/#!Synapse:syn2813581
+
