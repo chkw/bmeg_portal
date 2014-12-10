@@ -27,7 +27,7 @@
 			<!-- <h1> Welcome To BMEG </h1> -->
 		</header>
 		<div class="content">
-			<div ng-controller="SideNavCtrl" layout="column" layout-fill>
+			<div ng-controller="SideNavCtrl as menu" layout="column" layout-fill>
 				<section layout="row" flex>
 					<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
 						<md-toolbar class="md-theme-indigo">
@@ -41,8 +41,18 @@
 								This sidenav is locked open on your device. To go back to the default behavior,
 								narrow your display.
 							</p>
+							<div ng-repeat="section in menu.sections">
+
+								<button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
+									{{section.name}}
+								</button>
+
+								<a class="menu-item menu-sub-item md-menu-item" ng-show="menu.isSectionSelected(section)" ng-repeat="page in section.pages" ng-href="#{{page.url}}" md-highlight="menu.isPageSelected(section, page)" md-ink-ripple="#bbb"> <span ng-bind="page | humanizeDoc"></span> </a>
+
+							</div>
 						</md-content>
 					</md-sidenav>
+
 					<md-content flex class="md-padding">
 						<div layout="column" layout-fill layout-align="center center">
 							<p>

@@ -15,17 +15,29 @@
     });
 
     app.controller('SideNavCtrl', function($scope, $timeout, $mdSidenav) {
+        this.sections = [{
+            'name' : 'About BMEG'
+        }, {
+            'name' : 'Projects'
+        }, {
+            'name' : 'Data'
+        }];
+
         $scope.toggleLeft = function() {
             $mdSidenav('left').toggle();
         };
         $scope.toggleRight = function() {
             $mdSidenav('right').toggle();
         };
-    }).controller('LeftCtrl', function($scope, $timeout, $mdSidenav) {
+    });
+
+    app.controller('LeftCtrl', function($scope, $timeout, $mdSidenav) {
         $scope.close = function() {
             $mdSidenav('left').close();
         };
-    }).controller('RightCtrl', function($scope, $timeout, $mdSidenav) {
+    });
+
+    app.controller('RightCtrl', function($scope, $timeout, $mdSidenav) {
         $scope.close = function() {
             $mdSidenav('right').close();
         };
