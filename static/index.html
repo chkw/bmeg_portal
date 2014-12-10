@@ -5,7 +5,8 @@
 		<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
 		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
-		<link type="text/css" rel="stylesheet" href="index.css" />
+		<!-- <link type="text/css" rel="stylesheet" href="index.css" /> -->
+		<link type="text/css" rel="stylesheet" href="example.css" />
 
 		<noscript>
 			<div align="center">
@@ -23,35 +24,90 @@
 		<script type="text/javascript" src="index.js"></script>
 	</head>
 	<body ng-app="ngDemo1">
-		<header class="header">
-			<!-- <h1> Welcome To BMEG </h1> -->
-		</header>
-		<div class="content">
-			<div ng-controller="SideNavCtrl as menu" layout="column" layout-fill>
-				<section layout="row" flex>
-					<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
-						<md-toolbar class="md-theme-indigo">
-							<h1 class="md-toolbar-tools">(BMEG logo here)</h1>
-						</md-toolbar>
-						<md-content class="md-padding" ng-controller="LeftCtrl">
-							<md-button ng-click="close()" class="md-primary" hide-gt-md>
-								Close Sidenav Left
-							</md-button>
-							<p hide show-gt-md>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<div ng-repeat="section in menu.sections">
+		<div ng-controller="SideNavCtrl as menu" layout="column" layout-fill>
+			<section layout="row" flex>
+				<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
+					<!-- <md-toolbar class="md-theme-indigo"> -->
+					<md-toolbar style="min-height: 64px; max-height:64px;" layout="column" class="md-theme-indigo">
+						<h1 class="md-toolbar-tools">(logo) BMEG</h1>
+					</md-toolbar>
+					<md-content class="md-padding" ng-controller="LeftCtrl" style="overflow: auto;">
+						<md-button ng-click="close()" class="md-primary" hide-gt-md>
+							Close Sidenav Left
+						</md-button>
+						<p hide show-gt-md>
+							This sidenav is locked open on your device. To go back to the default behavior,
+							narrow your display.
+						</p>
+						<div ng-repeat="section in menu.sections">
 
-								<button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
-									{{section.name}}
-								</button>
+							<button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
+								{{section.name}}
+							</button>
 
-								<a class="menu-item menu-sub-item md-menu-item" ng-show="menu.isSectionSelected(section)" ng-repeat="page in section.pages" ng-href="#{{page.url}}" md-highlight="menu.isPageSelected(section, page)" md-ink-ripple="#bbb"> <span ng-bind="page | humanizeDoc"></span> </a>
+							<a class="menu-item menu-sub-item md-menu-item" ng-show="menu.isSectionSelected(section)" ng-repeat="page in section.pages" ng-href="#{{page.url}}" md-highlight="menu.isPageSelected(section, page)" md-ink-ripple="#bbb"> <span ng-bind="page | humanizeDoc"></span> </a>
 
-							</div>
-						</md-content>
-					</md-sidenav>
+						</div>
+						<!-- <p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p>
+						<p hide show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p> -->
+					</md-content>
+				</md-sidenav>
+
+				<div layout="column" layout-fill tabIndex="-1">
+
+					<md-toolbar style="min-height: 64px; max-height:64px;" layout="column" class="md-theme-indigo">
+						<h1 class="md-toolbar-tools">UCSC BioMedical Evidence Graph</h1>
+					</md-toolbar>
 
 					<md-content flex class="md-padding">
 						<div layout="column" layout-fill layout-align="center center">
@@ -65,18 +121,9 @@
 							</div>
 						</div>
 					</md-content>
-				</section>
-			</div>
+
+				</div>
+			</section>
 		</div>
-		<footer class="footer"></footer>
-
-		<!-- It seems that these angular files need to go in this section, at the end of the body tag.  The scripts must run at this point in the DOM construction. -->
-		<!-- <script src="bower_components/angular/angular.js"></script>
-		<script src="bower_components/angular-aria/angular-aria.js"></script>
-		<script src="bower_components/angular-animate/angular-animate.js"></script>
-		<script src="bower_components/hammerjs/hammer.js"></script>
-		<script src="bower_components/angular-material/angular-material.js"></script>
-		<script type="text/javascript" src="index.js"></script> -->
-
 	</body>
 </html>
