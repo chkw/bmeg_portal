@@ -16,11 +16,14 @@
 
     app.controller('SideNavCtrl', function($scope, $timeout, $mdSidenav) {
         this.sections = [{
-            'name' : 'About BMEG'
+            'name' : 'About BMEG',
+            'isSelected' : false
         }, {
-            'name' : 'Projects'
+            'name' : 'Projects',
+            'isSelected' : false
         }, {
-            'name' : 'Data'
+            'name' : 'Data',
+            'isSelected' : false
         }];
 
         $scope.toggleLeft = function() {
@@ -28,6 +31,20 @@
         };
         $scope.toggleRight = function() {
             $mdSidenav('right').toggle();
+        };
+
+        this.toggleSelectSection = function(section) {
+            for (var i = 0; i < this.sections.length; i++) {
+                if (this.sections[i] === section) {
+                    section.isSelected = !section.isSelected;
+                } else {
+                    this.sections[i].isSelected = false;
+                }
+            }
+        };
+
+        this.isSectionSelected = function(section) {
+            return section.isSelected;
         };
     });
 
