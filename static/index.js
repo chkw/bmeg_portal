@@ -19,10 +19,16 @@
             'name' : 'About BMEG',
             'isSelected' : false
         }, {
-            'name' : 'Projects',
+            'name' : 'In The News',
             'isSelected' : false
         }, {
-            'name' : 'Data',
+            'name' : 'DREAM',
+            'isSelected' : false
+        }, {
+            'name' : 'TCGA Live',
+            'isSelected' : false
+        }, {
+            'name' : 'ICGC/TCGA PCAWG',
             'isSelected' : false
         }];
 
@@ -45,6 +51,16 @@
 
         this.isSectionSelected = function(section) {
             return section.isSelected;
+        };
+
+        this.isSectionNameSelected = function(name) {
+            var selected = false;
+            for (var i = 0; i < this.sections.length; i++) {
+                if (this.sections[i].name === name) {
+                    selected = this.sections[i].isSelected;
+                }
+            }
+            return selected;
         };
     });
 

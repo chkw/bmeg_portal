@@ -31,14 +31,14 @@
 					<md-toolbar style="min-height: 64px; max-height:64px;" layout="column" class="md-theme-indigo">
 						<h1 class="md-toolbar-tools">(logo) BMEG</h1>
 					</md-toolbar>
-					<md-content ng-controller="LeftCtrl" style="overflow: auto;">
+					<md-content flex ng-controller="LeftCtrl" style="overflow: auto;">
 						<md-button ng-click="close()" class="md-primary" hide-gt-md>
-							Close Sidenav Left
+							Close Menu
 						</md-button>
-						<p hide show-gt-md>
-							This sidenav is locked open on your device. To go back to the default behavior,
-							narrow your display.
-						</p>
+						<!-- <p show-gt-md>
+						This sidenav is locked open on your device. To go back to the default behavior,
+						narrow your display.
+						</p> -->
 						<div ng-repeat="section in menu.sections">
 
 							<button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
@@ -48,7 +48,7 @@
 							<a class="menu-item menu-sub-item md-menu-item" ng-show="menu.isSectionSelected(section)" ng-repeat="page in section.pages" ng-href="#{{page.url}}" md-highlight="menu.isPageSelected(section, page)" md-ink-ripple="#bbb"> <span ng-bind="page | humanizeDoc"></span> </a>
 
 						</div>
-						<md-content class="md-padding">
+						<md-content hide class="md-padding">
 							<p>
 								This sidenav is locked open on your device. To go back to the default behavior,
 								narrow your display.
@@ -138,17 +138,78 @@
 						<h1 class="md-toolbar-tools">UCSC BioMedical Evidence Graph</h1>
 					</md-toolbar>
 
-					<md-content flex class="md-padding">
-						<div layout="column" layout-fill layout-align="center center">
-							<p>
-								The left sidenav will 'lock open' on a medium (>=960px wide) device.
-							</p>
-							<div>
-								<md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
-									Toggle left
-								</md-button>
-							</div>
-						</div>
+					<md-content layout-fill layout-align="center center" class="md-padding" hide-gt-md>
+						<!-- <div layout="column" layout-fill layout-align="center center">
+						<p hide>
+						The left sidenav will 'lock open' on a medium (>=960px wide) device.
+						</p>
+						<div> -->
+						<md-button ng-click="toggleLeft()" class="md-primary">
+							Menu
+						</md-button>
+						<!-- </div>
+						</div> -->
+					</md-content>
+
+					<md-content ng-show="menu.isSectionNameSelected('About BMEG')" class='md-padding' flex style="overflow: auto;">
+						<h3>What is a BMEG?</h3>
+						<p>
+							Cancer is a disease of the genome, caused by disruptions in a person's DNA. Orders of magnitude decreases in price and increases in sequencing throughput enabled sequencing of hundreds of genomes. This will launch a new phase bf "Precision Medicine," where molecular markers can guide therapies tailored to patients. The genomics revolution is now systematically characterizing every somatic change in every tumor for large cohorts (>300 patients). Despite some successes, predicting cancer outcomes based on molecular signatures remains a major challenge. This proposal aims at obliterating several key roadblocks stymieing progress. First, the raw sequence data is not particularly well-suited for use in developing predictive models. Therefore, gene- and pathway-level evidence will be derived from CGHub to significantly increase the utility of the information for biomedical discovery. The information will be collected in a Social Graph technology framework like Facebook to scale to billions of interconnected objects called the Biomedical Evidence Graph (BMEG). Second, the datasets are so large they are impractical to move around on the internet. Thus, an environment will be created within which researchers can move their code to the vast amounts of data within the BMEG. Third, prediction challenges will be created based on cancer genomics datasets and patient outcomes. While there have been a few successes in predicting outcomes, current approaches suffer from reproducibility and robustness when applied to unseen data. This activity will reach a broad community of algorithm developers, promote transparency and sharing of bioinformatics code, and create a strong network effect to crowd-source the development of the best models for biological discovery. The system constructed will be focused around the investigation of cancer outcomes but the entire pipeline will be of general utility for any number of genome-based projects including investigating any number of disease, stem cell properties, model organisms, and genome-wide association studies. RELEVANCE (See instructions): While we are accumulating vast amounts of information on cancer cells, we are still searching in the dark for clues about predicting treatment strategies. It is of paramount importance to accelerate computational discovery. The creation of the BMEG will catalyze community participation to uncover novel relationships to elucidate new fundamental biology on oncogenesis and therapeutic directions for treating this disease.
+						</p>
+					</md-content>
+
+					<md-content ng-show="menu.isSectionNameSelected('In The News')" class='md-padding' flex style="overflow: auto;">
+						<h3>In The News</h3>
+						<ul>
+							<li>
+								<a target='_bmegOut' href='http://news.ucsc.edu/2013/06/cancer-big-data.html'>http://news.ucsc.edu/2013/06/cancer-big-data.html</a>
+							</li>
+							<li>
+								<a target='_bmegOut' href='https://www.genomeweb.com/informatics/ucsc-designing-social-network-type-model-analyzing-cancer-data'>https://www.genomeweb.com/informatics/ucsc-designing-social-network-type-model-analyzing-cancer-data</a>
+							</li>
+							<li>
+								<a target='_bmegOut' href='http://pharmaceuticalintelligence.com/2012/10/29/cancer-genomics-leading-the-way-by-cancer-genomics-program-at-uc-santa-cruz/'>http://pharmaceuticalintelligence.com/2012/10/29/cancer-genomics-leading-the-way-by-cancer-genomics-program-at-uc-santa-cruz/</a>
+							</li>
+							<li>
+								<a target='_bmegOut' href='http://phys.org/wire-news/132928262/major-grant-funds-ucsc-researchers-using-big-data-to-predict-can.html'>http://phys.org/wire-news/132928262/major-grant-funds-ucsc-researchers-using-big-data-to-predict-can.html</a>
+							</li>
+							<li>
+								<a target='_bmegOut' href='http://googleresearch.blogspot.fr/2014/07/facilitating-genomics-research-with.html'>http://googleresearch.blogspot.fr/2014/07/facilitating-genomics-research-with.html</a>
+							</li>
+
+						</ul>
+					</md-content>
+
+					<md-content ng-show="menu.isSectionNameSelected('DREAM')" class='md-padding' flex style="overflow: auto;">
+						<h3>DREAM Challenges</h3>
+						<dl>
+							<dt>
+								Somantic Mutation Challenge: <a target='_bmegOut' href='https://www.synapse.org/#!Synapse:syn312572'>link</a>
+							</dt>
+							<dd>
+								The goal of this somatic mutation calling (SMC) Challenge is to identify the most accurate mutation detection algorithms, and establish the state-of-the-art. The algorithms in this Challenge must use as input WGS data from tumour and normal samples and output mutation calls associated with cancer.
+							</dd>
+							<dt>
+								SMC DREAM HET: <a target='_bmegOut' href='https://www.synapse.org/#!Synapse:syn2813581'>link</a>
+							</dt>
+							<dd>
+								Tumors are composed of many different cell-types, ranging from the normal tissue micro-environment, infiltrating immune cells and tumour cells. And this group of tumour cells is itself intrinsically highly heterogeneous, driven by the rapid mutation rate of cancer cells to become a mixture of different sub-populations. Critically, these sub-populations have distinct clinical outcomes: some are more resistant to treatment, some are more likely to metastasize. These different types of cells, called subclones, have different sets of mutations in their DNA. Because some subclones evolve from others, many subclones share mutations. While it is increasingly easy to determine what mutations are present in the tumor, it remains very difficult to determine which subclones have which mutations. The task of assigning mutations to subclones is called subclonal reconstruction.
+							</dd>
+						</dl>
+					</md-content>
+
+					<md-content ng-show="menu.isSectionNameSelected('TCGA Live')" class='md-padding' flex style="overflow: auto;">
+						<h3>TCGA Live</h3>
+						<p>
+							<a target='_bmegOut' href='https://www.synapse.org/#!Synapse:syn2812961'>link</a>
+						</p>
+					</md-content>
+
+					<md-content ng-show="menu.isSectionNameSelected('ICGC/TCGA PCAWG')" class='md-padding' flex style="overflow: auto;">
+						<h3>ICGC/TCGA PCAWG</h3>
+						<p>
+							<a target='_bmegOut' href='http://pancancer.info/'>link</a>
+						</p>
 					</md-content>
 
 				</div>
