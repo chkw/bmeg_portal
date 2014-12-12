@@ -29,12 +29,15 @@
 				<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
 					<!-- <md-toolbar class="md-theme-indigo"> -->
 					<md-toolbar style="min-height: 64px; max-height:64px;" layout="column" class="md-theme-indigo">
-						<h1 class="md-toolbar-tools">(logo) BMEG</h1>
+						<h1 class="md-toolbar-tools">
+						<md-button ng-controller="LeftCtrl" ng-click="close()" class="md-fab" aria-label="Time" hide-gt-md>
+							<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+						</md-button><img src="images/bmeg_logo.svg" alt="bmeg_logo"></h1>
 					</md-toolbar>
 					<md-content flex ng-controller="LeftCtrl" style="overflow: auto;">
-						<md-button ng-click="close()" class="md-primary" hide-gt-md>
-							Close Menu
-						</md-button>
+						<!-- <md-button ng-click="close()" class="md-primary" hide-gt-md>
+						Close Menu
+						</md-button> -->
 						<!-- <p show-gt-md>
 						This sidenav is locked open on your device. To go back to the default behavior,
 						narrow your display.
@@ -135,23 +138,16 @@
 				<div layout="column" layout-fill tabIndex="-1">
 
 					<md-toolbar style="min-height: 64px; max-height:64px;" layout="column" class="md-theme-indigo">
-						<h1 class="md-toolbar-tools">UCSC BioMedical Evidence Graph</h1>
+						<h1 class="md-toolbar-tools">
+						<md-button ng-click="toggleLeft()" class="md-fab" aria-label="Time" hide-gt-md>
+							<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+						</md-button>UCSC BioMedical Evidence Graph</h1>
 					</md-toolbar>
 
-					<md-content layout-fill layout-align="center center" class="md-padding" hide-gt-md>
-						<!-- <div layout="column" layout-fill layout-align="center center">
-						<p hide>
-						The left sidenav will 'lock open' on a medium (>=960px wide) device.
-						</p>
-						<div> -->
-						<md-button ng-click="toggleLeft()" class="md-primary">
-							Menu
-						</md-button>
-						<!-- </div>
-						</div> -->
-					</md-content>
-
 					<md-content ng-show="menu.isSectionNameSelected('About BMEG')" class='md-padding' flex style="overflow: auto;">
+						<p align='center' >
+							<img src="images/bmeg_logo.svg" alt="bmeg_logo" height='250px'>
+						</p>
 						<h3>What is a BMEG?</h3>
 						<p>
 							Cancer is a disease of the genome, caused by disruptions in a person's DNA. Orders of magnitude decreases in price and increases in sequencing throughput enabled sequencing of hundreds of genomes. This will launch a new phase bf "Precision Medicine," where molecular markers can guide therapies tailored to patients. The genomics revolution is now systematically characterizing every somatic change in every tumor for large cohorts (>300 patients). Despite some successes, predicting cancer outcomes based on molecular signatures remains a major challenge. This proposal aims at obliterating several key roadblocks stymieing progress. First, the raw sequence data is not particularly well-suited for use in developing predictive models. Therefore, gene- and pathway-level evidence will be derived from CGHub to significantly increase the utility of the information for biomedical discovery. The information will be collected in a Social Graph technology framework like Facebook to scale to billions of interconnected objects called the Biomedical Evidence Graph (BMEG). Second, the datasets are so large they are impractical to move around on the internet. Thus, an environment will be created within which researchers can move their code to the vast amounts of data within the BMEG. Third, prediction challenges will be created based on cancer genomics datasets and patient outcomes. While there have been a few successes in predicting outcomes, current approaches suffer from reproducibility and robustness when applied to unseen data. This activity will reach a broad community of algorithm developers, promote transparency and sharing of bioinformatics code, and create a strong network effect to crowd-source the development of the best models for biological discovery. The system constructed will be focused around the investigation of cancer outcomes but the entire pipeline will be of general utility for any number of genome-based projects including investigating any number of disease, stem cell properties, model organisms, and genome-wide association studies. RELEVANCE (See instructions): While we are accumulating vast amounts of information on cancer cells, we are still searching in the dark for clues about predicting treatment strategies. It is of paramount importance to accelerate computational discovery. The creation of the BMEG will catalyze community participation to uncover novel relationships to elucidate new fundamental biology on oncogenesis and therapeutic directions for treating this disease.
