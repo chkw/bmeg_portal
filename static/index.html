@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>index.html</title>
+		<title>Welcome To BMEG Portal</title>
 		<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
 		<link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
@@ -32,7 +32,7 @@
 						<h1 class="md-toolbar-tools">
 						<md-button ng-controller="LeftCtrl" ng-click="close()" class="md-primary" aria-label="Time" hide-gt-md>
 							<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-						</md-button><img src="images/bmeg_logo.svg" alt="bmeg_logo"></h1>
+						</md-button><img src="images/bmeg_logo_shadow.svg" alt="bmeg_logo"></h1>
 					</md-toolbar>
 					<md-content flex ng-controller="LeftCtrl" style="overflow: auto;">
 						<!-- <md-button ng-click="close()" class="md-primary" hide-gt-md>
@@ -44,92 +44,25 @@
 						</p> -->
 						<div ng-repeat="section in menu.sections">
 
-							<button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
+							<md-button class="menu-item menu-title md-menu-item" ng-click="menu.toggleSelectSection(section)" md-highlight="menu.isSectionSelected(section)" md-ink-ripple="#bbb">
 								{{section.name}}
-							</button>
+							</md-button>
 
 							<a class="menu-item menu-sub-item md-menu-item" ng-show="menu.isSectionSelected(section)" ng-repeat="page in section.pages" ng-href="#{{page.url}}" md-highlight="menu.isPageSelected(section, page)" md-ink-ripple="#bbb"> <span ng-bind="page | humanizeDoc"></span> </a>
 
 						</div>
-						<md-content hide class="md-padding">
+						<md-content ng-hide="true" class="md-padding">
 							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.
 							</p>
 							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
+								Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.
 							</p>
 							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
+								Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna.
 							</p>
 							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								This sidenav is locked open on your device. To go back to the default behavior,
-								narrow your display.
-							</p>
-							<p>
-								aaaaaaa
+								Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In euismod ultrices facilisis. Vestibulum porta sapien adipiscing augue congue id pretium lectus molestie. Proin quis dictum nisl. Morbi id quam sapien, sed vestibulum sem. Duis elementum rutrum mauris sed convallis. Proin vestibulum magna mi. Aenean tristique hendrerit magna, ac facilisis nulla hendrerit ut. Sed non tortor sodales quam auctor elementum. Donec hendrerit nunc eget elit pharetra pulvinar. Suspendisse id tempus tortor. Aenean luctus, elit commodo laoreet commodo, justo nisi consequat massa, sed vulputate quam urna quis eros. Donec vel.
 							</p>
 						</md-content>
 					</md-content>
@@ -146,7 +79,7 @@
 
 					<md-content ng-show="menu.isSectionNameSelected('About BMEG')" class='md-padding' flex style="overflow: auto;">
 						<p align='center' >
-							<img src="images/bmeg_logo.svg" alt="bmeg_logo" height='250px'>
+							<img src="images/bmeg_logo_shadow.svg" alt="bmeg_logo" height='250px'>
 						</p>
 						<h3>What is a BMEG?</h3>
 						<p>
