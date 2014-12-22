@@ -22,7 +22,7 @@
             'name' : 'In The News',
             'isSelected' : false
         }, {
-            'name' : 'DREAM',
+            'name' : 'DREAM Challenges',
             'isSelected' : false
         }, {
             'name' : 'TCGA Live',
@@ -53,7 +53,21 @@
             return section.isSelected;
         };
 
+        this.defaultSectionSelection = function() {
+            var selectedSectionIndex = null;
+            for (var i = 0; i < this.sections.length; i++) {
+                if (this.sections[i].isSelected) {
+                    selectedSectionIndex = i;
+                    continue;
+                }
+            }
+            if (selectedSectionIndex == null) {
+                this.sections[0].isSelected = true;
+            }
+        };
+
         this.isSectionNameSelected = function(name) {
+            this.defaultSectionSelection();
             var selected = false;
             for (var i = 0; i < this.sections.length; i++) {
                 if (this.sections[i].name === name) {
