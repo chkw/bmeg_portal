@@ -1,9 +1,9 @@
 {
   "name": "static",
   "version": "0.0.0",
-  "homepage": "https://github.com/chkw/bmeg_portal",
+  "homepage": "",
   "authors": [
-    "chrisw <chrisw@soe.ucsc.edu>"
+    ""
   ],
   "license": "MIT",
   "private": true,
