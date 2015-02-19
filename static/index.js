@@ -30,6 +30,9 @@
         }, {
             'name' : 'ICGC/TCGA PCAWG',
             'isSelected' : false
+        }, {
+            'name' : 'Signature Query',
+            'isSelected' : false
         }];
 
         $scope.toggleLeft = function() {
