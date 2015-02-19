@@ -1,5 +1,5 @@
 (function() {
-    var app = angular.module('ngDemo1', ['ngMaterial']);
+    var app = angular.module('ngDemo1', ['ngMaterial', 'ngMessages']);
     app.controller('AppCtrl', function($scope) {
         $scope.data = {
             selectedIndex : 0,
@@ -90,6 +90,12 @@
     app.controller('RightCtrl', function($scope, $timeout, $mdSidenav) {
         $scope.close = function() {
             $mdSidenav('right').close();
+        };
+    });
+
+    app.controller('querySetCtrl', function($scope) {
+        $scope.querySet = {
+            'unsplit' : ''
         };
     });
 })();
