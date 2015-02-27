@@ -5,6 +5,7 @@ A tornado server for submitting Groovy-flavored Gremlin query scripts to Rexster
 
 """
 import BmegGremlinQueryHandler
+import BmegSigDbQueryHandler
 
 import sys
 import tornado.ioloop
@@ -19,7 +20,8 @@ class MainHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
 	(r"/", MainHandler),
 	(r"/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
-	(r"/query", BmegGremlinQueryHandler.BmegGremlinQueryHandler)
+	(r"/query", BmegGremlinQueryHandler.BmegGremlinQueryHandler),
+	(r"/sigQuery", BmegSigDbQueryHandler.BmegSigDbQueryHandler)
 ])
 
 # start server
