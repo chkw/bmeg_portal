@@ -99,3 +99,16 @@
         };
     });
 })();
+
+setObsDeck = function(divElem, querySet) {
+    // TODO get data for querySet
+
+    console.log('querySet', querySet);
+    var resp = utils.getResponse('/sigQuery?queryObject={"querySet":' + JSON.stringify(querySet) + '}');
+    var bmegSigServiceData = utils.parseJson(resp);
+
+    config = buildObservationDeck(divElem, {
+        'bmegSigServiceData' : bmegSigServiceData
+    });
+    return config;
+};

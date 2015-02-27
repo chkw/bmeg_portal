@@ -36,19 +36,23 @@
             ga('send', 'pageview');
 		</script>
 
+		<link rel="stylesheet" href="observation_deck.css" type="text/css" />
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-aria/angular-aria.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
 		<script src="bower_components/hammerjs/hammer.js"></script>
 		<script src="bower_components/angular-material/angular-material.js"></script>
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
+		<script type="text/javascript" src="observation_deck_plugin_dev.js"></script>
 		<script type="text/javascript" src="index.js"></script>
 	</head>
 	<body ng-app="ngDemo1">
 		<div ng-controller="SideNavCtrl as menu">
 			<section layout="row">
 				<!-- <md-sidenav style="overflow: hidden; display: flex;" layout='column' class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')"> -->
-				<md-sidenav style="overflow: hidden; display: flex;" layout='column' class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open='true'>
+				<md-sidenav style="overflow: hidden; display: flex;" layout='column' class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$media('md')">
 					<!-- <md-toolbar class="md-theme-indigo"> -->
 					<md-toolbar style="min-height: 64px; max-height:64px;" layout="row" class="md-theme-indigo">
 						<h1 class="md-toolbar-tools">
@@ -184,16 +188,21 @@
 								</md-input-container>
 								<br>
 								<!-- <input name="Submit" type="submit" value="Submit" OnClick="console.log('querySet:',document.getElementById('querySetText').value.split(' '));"/> -->
-								<md-button class="md-raised" OnClick="console.log('querySet:',document.getElementById('querySetText').value.split(' '));">
+								<md-button class="md-raised" OnClick="var querySet = document.getElementById('querySetText').value.split(' '); setObsDeck(document.getElementById('sigObsDeckDiv'), querySet)">
 									submit
 								</md-button>
 							</form>
 
 						</div>
+
+						<div id='sigObsDeckDiv'></div>
 					</md-content>
 
 				</div>
 			</section>
 		</div>
+		<script>
+            // config = setObsDeck(document.getElementById('sigObsDeckDiv'), null);
+		</script>
 	</body>
 </html>
