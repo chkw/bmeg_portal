@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" href="images/bmeg_logo_2_heatmaps_16px.png" type="image/x-icon">
+		<title>BMEG Signature Query</title>
+		<meta charset="utf-8" name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+		<noscript>
+			<div align="center">
+				<p style="color:black;background-color:red;font-size:18pt">
+					This website requires JavaScript.  Please turn on JavaScript and then <a href="">try it again</a>.
+				</p>
+			</div>
+		</noscript>
+
+		<!-- google analytics -->
+		<script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] ||
+                function() {
+                    (i[r].q = i[r].q || []).push(arguments);
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m);
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-58145199-1', 'auto');
+            ga('send', 'pageview');
+		</script>
+
+		<link rel="stylesheet" href="observation_deck.css" type="text/css" />
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="observation_deck_plugin_dev.js"></script>
+	</head>
+	<body>
+
+		<h3 align='center'>Query the BMEG mRNA Expression Signatures</h3>
+		<div id='sigQueryDiv' align='center'>
+
+			<input id='querySetText' name="querySetText" size="40" type="text" title="type in space-separated list of HUGO symbols" value="TP53 PLK1 RB1" />
+			<br>
+			<input name="submitQueryButton" type="button" value="Submit Query" title="look for signatures" OnClick="var querySet = document.getElementById('querySetText').value.toUpperCase().split(' '); setObsDeck(document.getElementById('sigObsDeckDiv'), querySet)"/>
+
+		</div>
+
+		<div id='sigObsDeckDiv'></div>
+
+		<script>
+            var setObsDeck = function(divElem, querySet) {
+                utils.removeChildElems(divElem);
+                var throbberDivElem = document.createElement('div');
+                utils.setElemAttributes(throbberDivElem, {
+                    "align" : "center"
+                });
+                divElem.appendChild(throbberDivElem);
+                var imgElem = document.createElement('img');
+                throbberDivElem.appendChild(imgElem);
+                utils.setElemAttributes(imgElem, {
+                    "src" : "images/ajax-loader.gif",
+                    "alt" : "throbber"
+                });
+
+                querySet = utils.eliminateDuplicates(querySet);
+                console.log('querySet', querySet);
+
+                var url = '/sigQuery?queryObject={"querySet":' + JSON.stringify(querySet) + '}';
+                var callbackFunc = function(resp) {
+                    var bmegSigServiceData = utils.parseJson(resp);
+
+                    console.log('bmegSigServiceData', bmegSigServiceData);
+
+                    config = buildObservationDeck(divElem, {
+                        'bmegSigServiceData' : bmegSigServiceData
+                    });
+                };
+
+                utils.simpleAsyncGet(url, callbackFunc);
+            };
+		</script>
+
+	</body>
+</html>
