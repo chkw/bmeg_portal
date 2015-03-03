@@ -47,7 +47,7 @@
 		<script src="bower_components/hammerjs/hammer.js"></script>
 		<script src="bower_components/angular-material/angular-material.js"></script>
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
-		<script type="text/javascript" src="observation_deck_plugin_dev.js"></script>
+		<script type="text/javascript" src="observation_deck_plugin.js"></script>
 		<script type="text/javascript" src="index.js"></script>
 	</head>
 	<body ng-app="ngDemo1">
@@ -179,7 +179,7 @@
 
 						<h3>Query the BMEG mRNA Expression Signatures</h3>
 						<p>
-							This section is work in process!
+							Search for signatures that place heavy weight on your query set of genes.
 						</p>
 						<div id='sigQueryDiv' align='center' ng-app='ngDemo1' ng-controller="querySetCtrl">
 
@@ -190,8 +190,8 @@
 								</md-input-container>
 								<br>
 								<!-- <input name="Submit" type="submit" value="Submit" OnClick="console.log('querySet:',document.getElementById('querySetText').value.split(' '));"/> -->
-								<md-button class="md-raised" OnClick="var querySet = document.getElementById('querySetText').value.split(' '); setObsDeck(document.getElementById('sigObsDeckDiv'), querySet)">
-									submit
+								<md-button class="md-raised" OnClick="var querySet = document.getElementById('querySetText').value.toUpperCase().split(' '); setObsDeck(document.getElementById('sigObsDeckDiv'), querySet)">
+									submit query
 								</md-button>
 							</form>
 
@@ -203,8 +203,5 @@
 				</div>
 			</section>
 		</div>
-		<script>
-            // config = setObsDeck(document.getElementById('sigObsDeckDiv'), null);
-		</script>
 	</body>
 </html>

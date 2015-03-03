@@ -95,20 +95,38 @@
 
     app.controller('querySetCtrl', function($scope) {
         $scope.querySet = {
-            'unsplit' : ''
+            'unsplit' : 'TP53 PLK1 CTNNB1'
         };
     });
 })();
 
-setObsDeck = function(divElem, querySet) {
-    // TODO get data for querySet
-
-    console.log('querySet', querySet);
-    var resp = utils.getResponse('/sigQuery?queryObject={"querySet":' + JSON.stringify(querySet) + '}');
-    var bmegSigServiceData = utils.parseJson(resp);
-
-    config = buildObservationDeck(divElem, {
-        'bmegSigServiceData' : bmegSigServiceData
+var setObsDeck = function(divElem, querySet) {
+    utils.removeChildElems(divElem);
+    var throbberDivElem = document.createElement('div');
+    utils.setElemAttributes(throbberDivElem, {
+        "align" : "center"
     });
-    return config;
+    divElem.appendChild(throbberDivElem);
+    var imgElem = document.createElement('img');
+    throbberDivElem.appendChild(imgElem);
+    utils.setElemAttributes(imgElem, {
+        "src" : "images/ajax-loader.gif",
+        "alt" : "throbber"
+    });
+
+    querySet = utils.eliminateDuplicates(querySet);
+    console.log('querySet', querySet);
+
+    var url = '/sigQuery?queryObject={"querySet":' + JSON.stringify(querySet) + '}';
+    var callbackFunc = function(resp) {
+        var bmegSigServiceData = utils.parseJson(resp);
+
+        console.log('bmegSigServiceData', bmegSigServiceData);
+
+        config = buildObservationDeck(divElem, {
+            'bmegSigServiceData' : bmegSigServiceData
+        });
+    };
+
+    utils.simpleAsyncGet(url, callbackFunc);
 };
