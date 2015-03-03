@@ -38,7 +38,12 @@ edit:
 	\
 	mv 4.tmp memcached_check.py ;
 	\
-	rm -f 1.tmp 2.tmp 3.tmp 4.tmp ;
+	sed -e "s,config.read('bmeg.cfg'),config.read('/var/www/wsgi/bmeg.cfg')," BmegSigDbQueryHandler.py \
+	> 5.tmp ;
+	\
+	mv 5.tmp BmegSigDbQueryHandler.py ;
+	\
+	rm -f 1.tmp 2.tmp 3.tmp 4.tmp 5.tmp ;
 	\
 
 deploy: update edit deploy_wsgi deploy_client
