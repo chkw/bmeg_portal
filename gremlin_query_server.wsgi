@@ -6,6 +6,7 @@ A WSGI tornado server for submitting Groovy-flavored Gremlin query scripts to Re
 
 """
 import BmegGremlinQueryHandler
+import BmegSigDbQueryHandler
 
 import sys
 import tornado.wsgi
@@ -22,7 +23,8 @@ class MainHandler(tornado.web.RequestHandler):
 application = tornado.wsgi.WSGIApplication([
 	(r"/gremlin", MainHandler),
 	(r"/gremlin/static/(.*)", tornado.web.StaticFileHandler, {"path": r"static/"}),
-	(r"/gremlin/query", BmegGremlinQueryHandler.BmegGremlinQueryHandler)
+	(r"/gremlin/query", BmegGremlinQueryHandler.BmegGremlinQueryHandler),
+	(r"/sigQuery", BmegSigDbQueryHandler.BmegSigDbQueryHandler)
 ])
 
 # start server
