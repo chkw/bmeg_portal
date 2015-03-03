@@ -51,6 +51,11 @@ deploy_wsgi:
 	rsync -avP ./*.cfg $(APACHE_WSGI_DIR)/. ;
 
 deploy_client:
+	rsync -avP static/index.* $(APACHE_STATIC_DIR)/. ;
+	rsync -avP static/images $(APACHE_STATIC_DIR)/. ;
+	rsync -avP static/*.css $(APACHE_STATIC_DIR)/. ;
+	rsync -avP static/*.js $(APACHE_STATIC_DIR)/. ;
+	rsync -avP static/bower_components $(APACHE_STATIC_DIR)/. ;
 	rsync -avP static/$(PAGE_NAME).html $(APACHE_STATIC_DIR)/. ;
 	rsync -avP --exclude="static/$(PAGE_NAME)/scripts/static.js" --exclude="static/$(PAGE_NAME)/data/" --delete-excluded static/$(PAGE_NAME) $(APACHE_STATIC_DIR)/. ;
 	rsync -avP ../staticJs/static.js $(APACHE_STATIC_DIR)/$(PAGE_NAME)/scripts/.
